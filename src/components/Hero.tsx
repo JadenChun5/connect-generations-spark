@@ -35,7 +35,16 @@ const Hero = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button variant="hero" size="xl" className="font-semibold">
+              <Button 
+                variant="hero" 
+                size="xl" 
+                className="font-semibold"
+                onClick={() => {
+                  document.querySelector('#user-type-selection')?.scrollIntoView({ 
+                    behavior: 'smooth' 
+                  });
+                }}
+              >
                 Get Started Today
               </Button>
               <Button variant="outline" size="xl" className="bg-white/10 border-white/30 text-white hover:bg-white/20">

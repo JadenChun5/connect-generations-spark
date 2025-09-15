@@ -89,7 +89,7 @@ const FamilyMemberRegister = () => {
         title: "Registration submitted!",
         description: "We'll verify your relationship with the senior and contact you within 24-48 hours.",
       });
-      navigate("/auth");
+      navigate("/dashboard/family-member");
     }
   };
 

@@ -88,7 +88,7 @@ const TeenAdminRegister = () => {
         title: "Registration submitted!",
         description: "Your application will be reviewed for verification. You'll receive confirmation via email.",
       });
-      navigate("/auth");
+      navigate("/dashboard/teen-admin");
     }
   };
 

@@ -92,7 +92,7 @@ const TeenVolunteerRegister = () => {
         title: "Registration successful!",
         description: "Please check your email to confirm your account. You'll need admin approval to start volunteering.",
       });
-      navigate("/auth");
+      navigate("/dashboard/teen-volunteer");
     }
   };
 

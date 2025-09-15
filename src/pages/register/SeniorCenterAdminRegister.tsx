@@ -95,7 +95,7 @@ const SeniorCenterAdminRegister = () => {
         title: "Registration successful!",
         description: "Please check your email to confirm your account and set up your senior center.",
       });
-      navigate("/auth");
+      navigate("/dashboard/senior-center-admin");
     }
   };
 
