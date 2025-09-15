@@ -14,16 +14,572 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      activity_logs: {
+        Row: {
+          activity_type: string
+          created_at: string | null
+          description: string | null
+          id: string
+          match_id: string
+          notes: string | null
+        }
+        Insert: {
+          activity_type: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          match_id: string
+          notes?: string | null
+        }
+        Update: {
+          activity_type?: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          match_id?: string
+          notes?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_logs_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      family_members: {
+        Row: {
+          id: string
+          profile_id: string
+          relationship: string
+          senior_id: string
+          verified: boolean | null
+          verified_at: string | null
+        }
+        Insert: {
+          id?: string
+          profile_id: string
+          relationship: string
+          senior_id: string
+          verified?: boolean | null
+          verified_at?: string | null
+        }
+        Update: {
+          id?: string
+          profile_id?: string
+          relationship?: string
+          senior_id?: string
+          verified?: boolean | null
+          verified_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "family_members_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "family_members_senior_id_fkey"
+            columns: ["senior_id"]
+            isOneToOne: false
+            referencedRelation: "seniors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      feedback: {
+        Row: {
+          comments: string | null
+          created_at: string | null
+          created_by: string
+          id: string
+          match_id: string
+          rating: number | null
+        }
+        Insert: {
+          comments?: string | null
+          created_at?: string | null
+          created_by: string
+          id?: string
+          match_id: string
+          rating?: number | null
+        }
+        Update: {
+          comments?: string | null
+          created_at?: string | null
+          created_by?: string
+          id?: string
+          match_id?: string
+          rating?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feedback_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "feedback_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      matches: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          check_in_time: string | null
+          check_out_time: string | null
+          created_at: string | null
+          hours_logged: number | null
+          id: string
+          points_awarded: number | null
+          senior_id: string
+          slot_id: string
+          status: Database["public"]["Enums"]["visit_status"] | null
+          teen_volunteer_id: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          check_in_time?: string | null
+          check_out_time?: string | null
+          created_at?: string | null
+          hours_logged?: number | null
+          id?: string
+          points_awarded?: number | null
+          senior_id: string
+          slot_id: string
+          status?: Database["public"]["Enums"]["visit_status"] | null
+          teen_volunteer_id: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          check_in_time?: string | null
+          check_out_time?: string | null
+          created_at?: string | null
+          hours_logged?: number | null
+          id?: string
+          points_awarded?: number | null
+          senior_id?: string
+          slot_id?: string
+          status?: Database["public"]["Enums"]["visit_status"] | null
+          teen_volunteer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "matches_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "matches_senior_id_fkey"
+            columns: ["senior_id"]
+            isOneToOne: false
+            referencedRelation: "seniors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "matches_slot_id_fkey"
+            columns: ["slot_id"]
+            isOneToOne: false
+            referencedRelation: "volunteer_slots"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "matches_teen_volunteer_id_fkey"
+            columns: ["teen_volunteer_id"]
+            isOneToOne: false
+            referencedRelation: "teen_volunteers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          approval_status: Database["public"]["Enums"]["approval_status"] | null
+          bio: string | null
+          created_at: string | null
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          phone: string | null
+          photo_url: string | null
+          points: number | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          approval_status?:
+            | Database["public"]["Enums"]["approval_status"]
+            | null
+          bio?: string | null
+          created_at?: string | null
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          phone?: string | null
+          photo_url?: string | null
+          points?: number | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          approval_status?:
+            | Database["public"]["Enums"]["approval_status"]
+            | null
+          bio?: string | null
+          created_at?: string | null
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          phone?: string | null
+          photo_url?: string | null
+          points?: number | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      schools: {
+        Row: {
+          address: string
+          city: string
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string | null
+          id: string
+          name: string
+          state: string
+          zip_code: string
+        }
+        Insert: {
+          address: string
+          city: string
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string | null
+          id?: string
+          name: string
+          state: string
+          zip_code: string
+        }
+        Update: {
+          address?: string
+          city?: string
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string | null
+          id?: string
+          name?: string
+          state?: string
+          zip_code?: string
+        }
+        Relationships: []
+      }
+      senior_centers: {
+        Row: {
+          address: string
+          admin_id: string | null
+          city: string
+          contact_email: string | null
+          contact_phone: string | null
+          created_at: string | null
+          id: string
+          name: string
+          state: string
+          zip_code: string
+        }
+        Insert: {
+          address: string
+          admin_id?: string | null
+          city: string
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string | null
+          id?: string
+          name: string
+          state: string
+          zip_code: string
+        }
+        Update: {
+          address?: string
+          admin_id?: string | null
+          city?: string
+          contact_email?: string | null
+          contact_phone?: string | null
+          created_at?: string | null
+          id?: string
+          name?: string
+          state?: string
+          zip_code?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "senior_centers_admin_id_fkey"
+            columns: ["admin_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      seniors: {
+        Row: {
+          age: number | null
+          bio: string | null
+          created_at: string | null
+          first_name: string
+          id: string
+          interests: string[] | null
+          last_name: string
+          mobility_notes: string | null
+          photo_url: string | null
+          preferred_activities: string[] | null
+          senior_center_id: string
+        }
+        Insert: {
+          age?: number | null
+          bio?: string | null
+          created_at?: string | null
+          first_name: string
+          id?: string
+          interests?: string[] | null
+          last_name: string
+          mobility_notes?: string | null
+          photo_url?: string | null
+          preferred_activities?: string[] | null
+          senior_center_id: string
+        }
+        Update: {
+          age?: number | null
+          bio?: string | null
+          created_at?: string | null
+          first_name?: string
+          id?: string
+          interests?: string[] | null
+          last_name?: string
+          mobility_notes?: string | null
+          photo_url?: string | null
+          preferred_activities?: string[] | null
+          senior_center_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "seniors_senior_center_id_fkey"
+            columns: ["senior_center_id"]
+            isOneToOne: false
+            referencedRelation: "senior_centers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      teen_admins: {
+        Row: {
+          id: string
+          profile_id: string
+          school_id: string
+          verified: boolean | null
+          verified_at: string | null
+        }
+        Insert: {
+          id?: string
+          profile_id: string
+          school_id: string
+          verified?: boolean | null
+          verified_at?: string | null
+        }
+        Update: {
+          id?: string
+          profile_id?: string
+          school_id?: string
+          verified?: boolean | null
+          verified_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "teen_admins_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "teen_admins_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      teen_volunteers: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          grade_level: number | null
+          id: string
+          interests: string[] | null
+          parent_consent: boolean | null
+          parent_email: string | null
+          parent_phone: string | null
+          profile_id: string
+          school_id: string | null
+          total_hours: number | null
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          grade_level?: number | null
+          id?: string
+          interests?: string[] | null
+          parent_consent?: boolean | null
+          parent_email?: string | null
+          parent_phone?: string | null
+          profile_id: string
+          school_id?: string | null
+          total_hours?: number | null
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          grade_level?: number | null
+          id?: string
+          interests?: string[] | null
+          parent_consent?: boolean | null
+          parent_email?: string | null
+          parent_phone?: string | null
+          profile_id?: string
+          school_id?: string | null
+          total_hours?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "teen_volunteers_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "teen_volunteers_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "teen_volunteers_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      volunteer_slots: {
+        Row: {
+          created_at: string | null
+          created_by: string
+          description: string | null
+          end_time: string
+          id: string
+          max_volunteers: number | null
+          required_skills: string[] | null
+          scheduled_date: string
+          senior_center_id: string
+          senior_id: string | null
+          start_time: string
+          title: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by: string
+          description?: string | null
+          end_time: string
+          id?: string
+          max_volunteers?: number | null
+          required_skills?: string[] | null
+          scheduled_date: string
+          senior_center_id: string
+          senior_id?: string | null
+          start_time: string
+          title: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string
+          description?: string | null
+          end_time?: string
+          id?: string
+          max_volunteers?: number | null
+          required_skills?: string[] | null
+          scheduled_date?: string
+          senior_center_id?: string
+          senior_id?: string | null
+          start_time?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "volunteer_slots_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "volunteer_slots_senior_center_id_fkey"
+            columns: ["senior_center_id"]
+            isOneToOne: false
+            referencedRelation: "senior_centers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "volunteer_slots_senior_id_fkey"
+            columns: ["senior_id"]
+            isOneToOne: false
+            referencedRelation: "seniors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_role: {
+        Args: Record<PropertyKey, never>
+        Returns: Database["public"]["Enums"]["user_role"]
+      }
     }
     Enums: {
-      [_ in never]: never
+      approval_status: "pending" | "approved" | "rejected"
+      user_role:
+        | "teen_volunteer"
+        | "teen_admin"
+        | "senior_center_admin"
+        | "family_member"
+      visit_status: "scheduled" | "checked_in" | "completed" | "cancelled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +706,15 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      approval_status: ["pending", "approved", "rejected"],
+      user_role: [
+        "teen_volunteer",
+        "teen_admin",
+        "senior_center_admin",
+        "family_member",
+      ],
+      visit_status: ["scheduled", "checked_in", "completed", "cancelled"],
+    },
   },
 } as const
