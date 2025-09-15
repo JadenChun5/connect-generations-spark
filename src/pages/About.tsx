@@ -2,6 +2,8 @@ import { Heart, Users, Shield, Target, Award, Clock } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const About = () => {
   const stats = [
@@ -35,7 +37,9 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-subtle pt-16">
+    <div className="min-h-screen bg-gradient-subtle">
+      <Header />
+      <div className="pt-16">
       {/* Hero Section */}
       <section className="py-20 px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
@@ -186,6 +190,8 @@ const About = () => {
           </div>
         </div>
       </section>
+      </div>
+      <Footer />
     </div>
   );
 };

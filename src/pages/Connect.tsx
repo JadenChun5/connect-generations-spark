@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const Connect = () => {
   const contactInfo = [
@@ -57,7 +59,9 @@ const Connect = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-subtle pt-16">
+    <div className="min-h-screen bg-gradient-subtle">
+      <Header />
+      <div className="pt-16">
       {/* Hero Section */}
       <section className="py-20 px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
@@ -245,6 +249,8 @@ const Connect = () => {
           </div>
         </div>
       </section>
+      </div>
+      <Footer />
     </div>
   );
 };
