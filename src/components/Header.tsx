@@ -16,11 +16,11 @@ const Header = () => {
   const { user, signOut } = useAuth();
 
   const navigation = [
-    { name: "How It Works", href: "#how-it-works" },
-    { name: "For Teens", href: "#for-teens" },
-    { name: "For Centers", href: "#for-centers" },  
-    { name: "Success Stories", href: "#success-stories" },
-    { name: "About", href: "#about" }
+    { name: "How It Works", href: "#user-type-selection" },
+    { name: "For Teens", href: "/register/teen-volunteer" },
+    { name: "For Centers", href: "/register/senior-center-admin" },  
+    { name: "Success Stories", href: "#user-type-selection" },
+    { name: "About", href: "#user-type-selection" }
   ];
 
   return (
@@ -41,13 +41,23 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
             {navigation.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-muted-foreground hover:text-foreground transition-smooth font-medium"
-              >
-                {item.name}
-              </a>
+              item.href.startsWith('/') ? (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="text-muted-foreground hover:text-foreground transition-smooth font-medium"
+                >
+                  {item.name}
+                </Link>
+              ) : (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="text-muted-foreground hover:text-foreground transition-smooth font-medium"
+                >
+                  {item.name}
+                </a>
+              )
             ))}
           </nav>
 
@@ -104,14 +114,25 @@ const Header = () => {
         )}>
           <nav className="flex flex-col gap-4 pt-4">
             {navigation.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-muted-foreground hover:text-foreground transition-smooth font-medium py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.name}
-              </a>
+              item.href.startsWith('/') ? (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="text-muted-foreground hover:text-foreground transition-smooth font-medium py-2"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ) : (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="text-muted-foreground hover:text-foreground transition-smooth font-medium py-2"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.name}
+                </a>
+              )
             ))}
             <div className="flex flex-col gap-3 pt-4 border-t border-border">
               {user ? (
