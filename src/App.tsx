@@ -8,6 +8,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Signup from "./pages/Signup";
+import About from "./pages/About";
+import Connect from "./pages/Connect";
 import NotFound from "./pages/NotFound";
 import TeenVolunteerRegister from "./pages/register/TeenVolunteerRegister";
 import TeenAdminRegister from "./pages/register/TeenAdminRegister";
@@ -28,9 +30,11 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/signup" element={<Signup />} />
+          <Route path="/" element={<Index />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/connect" element={<Connect />} />
             <Route path="/register/teen-volunteer" element={<TeenVolunteerRegister />} />
             <Route path="/register/teen-admin" element={<TeenAdminRegister />} />
             <Route path="/register/senior-center-admin" element={<SeniorCenterAdminRegister />} />

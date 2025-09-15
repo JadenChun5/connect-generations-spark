@@ -19,8 +19,8 @@ const Header = () => {
     { name: "How It Works", href: "#user-type-selection" },
     { name: "For Teens", href: "/register/teen-volunteer" },
     { name: "For Centers", href: "/register/senior-center-admin" },  
-    { name: "Success Stories", href: "#user-type-selection" },
-    { name: "About", href: "#user-type-selection" }
+    { name: "About", href: "/about" },
+    { name: "Connect", href: "/connect" }
   ];
 
   return (
