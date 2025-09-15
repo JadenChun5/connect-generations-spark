@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 import { 
   GraduationCap, 
   Users2, 
@@ -13,9 +14,14 @@ import {
 } from "lucide-react";
 
 const UserTypeSelection = () => {
+  const navigate = useNavigate();
+  const handleUserTypeSelect = (userType: string) => {
+    navigate(`/register/${userType}`);
+  };
+
   const userTypes = [
     {
-      id: "teen",
+      id: "teen-volunteer",
       title: "High School Students",
       subtitle: "Earn Hours & Build Connections",
       description: "Get college application-worthy volunteer hours while forming meaningful relationships with seniors in your community.",
@@ -30,7 +36,7 @@ const UserTypeSelection = () => {
       cta: "Start Volunteering"
     },
     {
-      id: "center",
+      id: "senior-center-admin",
       title: "Senior Center Staff",
       subtitle: "Coordinate & Manage Programs",
       description: "Efficiently manage volunteer programs with tools for scheduling, resident matching, and program oversight.",
@@ -45,7 +51,7 @@ const UserTypeSelection = () => {
       cta: "Manage Program"
     },
     {
-      id: "admin", 
+      id: "teen-admin",
       title: "Teen Supervisors",
       subtitle: "Oversee & Ensure Safety",
       description: "Supervise teen volunteers with comprehensive oversight tools, approval workflows, and safety monitoring.",
@@ -60,7 +66,7 @@ const UserTypeSelection = () => {
       cta: "Supervise Teams"
     },
     {
-      id: "family",
+      id: "family-member",
       title: "Family Members", 
       subtitle: "Stay Connected & Support",
       description: "Monitor your senior family member's social engagement and support the programs that bring them joy.",
@@ -129,8 +135,14 @@ const UserTypeSelection = () => {
 
                 {/* CTA Button */}
                 <Button 
-                  variant={type.color as "teen" | "senior" | "admin" | "family"}
+                  variant={
+                    type.id === "teen-volunteer" ? "teen" :
+                    type.id === "senior-center-admin" ? "senior" :
+                    type.id === "teen-admin" ? "admin" :
+                    "family"
+                  }
                   className="w-full group-hover:shadow-medium"
+                  onClick={() => handleUserTypeSelect(type.id)}
                 >
                   {type.cta}
                   <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-smooth" />
