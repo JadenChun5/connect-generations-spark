@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
@@ -32,10 +33,38 @@ const App = () => (
             <Route path="/register/teen-admin" element={<TeenAdminRegister />} />
             <Route path="/register/senior-center-admin" element={<SeniorCenterAdminRegister />} />
             <Route path="/register/family-member" element={<FamilyMemberRegister />} />
-            <Route path="/dashboard/teen-volunteer" element={<TeenVolunteerDashboard />} />
-            <Route path="/dashboard/teen-admin" element={<TeenAdminDashboard />} />
-            <Route path="/dashboard/senior-center-admin" element={<SeniorCenterAdminDashboard />} />
-            <Route path="/dashboard/family-member" element={<FamilyMemberDashboard />} />
+            <Route 
+              path="/dashboard/teen-volunteer" 
+              element={
+                <ProtectedRoute requiredRole="teen_volunteer">
+                  <TeenVolunteerDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/teen-admin" 
+              element={
+                <ProtectedRoute requiredRole="teen_admin">
+                  <TeenAdminDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/senior-center-admin" 
+              element={
+                <ProtectedRoute requiredRole="senior_center_admin">
+                  <SeniorCenterAdminDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/family-member" 
+              element={
+                <ProtectedRoute requiredRole="family_member">
+                  <FamilyMemberDashboard />
+                </ProtectedRoute>
+              } 
+            />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

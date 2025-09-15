@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 import { Loader2, Mail, Lock, User } from "lucide-react";
 
 const Auth = () => {
@@ -16,17 +17,29 @@ const Auth = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { user, profile } = useAuth();
+
+  const getRoleDashboardPath = (role: string) => {
+    switch (role) {
+      case 'teen_volunteer':
+        return '/dashboard/teen-volunteer';
+      case 'teen_admin':
+        return '/dashboard/teen-admin';
+      case 'senior_center_admin':
+        return '/dashboard/senior-center-admin';
+      case 'family_member':
+        return '/dashboard/family-member';
+      default:
+        return '/';
+    }
+  };
 
   useEffect(() => {
-    // Check if user is already logged in
-    const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        navigate("/");
-      }
-    };
-    checkUser();
-  }, [navigate]);
+    // Redirect authenticated users to their dashboard
+    if (user && profile) {
+      navigate(getRoleDashboardPath(profile.role));
+    }
+  }, [user, profile, navigate]);
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,9 +92,11 @@ const Auth = () => {
       }
     } else {
       toast({
-        title: "Check your email",
-        description: "We've sent you a confirmation link to complete your registration.",
+        title: "Account created successfully",
+        description: "Please select your role to complete your registration.",
       });
+      // Navigate to role selection for new users
+      navigate("/#user-type-selection");
     }
   };
 
@@ -115,7 +130,7 @@ const Auth = () => {
         title: "Welcome back!",
         description: "You have successfully signed in.",
       });
-      navigate("/");
+      // Don't navigate here - let the useEffect handle role-based redirect
     }
   };
 
