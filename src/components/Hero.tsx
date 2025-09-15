@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Heart, Users, Award, Clock } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/hero-image.jpg";
 
 const Hero = () => {
+  const navigate = useNavigate();
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
@@ -39,11 +41,7 @@ const Hero = () => {
                 variant="hero" 
                 size="xl" 
                 className="font-semibold"
-                onClick={() => {
-                  document.querySelector('#user-type-selection')?.scrollIntoView({ 
-                    behavior: 'smooth' 
-                  });
-                }}
+                onClick={() => navigate('/signup')}
               >
                 Get Started Today
               </Button>
