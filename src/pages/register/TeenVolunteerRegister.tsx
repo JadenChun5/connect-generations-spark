@@ -90,7 +90,7 @@ const TeenVolunteerRegister = () => {
     } else {
       toast({
         title: "Registration successful!",
-        description: "Please check your email to confirm your account. You'll need admin approval to start volunteering.",
+        description: "Welcome to ElderConnect! You can now browse senior centers and start volunteering.",
       });
       navigate("/dashboard/teen-volunteer");
     }

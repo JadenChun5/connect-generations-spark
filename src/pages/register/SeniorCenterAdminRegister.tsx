@@ -77,7 +77,7 @@ const SeniorCenterAdminRegister = () => {
           center_zip: formData.centerZip,
           center_phone: formData.centerPhone,
           position: formData.position,
-          bio: formData.bio
+          center_full_address: `${formData.centerAddress}, ${formData.centerCity}, ${formData.centerState} ${formData.centerZip}`
         }
       }
     });

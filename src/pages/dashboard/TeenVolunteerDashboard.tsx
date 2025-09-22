@@ -1,31 +1,50 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GraduationCap, Clock, Star, Award, Calendar, Users, CheckCircle } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Calendar, Clock, MapPin, User, Users, Award, Heart, MessageCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-interface VolunteerSlot {
+interface SeniorCenter {
   id: string;
-  title: string;
-  description: string;
-  scheduled_date: string;
-  start_time: string;
-  end_time: string;
-  senior_center_name?: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  full_address: string;
 }
 
-interface Match {
+interface Senior {
   id: string;
+  first_name: string;
+  last_name: string;
+  age: number;
+  bio: string;
+  senior_center_id: string;
+}
+
+interface TimeSlot {
+  id: string;
+  senior_id: string;
+  day_of_week: number;
+  start_time: string;
+  end_time: string;
+  is_available: boolean;
+}
+
+interface VolunteerRequest {
+  id: string;
+  seniors?: Senior;
+  senior_centers?: SeniorCenter;
+  requested_date: string;
+  requested_start_time: string;
+  requested_end_time: string;
   status: string;
-  senior_name?: string;
-  slot_title?: string;
-  scheduled_date?: string;
-  hours_logged?: number;
-  points_awarded?: number;
+  created_at: string;
 }
 
 const TeenVolunteerDashboard = () => {
@@ -33,8 +52,15 @@ const TeenVolunteerDashboard = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<any>(null);
-  const [availableSlots, setAvailableSlots] = useState<VolunteerSlot[]>([]);
-  const [matches, setMatches] = useState<Match[]>([]);
+  const [teenVolunteer, setTeenVolunteer] = useState<any>(null);
+  const [seniorCenters, setSeniorCenters] = useState<SeniorCenter[]>([]);
+  const [selectedCenter, setSelectedCenter] = useState<SeniorCenter | null>(null);
+  const [centerSeniors, setCenterSeniors] = useState<Senior[]>([]);
+  const [seniorTimeSlots, setSeniorTimeSlots] = useState<TimeSlot[]>([]);
+  const [myRequests, setMyRequests] = useState<VolunteerRequest[]>([]);
+  const [showSeniorsDialog, setShowSeniorsDialog] = useState(false);
+
+  const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   useEffect(() => {
     fetchUserData();
@@ -54,57 +80,166 @@ const TeenVolunteerDashboard = () => {
       if (profileData) {
         setProfile(profileData);
         
-        if (profileData.approval_status !== 'approved') {
-          toast({
-            title: "Approval Pending",
-            description: "Your account is awaiting admin approval before you can start volunteering.",
-          });
+        // Fetch teen volunteer data
+        const { data: teenVolData } = await supabase
+          .from('teen_volunteers')
+          .select('*')
+          .eq('profile_id', profileData.id)
+          .single();
+          
+        setTeenVolunteer(teenVolData);
+        
+        // Fetch my volunteer requests
+        if (teenVolData) {
+          const { data: requestsData } = await supabase
+            .from('volunteer_requests')
+            .select(`
+              *,
+              seniors (
+                id,
+                first_name,
+                last_name,
+                age,
+                bio,
+                senior_center_id
+              ),
+              senior_centers (
+                id,
+                name,
+                address,
+                city,
+                state,
+                full_address
+              )
+            `)
+            .eq('teen_volunteer_id', teenVolData.id)
+            .order('created_at', { ascending: false });
+
+          setMyRequests((requestsData as any) || []);
         }
       }
 
-      // Fetch available volunteer slots
-      const { data: slotsData } = await supabase
-        .from('volunteer_slots')
-        .select(`
-          *,
-          senior_centers (name)
-        `)
-        .gte('scheduled_date', new Date().toISOString().split('T')[0])
-        .limit(10);
+      // Fetch all senior centers
+      const { data: centersData } = await supabase
+        .from('senior_centers')
+        .select('*')
+        .order('name');
 
-      if (slotsData) {
-        const formattedSlots = slotsData.map(slot => ({
-          ...slot,
-          senior_center_name: (slot as any).senior_centers?.name
-        }));
-        setAvailableSlots(formattedSlots);
-      }
-
-      // Fetch user's matches
-      const { data: matchesData } = await supabase
-        .from('matches')
-        .select(`
-          *,
-          seniors (first_name, last_name),
-          volunteer_slots (title, scheduled_date)
-        `)
-        .eq('teen_volunteer_id', profileData?.id || '');
-
-      if (matchesData) {
-        const formattedMatches = matchesData.map(match => ({
-          ...match,
-          senior_name: `${(match as any).seniors?.first_name} ${(match as any).seniors?.last_name}`,
-          slot_title: (match as any).volunteer_slots?.title,
-          scheduled_date: (match as any).volunteer_slots?.scheduled_date
-        }));
-        setMatches(formattedMatches);
-      }
+      setSeniorCenters(centersData || []);
 
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const fetchCenterSeniors = async (centerId: string) => {
+    try {
+      const { data: seniorsData } = await supabase
+        .from('seniors')
+        .select('*')
+        .eq('senior_center_id', centerId)
+        .order('first_name');
+
+      setCenterSeniors(seniorsData || []);
+
+      // Fetch time slots for all seniors in this center
+      if (seniorsData && seniorsData.length > 0) {
+        const seniorIds = seniorsData.map(s => s.id);
+        const { data: timeSlotsData } = await supabase
+          .from('senior_time_slots')
+          .select('*')
+          .in('senior_id', seniorIds)
+          .eq('is_available', true)
+          .order('day_of_week')
+          .order('start_time');
+
+        setSeniorTimeSlots(timeSlotsData || []);
+      }
+    } catch (error) {
+      console.error('Error fetching center seniors:', error);
+    }
+  };
+
+  const handleCenterClick = async (center: SeniorCenter) => {
+    setSelectedCenter(center);
+    await fetchCenterSeniors(center.id);
+    setShowSeniorsDialog(true);
+  };
+
+  const handleVolunteerRequest = async (senior: Senior, timeSlot: TimeSlot) => {
+    if (!teenVolunteer) return;
+
+    try {
+      // Calculate next occurrence of the day
+      const today = new Date();
+      const targetDay = timeSlot.day_of_week;
+      const daysUntilTarget = (targetDay - today.getDay() + 7) % 7 || 7;
+      const requestedDate = new Date(today);
+      requestedDate.setDate(today.getDate() + daysUntilTarget);
+
+      // Insert volunteer request
+      const { error: requestError } = await supabase
+        .from('volunteer_requests')
+        .insert({
+          teen_volunteer_id: teenVolunteer.id,
+          senior_id: senior.id,
+          senior_center_id: senior.senior_center_id,
+          time_slot_id: timeSlot.id,
+          requested_date: requestedDate.toISOString().split('T')[0],
+          requested_start_time: timeSlot.start_time,
+          requested_end_time: timeSlot.end_time,
+          message: `${profile?.first_name} ${profile?.last_name} is interested in volunteering with ${senior.first_name} ${senior.last_name} on ${dayNames[timeSlot.day_of_week]} from ${timeSlot.start_time} to ${timeSlot.end_time}.`
+        });
+
+      if (requestError) throw requestError;
+
+      // Send notification to senior center admin
+      const { data: centerData } = await supabase
+        .from('senior_centers')
+        .select('admin_id')
+        .eq('id', senior.senior_center_id)
+        .single();
+
+      if (centerData?.admin_id) {
+        await supabase
+          .from('notifications')
+          .insert({
+            recipient_id: centerData.admin_id,
+            sender_id: profile.id,
+            type: 'volunteer_interest',
+            title: 'New Volunteer Request',
+            message: `${profile?.first_name} ${profile?.last_name} wants to volunteer with ${senior.first_name} ${senior.last_name} on ${dayNames[timeSlot.day_of_week]} from ${timeSlot.start_time} to ${timeSlot.end_time}.`,
+            metadata: {
+              teen_volunteer_id: teenVolunteer.id,
+              senior_id: senior.id,
+              time_slot_id: timeSlot.id,
+              requested_date: requestedDate.toISOString().split('T')[0]
+            }
+          });
+      }
+
+      toast({
+        title: "Request Sent!",
+        description: `Your volunteer request has been sent to ${selectedCenter?.name}. They'll review it and get back to you soon.`,
+      });
+
+      setShowSeniorsDialog(false);
+      fetchUserData(); // Refresh requests
+
+    } catch (error) {
+      console.error('Error sending volunteer request:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send volunteer request. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const getSeniorTimeSlots = (seniorId: string) => {
+    return seniorTimeSlots.filter(slot => slot.senior_id === seniorId);
   };
 
   const handleSignOut = async () => {
@@ -130,7 +265,7 @@ const TeenVolunteerDashboard = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="bg-secondary-soft p-2 rounded-lg">
-                <GraduationCap className="h-6 w-6 text-secondary" />
+                <Heart className="h-6 w-6 text-secondary" />
               </div>
               <div>
                 <h1 className="text-xl font-bold text-foreground">Teen Volunteer Dashboard</h1>
@@ -140,9 +275,7 @@ const TeenVolunteerDashboard = () => {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Badge variant={profile?.approval_status === 'approved' ? 'default' : 'secondary'}>
-                {profile?.approval_status === 'approved' ? 'Approved' : 'Pending Approval'}
-              </Badge>
+              <Badge variant="default">Active Volunteer</Badge>
               <Button variant="outline" onClick={handleSignOut}>
                 Sign Out
               </Button>
@@ -153,40 +286,14 @@ const TeenVolunteerDashboard = () => {
 
       <main className="max-w-7xl mx-auto px-6 py-8">
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center space-x-3">
-                <Clock className="h-8 w-8 text-secondary" />
-                <div>
-                  <p className="text-2xl font-bold text-foreground">
-                    {matches.reduce((total, match) => total + (match.hours_logged || 0), 0)}
-                  </p>
-                  <p className="text-sm text-muted-foreground">Total Hours</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center space-x-3">
-                <Star className="h-8 w-8 text-accent" />
-                <div>
-                  <p className="text-2xl font-bold text-foreground">{profile?.points || 0}</p>
-                  <p className="text-sm text-muted-foreground">Points Earned</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center space-x-3">
                 <Users className="h-8 w-8 text-primary" />
                 <div>
-                  <p className="text-2xl font-bold text-foreground">{matches.length}</p>
-                  <p className="text-sm text-muted-foreground">Seniors Met</p>
+                  <p className="text-2xl font-bold text-foreground">{seniorCenters.length}</p>
+                  <p className="text-sm text-muted-foreground">Centers Available</p>
                 </div>
               </div>
             </CardContent>
@@ -195,163 +302,179 @@ const TeenVolunteerDashboard = () => {
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center space-x-3">
-                <CheckCircle className="h-8 w-8 text-green-600" />
+                <MessageCircle className="h-8 w-8 text-secondary" />
+                <div>
+                  <p className="text-2xl font-bold text-foreground">{myRequests.length}</p>
+                  <p className="text-sm text-muted-foreground">Requests Sent</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-3">
+                <Award className="h-8 w-8 text-accent" />
                 <div>
                   <p className="text-2xl font-bold text-foreground">
-                    {matches.filter(m => m.status === 'completed').length}
+                    {myRequests.filter(r => r.status === 'approved').length}
                   </p>
-                  <p className="text-sm text-muted-foreground">Visits Completed</p>
+                  <p className="text-sm text-muted-foreground">Approved Sessions</p>
                 </div>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        <Tabs defaultValue="slots" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="slots">Available Slots</TabsTrigger>
-            <TabsTrigger value="matches">My Matches</TabsTrigger>
-            <TabsTrigger value="hours">Volunteer Hours</TabsTrigger>
-            <TabsTrigger value="rewards">Rewards</TabsTrigger>
+        <Tabs defaultValue="centers" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="centers">Senior Centers Near You</TabsTrigger>
+            <TabsTrigger value="requests">My Requests</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="slots">
+          <TabsContent value="centers">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
-                  <Calendar className="h-5 w-5" />
-                  <span>Available Volunteer Opportunities</span>
+                  <MapPin className="h-5 w-5" />
+                  <span>Senior Centers Near You</span>
                 </CardTitle>
                 <CardDescription>
-                  {profile?.approval_status === 'approved' 
-                    ? "Sign up for volunteer slots that match your interests"
-                    : "You'll be able to sign up for slots once your account is approved"
-                  }
+                  Click on a center to see available seniors and their time slots
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                {availableSlots.length > 0 ? (
-                  <div className="space-y-4">
-                    {availableSlots.map(slot => (
-                      <div key={slot.id} className="border rounded-lg p-4 hover:shadow-medium transition-smooth">
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <h4 className="font-semibold text-foreground">{slot.title}</h4>
-                            <p className="text-sm text-muted-foreground mt-1">{slot.description}</p>
-                            <div className="flex items-center space-x-4 mt-2 text-sm text-muted-foreground">
-                              <span>📅 {slot.scheduled_date}</span>
-                              <span>🕒 {slot.start_time} - {slot.end_time}</span>
-                              <span>🏢 {slot.senior_center_name}</span>
-                            </div>
-                          </div>
-                          <Button 
-                            variant="teen" 
-                            size="sm"
-                            disabled={profile?.approval_status !== 'approved'}
-                          >
-                            Sign Up
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-center text-muted-foreground py-8">
-                    No volunteer slots available at this time. Check back soon!
-                  </p>
-                )}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {seniorCenters.map(center => (
+                    <Card key={center.id} className="cursor-pointer hover:shadow-medium transition-smooth">
+                      <CardContent className="p-6" onClick={() => handleCenterClick(center)}>
+                        <h3 className="font-semibold text-foreground mb-2">{center.name}</h3>
+                        <p className="text-sm text-muted-foreground mb-3">
+                          <MapPin className="h-4 w-4 inline mr-1" />
+                          {center.full_address}
+                        </p>
+                        <Button variant="teen" size="sm" className="w-full">
+                          View Available Seniors
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="matches">
+          <TabsContent value="requests">
             <Card>
               <CardHeader>
-                <CardTitle>My Volunteer Matches</CardTitle>
-                <CardDescription>Your scheduled and completed volunteer sessions</CardDescription>
+                <CardTitle>My Volunteer Requests</CardTitle>
+                <CardDescription>Track your volunteer requests and their status</CardDescription>
               </CardHeader>
               <CardContent>
-                {matches.length > 0 ? (
+                {myRequests.length > 0 ? (
                   <div className="space-y-4">
-                    {matches.map(match => (
-                      <div key={match.id} className="border rounded-lg p-4">
+                    {myRequests.map(request => (
+                      <div key={request.id} className="border rounded-lg p-4">
                         <div className="flex items-start justify-between">
                           <div>
-                            <h4 className="font-semibold text-foreground">{match.slot_title}</h4>
-                            <p className="text-sm text-muted-foreground">With {match.senior_name}</p>
+                            <h4 className="font-semibold text-foreground">
+                              {request.seniors?.first_name} {request.seniors?.last_name}
+                            </h4>
+                            <p className="text-sm text-muted-foreground">
+                              at {request.senior_centers?.name}
+                            </p>
                             <div className="flex items-center space-x-4 mt-2 text-sm">
                               <Badge variant={
-                                match.status === 'completed' ? 'default' :
-                                match.status === 'checked_in' ? 'secondary' : 'outline'
+                                request.status === 'approved' ? 'default' :
+                                request.status === 'declined' ? 'destructive' : 'secondary'
                               }>
-                                {match.status.replace('_', ' ').toUpperCase()}
+                                {request.status.toUpperCase()}
                               </Badge>
-                              <span className="text-muted-foreground">📅 {match.scheduled_date}</span>
+                              <span className="text-muted-foreground">
+                                📅 {request.requested_date}
+                              </span>
+                              <span className="text-muted-foreground">
+                                🕒 {request.requested_start_time} - {request.requested_end_time}
+                              </span>
                             </div>
                           </div>
-                          {match.status === 'completed' && (
-                            <div className="text-right">
-                              <p className="text-sm font-medium">⏱️ {match.hours_logged}h</p>
-                              <p className="text-sm text-secondary">⭐ +{match.points_awarded} pts</p>
-                            </div>
-                          )}
                         </div>
                       </div>
                     ))}
                   </div>
                 ) : (
                   <p className="text-center text-muted-foreground py-8">
-                    No matches yet. Sign up for volunteer slots to get started!
+                    No requests yet. Check out senior centers to get started!
                   </p>
                 )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="hours">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Clock className="h-5 w-5" />
-                  <span>Volunteer Hours Log</span>
-                </CardTitle>
-                <CardDescription>Track your volunteer hours for college applications</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-8">
-                  <Clock className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <p className="text-muted-foreground">Detailed hours tracking coming soon!</p>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Current total: {matches.reduce((total, match) => total + (match.hours_logged || 0), 0)} hours
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="rewards">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Award className="h-5 w-5" />
-                  <span>Rewards & Recognition</span>
-                </CardTitle>
-                <CardDescription>Redeem your points for local business rewards</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-8">
-                  <Award className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <p className="text-lg font-semibold mb-2">Current Balance: {profile?.points || 0} Points</p>
-                  <p className="text-muted-foreground">Rewards catalog coming soon!</p>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Partner with local businesses to offer gift cards and experiences
-                  </p>
-                </div>
               </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
       </main>
+
+      {/* Seniors Dialog */}
+      <Dialog open={showSeniorsDialog} onOpenChange={setShowSeniorsDialog}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center space-x-2">
+              <Users className="h-5 w-5" />
+              <span>Seniors at {selectedCenter?.name}</span>
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-6 mt-4">
+            {centerSeniors.map(senior => {
+              const timeSlots = getSeniorTimeSlots(senior.id);
+              return (
+                <Card key={senior.id}>
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2">
+                      <User className="h-5 w-5" />
+                      <span>{senior.first_name} {senior.last_name}, {senior.age}</span>
+                    </CardTitle>
+                    <CardDescription>{senior.bio}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <h4 className="font-semibold mb-3">Available Time Slots:</h4>
+                    {timeSlots.length > 0 ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {timeSlots.map(slot => (
+                          <div key={slot.id} className="border rounded-lg p-3">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="font-medium">{dayNames[slot.day_of_week]}</p>
+                                <p className="text-sm text-muted-foreground">
+                                  {slot.start_time} - {slot.end_time}
+                                </p>
+                              </div>
+                              <Button 
+                                variant="teen" 
+                                size="sm"
+                                onClick={() => handleVolunteerRequest(senior, slot)}
+                              >
+                                Request This Slot
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-muted-foreground">No time slots available for this senior.</p>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })}
+            
+            {centerSeniors.length === 0 && (
+              <p className="text-center text-muted-foreground py-8">
+                No seniors available at this center right now.
+              </p>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

@@ -207,6 +207,42 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          created_at: string | null
+          id: string
+          message: string
+          metadata: Json | null
+          read_at: string | null
+          recipient_id: string
+          sender_id: string
+          title: string
+          type: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          message: string
+          metadata?: Json | null
+          read_at?: string | null
+          recipient_id: string
+          sender_id: string
+          title: string
+          type: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          message?: string
+          metadata?: Json | null
+          read_at?: string | null
+          recipient_id?: string
+          sender_id?: string
+          title?: string
+          type?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           approval_status: Database["public"]["Enums"]["approval_status"] | null
@@ -303,7 +339,10 @@ export type Database = {
           contact_email: string | null
           contact_phone: string | null
           created_at: string | null
+          full_address: string | null
           id: string
+          latitude: number | null
+          longitude: number | null
           name: string
           state: string
           zip_code: string
@@ -315,7 +354,10 @@ export type Database = {
           contact_email?: string | null
           contact_phone?: string | null
           created_at?: string | null
+          full_address?: string | null
           id?: string
+          latitude?: number | null
+          longitude?: number | null
           name: string
           state: string
           zip_code: string
@@ -327,7 +369,10 @@ export type Database = {
           contact_email?: string | null
           contact_phone?: string | null
           created_at?: string | null
+          full_address?: string | null
           id?: string
+          latitude?: number | null
+          longitude?: number | null
           name?: string
           state?: string
           zip_code?: string
@@ -341,6 +386,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      senior_time_slots: {
+        Row: {
+          created_at: string | null
+          day_of_week: number
+          end_time: string
+          id: string
+          is_available: boolean | null
+          senior_id: string
+          start_time: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          day_of_week: number
+          end_time: string
+          id?: string
+          is_available?: boolean | null
+          senior_id: string
+          start_time: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          day_of_week?: number
+          end_time?: string
+          id?: string
+          is_available?: boolean | null
+          senior_id?: string
+          start_time?: string
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       seniors: {
         Row: {
@@ -494,6 +572,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      volunteer_requests: {
+        Row: {
+          created_at: string | null
+          id: string
+          message: string | null
+          requested_date: string
+          requested_end_time: string
+          requested_start_time: string
+          senior_center_id: string
+          senior_id: string
+          status: string | null
+          teen_volunteer_id: string
+          time_slot_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          message?: string | null
+          requested_date: string
+          requested_end_time: string
+          requested_start_time: string
+          senior_center_id: string
+          senior_id: string
+          status?: string | null
+          teen_volunteer_id: string
+          time_slot_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          message?: string | null
+          requested_date?: string
+          requested_end_time?: string
+          requested_start_time?: string
+          senior_center_id?: string
+          senior_id?: string
+          status?: string | null
+          teen_volunteer_id?: string
+          time_slot_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       volunteer_slots: {
         Row: {

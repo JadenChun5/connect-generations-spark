@@ -18,6 +18,7 @@ import FamilyMemberRegister from "./pages/register/FamilyMemberRegister";
 import TeenVolunteerDashboard from "./pages/dashboard/TeenVolunteerDashboard";
 import TeenAdminDashboard from "./pages/dashboard/TeenAdminDashboard";
 import SeniorCenterAdminDashboard from "./pages/dashboard/SeniorCenterAdminDashboard";
+import Demo from "./pages/Demo";
 import FamilyMemberDashboard from "./pages/dashboard/FamilyMemberDashboard";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/demo" element={<Demo />} />
           <Route path="/about" element={<About />} />
           <Route path="/connect" element={<Connect />} />
             <Route path="/register/teen-volunteer" element={<TeenVolunteerRegister />} />

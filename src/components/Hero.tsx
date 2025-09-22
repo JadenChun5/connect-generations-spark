@@ -45,8 +45,13 @@ const Hero = () => {
               >
                 Get Started Today
               </Button>
-              <Button variant="outline" size="xl" className="bg-white/10 border-white/30 text-white hover:bg-white/20">
-                Watch Demo
+              <Button 
+                variant="outline" 
+                size="xl" 
+                className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+                onClick={() => navigate('/demo')}
+              >
+                Try Demo
               </Button>
             </div>
             
