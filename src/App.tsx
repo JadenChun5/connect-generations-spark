@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Connect from "./pages/Connect";
@@ -26,6 +26,12 @@ const App = () => (
           <Route path="/connect" element={<Connect />} />
           <Route path="/dashboard/student" element={<StudentDashboard />} />
           <Route path="/dashboard/staff" element={<StaffDashboard />} />
+          
+          {/* Redirects for old routes */}
+          <Route path="/dashboard/teen-volunteer" element={<Navigate to="/dashboard/student" replace />} />
+          <Route path="/dashboard/teen-admin" element={<Navigate to="/dashboard/staff" replace />} />
+          <Route path="/dashboard/family-member" element={<Navigate to="/dashboard/student" replace />} />
+          
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
