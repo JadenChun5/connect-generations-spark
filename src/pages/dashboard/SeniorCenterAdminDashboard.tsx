@@ -23,7 +23,27 @@ const SeniorCenterAdminDashboard = () => {
   }, [user]);
 
   const fetchUserData = async () => {
-    if (!user) return;
+    // Demo mode: when no authenticated user, show sample data and stop loading
+    if (!user) {
+      const demoProfile = {
+        id: 'demo-admin-profile-id',
+        user_id: 'demo-user-id',
+        first_name: 'Michael',
+        last_name: 'Demo',
+        role: 'senior_center_admin',
+        email: 'michael.demo@demo.com'
+      };
+
+      setProfile(demoProfile);
+      setStats({
+        totalSeniors: 12,
+        activeSlots: 4,
+        scheduledVisits: 2,
+        completedVisits: 18
+      });
+      setLoading(false);
+      return;
+    }
 
     try {
       const { data: profileData } = await supabase
@@ -51,6 +71,13 @@ const SeniorCenterAdminDashboard = () => {
     }
   };
 
+  const handleSignOut = async () => {
+    if (user) {
+      await signOut();
+    }
+    window.location.href = '/demo';
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-subtle flex items-center justify-center">
@@ -75,11 +102,11 @@ const SeniorCenterAdminDashboard = () => {
               <div>
                 <h1 className="text-xl font-bold text-foreground">Senior Center Dashboard</h1>
                 <p className="text-sm text-muted-foreground">
-                  Welcome back, {profile?.first_name || user?.email}
+                  Welcome back, {profile?.first_name || user?.email || 'Demo Admin'}
                 </p>
               </div>
             </div>
-            <Button variant="outline" onClick={signOut}>
+            <Button variant="outline" onClick={handleSignOut}>
               Sign Out
             </Button>
           </div>
