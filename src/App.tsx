@@ -31,16 +31,10 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/demo" element={<Demo />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/connect" element={<Connect />} />
-            <Route path="/register/teen-volunteer" element={<TeenVolunteerRegister />} />
-            <Route path="/register/teen-admin" element={<TeenAdminRegister />} />
-            <Route path="/register/senior-center-admin" element={<SeniorCenterAdminRegister />} />
-            <Route path="/register/family-member" element={<FamilyMemberRegister />} />
+            <Route path="/" element={<Index />} />
+            <Route path="/demo" element={<Demo />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/connect" element={<Connect />} />
             <Route 
               path="/dashboard/teen-volunteer" 
               element={
