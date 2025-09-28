@@ -99,6 +99,19 @@ export const AddSeniorDialog = ({
     setIsSubmitting(true);
     
     try {
+      // Check if we're in demo mode
+      if (seniorCenterId === 'demo-senior-center-id') {
+        // Demo mode: just simulate success without database call
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate loading
+        toast.success("Demo senior profile created successfully!");
+        form.reset();
+        setInterestTags([]);
+        setActivityTags([]);
+        onOpenChange(false);
+        onSeniorAdded();
+        return;
+      }
+
       const seniorData = {
         senior_center_id: seniorCenterId,
         first_name: data.first_name,

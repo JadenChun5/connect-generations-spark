@@ -128,6 +128,12 @@ const SeniorCenterAdminDashboard = () => {
   };
 
   const handleSeniorAdded = () => {
+    if (seniorCenterId === 'demo-senior-center-id') {
+      // In demo mode, we could add to local state, but for now just refresh
+      // In a real app, we'd want to update local state with the new senior
+      return;
+    }
+    
     if (seniorCenterId) {
       fetchSeniors(seniorCenterId);
     }
