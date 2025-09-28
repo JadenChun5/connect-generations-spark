@@ -4,10 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users2, Calendar, UserPlus, Clock, CheckCircle, XCircle } from "lucide-react";
+import { Users2, Calendar, UserPlus, Clock, CheckCircle, XCircle, Settings, FileText } from "lucide-react";
 import { AddSeniorDialog } from "@/components/AddSeniorDialog";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import StaffTimeSlotManagement from "@/components/StaffTimeSlotManagement";
+import VisitHistory from "@/components/VisitHistory";
+import CenterSettings from "@/components/CenterSettings";
 
 interface VolunteerRequest {
   id: string;
@@ -240,9 +243,12 @@ const StaffDashboard = () => {
         </div>
 
         <Tabs defaultValue="requests" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="requests">Volunteer Requests</TabsTrigger>
-            <TabsTrigger value="seniors">Manage Seniors</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="requests">Requests</TabsTrigger>
+            <TabsTrigger value="seniors">Seniors</TabsTrigger>
+            <TabsTrigger value="schedule">Schedule</TabsTrigger>
+            <TabsTrigger value="history">History</TabsTrigger>
+            <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
 
           <TabsContent value="requests">
@@ -401,6 +407,18 @@ const StaffDashboard = () => {
                 )}
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="schedule">
+            <StaffTimeSlotManagement seniors={seniors} />
+          </TabsContent>
+
+          <TabsContent value="history">
+            <VisitHistory />
+          </TabsContent>
+
+          <TabsContent value="settings">
+            <CenterSettings />
           </TabsContent>
         </Tabs>
       </main>

@@ -3,9 +3,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Clock, User, ArrowLeft } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MapPin, Clock, User, ArrowLeft, Calendar, BookOpen, UserCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import CalendarBooking from "@/components/CalendarBooking";
+import MyBookings from "@/components/MyBookings";
+import StudentProfile from "@/components/StudentProfile";
 
 interface SeniorCenter {
   id: string;
@@ -209,29 +213,9 @@ const StudentDashboard = () => {
       <header className="bg-background shadow-soft border-b">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              {selectedCenter && (
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  onClick={() => setSelectedCenter(null)}
-                  className="mr-2"
-                >
-                  <ArrowLeft className="h-4 w-4 mr-1" />
-                  Back
-                </Button>
-              )}
-              <div>
-                <h1 className="text-xl font-bold text-foreground">
-                  {selectedCenter ? selectedCenter.name : 'Find Volunteer Opportunities'}
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  {selectedCenter 
-                    ? 'Choose a senior and time slot to volunteer'
-                    : 'Browse senior centers near you'
-                  }
-                </p>
-              </div>
+            <div>
+              <h1 className="text-xl font-bold text-foreground">Teen Volunteer Dashboard</h1>
+              <p className="text-sm text-muted-foreground">Find volunteer opportunities at senior centers</p>
             </div>
             <Button variant="outline" onClick={() => navigate('/')}>
               Change User Type
@@ -241,116 +225,137 @@ const StudentDashboard = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {!selectedCenter ? (
-          // Senior Centers List
-          <div>
-            <h2 className="text-2xl font-bold text-foreground mb-6">
-              Senior Centers Near You
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {seniorCenters.map((center) => (
-                <Card 
-                  key={center.id} 
-                  className="hover:shadow-elegant transition-shadow cursor-pointer"
-                  onClick={() => handleCenterClick(center)}
-                >
-                  <CardHeader>
-                    <CardTitle className="flex items-center space-x-2">
-                      <span>{center.name}</span>
-                    </CardTitle>
-                    <CardDescription className="flex items-center space-x-1">
-                      <MapPin className="h-4 w-4" />
-                      <span>{center.full_address}</span>
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Button className="w-full">
-                      View Available Times
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        ) : (
-          // Seniors and Time Slots
-          <div>
-            <h2 className="text-2xl font-bold text-foreground mb-6">
-              Available Volunteer Opportunities
-            </h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {seniors.map((senior) => {
-                const seniorTimeSlots = timeSlots.filter(slot => slot.senior_id === senior.id);
-                
-                return (
-                  <Card key={senior.id}>
-                    <CardHeader>
-                      <CardTitle className="flex items-center space-x-2">
-                        <User className="h-5 w-5" />
-                        <span>{senior.first_name} {senior.last_name}</span>
-                        {senior.age && (
-                          <Badge variant="secondary">Age {senior.age}</Badge>
-                        )}
-                      </CardTitle>
-                      <CardDescription>{senior.bio}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {senior.interests && senior.interests.length > 0 && (
-                        <div>
-                          <p className="text-sm font-medium mb-2">Interests:</p>
-                          <div className="flex flex-wrap gap-1">
-                            {senior.interests.map((interest, idx) => (
-                              <Badge key={idx} variant="outline" className="text-xs">
-                                {interest}
-                              </Badge>
-                            ))}
-                          </div>
+        <Tabs defaultValue="browse" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="browse">Browse Centers</TabsTrigger>
+            <TabsTrigger value="calendar">Calendar Booking</TabsTrigger>
+            <TabsTrigger value="bookings">My Bookings</TabsTrigger>
+            <TabsTrigger value="profile">My Profile</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="browse">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <MapPin className="h-5 w-5" />
+                  <span>Senior Centers Near You</span>
+                </CardTitle>
+                <CardDescription>Browse local senior centers and their residents</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {seniorCenters.map((center) => (
+                    <Card key={center.id} className="hover:shadow-elegant transition-shadow">
+                      <CardHeader>
+                        <CardTitle>{center.name}</CardTitle>
+                        <CardDescription className="flex items-center space-x-1">
+                          <MapPin className="h-4 w-4" />
+                          <span>{center.full_address}</span>
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-3">
+                          <Badge variant="secondary">3 seniors available</Badge>
+                          <Button className="w-full" onClick={() => handleCenterClick(center)}>
+                            View Seniors & Times
+                          </Button>
                         </div>
-                      )}
-                      
-                      <div>
-                        <p className="text-sm font-medium mb-2">Available Times:</p>
-                        <div className="space-y-2">
-                          {seniorTimeSlots.length > 0 ? (
-                            seniorTimeSlots.map((slot) => (
-                              <div 
-                                key={slot.id} 
-                                className="flex items-center justify-between p-2 border rounded"
-                              >
-                                <div className="flex items-center space-x-2">
-                                  <Clock className="h-4 w-4 text-muted-foreground" />
-                                  <div>
-                                    <p className="text-sm font-medium">
-                                      {formatDate(slot.available_date)}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">
-                                      {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
-                                    </p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+
+                {selectedCenter && (
+                  <div className="mt-8">
+                    <div className="flex items-center space-x-3 mb-6">
+                      <Button variant="ghost" size="sm" onClick={() => setSelectedCenter(null)}>
+                        <ArrowLeft className="h-4 w-4 mr-1" />
+                        Back to Centers
+                      </Button>
+                      <h2 className="text-2xl font-bold">{selectedCenter.name}</h2>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                      {seniors.map((senior) => {
+                        const seniorTimeSlots = timeSlots.filter(slot => slot.senior_id === senior.id);
+                        return (
+                          <Card key={senior.id}>
+                            <CardHeader>
+                              <CardTitle className="flex items-center space-x-2">
+                                <User className="h-5 w-5" />
+                                <span>{senior.first_name} {senior.last_name}</span>
+                                {senior.age && <Badge variant="secondary">Age {senior.age}</Badge>}
+                              </CardTitle>
+                              <CardDescription>{senior.bio}</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                              {senior.interests && (
+                                <div>
+                                  <p className="text-sm font-medium mb-2">Interests:</p>
+                                  <div className="flex flex-wrap gap-1">
+                                    {senior.interests.map((interest, idx) => (
+                                      <Badge key={idx} variant="outline" className="text-xs">{interest}</Badge>
+                                    ))}
                                   </div>
                                 </div>
-                                <Button 
-                                  size="sm"
-                                  disabled={slot.is_booked}
-                                  onClick={() => handleBookTimeSlot(slot, senior)}
-                                >
-                                  {slot.is_booked ? 'Requested' : 'Request'}
-                                </Button>
+                              )}
+                              <div>
+                                <p className="text-sm font-medium mb-2">Available Times:</p>
+                                {seniorTimeSlots.length > 0 ? (
+                                  <div className="space-y-2">
+                                    {seniorTimeSlots.map((slot) => (
+                                      <div key={slot.id} className="flex items-center justify-between p-2 border rounded">
+                                        <div className="flex items-center space-x-2">
+                                          <Clock className="h-4 w-4 text-muted-foreground" />
+                                          <div>
+                                            <p className="text-sm font-medium">{formatDate(slot.available_date)}</p>
+                                            <p className="text-xs text-muted-foreground">{formatTime(slot.start_time)} - {formatTime(slot.end_time)}</p>
+                                          </div>
+                                        </div>
+                                        <Button size="sm" disabled={slot.is_booked} onClick={() => handleBookTimeSlot(slot, senior)}>
+                                          {slot.is_booked ? 'Requested' : 'Request'}
+                                        </Button>
+                                      </div>
+                                    ))}
+                                  </div>
+                                ) : (
+                                  <p className="text-sm text-muted-foreground">No available time slots</p>
+                                )}
                               </div>
-                            ))
-                          ) : (
-                            <p className="text-sm text-muted-foreground">
-                              No available time slots
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
-        )}
+                            </CardContent>
+                          </Card>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="calendar">
+            <CalendarBooking 
+              seniors={seniors}
+              timeSlots={timeSlots.map(slot => ({
+                id: slot.id,
+                senior_id: slot.senior_id,
+                date: slot.available_date,
+                start_time: slot.start_time,
+                end_time: slot.end_time,
+                is_available: !slot.is_booked
+              }))}
+              onBookSlot={handleBookTimeSlot}
+            />
+          </TabsContent>
+
+          <TabsContent value="bookings">
+            <MyBookings />
+          </TabsContent>
+
+          <TabsContent value="profile">
+            <StudentProfile />
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );
