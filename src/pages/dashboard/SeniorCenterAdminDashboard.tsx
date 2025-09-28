@@ -127,10 +127,11 @@ const SeniorCenterAdminDashboard = () => {
     }
   };
 
-  const handleSeniorAdded = () => {
-    if (seniorCenterId === 'demo-senior-center-id') {
-      // In demo mode, we could add to local state, but for now just refresh
-      // In a real app, we'd want to update local state with the new senior
+  const handleSeniorAdded = (newSenior?: any) => {
+    if (seniorCenterId === 'demo-senior-center-id' && newSenior) {
+      // In demo mode, add the new senior to the local state
+      setSeniors(prevSeniors => [newSenior, ...prevSeniors]);
+      setStats(prev => ({ ...prev, totalSeniors: prev.totalSeniors + 1 }));
       return;
     }
     

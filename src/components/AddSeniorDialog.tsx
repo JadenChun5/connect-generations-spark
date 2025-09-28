@@ -41,7 +41,7 @@ type SeniorFormData = z.infer<typeof seniorSchema>;
 interface AddSeniorDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSeniorAdded: () => void;
+  onSeniorAdded: (newSenior?: any) => void;
   seniorCenterId: string;
 }
 
@@ -103,12 +103,27 @@ export const AddSeniorDialog = ({
       if (seniorCenterId === 'demo-senior-center-id') {
         // Demo mode: just simulate success without database call
         await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate loading
+        
+        // Create a demo senior object to pass back
+        const newDemoSenior = {
+          id: `demo-senior-${Date.now()}`,
+          first_name: data.first_name,
+          last_name: data.last_name,
+          age: data.age || null,
+          bio: data.bio || null,
+          mobility_notes: data.mobility_notes || null,
+          interests: interestTags.length > 0 ? interestTags : null,
+          preferred_activities: activityTags.length > 0 ? activityTags : null,
+          senior_center_id: seniorCenterId,
+          created_at: new Date().toISOString()
+        };
+        
         toast.success("Demo senior profile created successfully!");
         form.reset();
         setInterestTags([]);
         setActivityTags([]);
         onOpenChange(false);
-        onSeniorAdded();
+        onSeniorAdded(newDemoSenior);
         return;
       }
 
