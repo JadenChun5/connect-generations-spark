@@ -1,24 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { Heart, Menu, X, LogOut, User } from "lucide-react";
+import { Heart, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, signOut } = useAuth();
 
   const navigation = [
     { name: "How It Works", href: "#user-type-selection" },
-    { name: "For Teens", href: "/register/teen-volunteer" },
-    { name: "For Centers", href: "/register/senior-center-admin" },  
     { name: "About", href: "/about" },
     { name: "Connect", href: "/connect" }
   ];
@@ -28,7 +18,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <div className="bg-gradient-hero p-2 rounded-lg shadow-soft">
               <Heart className="h-6 w-6 text-white" />
             </div>
@@ -36,7 +26,7 @@ const Header = () => {
               <div className="font-bold text-lg text-foreground">ElderConnect</div>
               <div className="text-xs text-muted-foreground">Bridging Generations</div>
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
@@ -63,35 +53,16 @@ const Header = () => {
 
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-3">
-            {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm">
-                    <User className="h-4 w-4 mr-2" />
-                    {user.email?.split('@')[0]}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={signOut}>
-                    <LogOut className="h-4 w-4 mr-2" />
-                    Sign Out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <>
-                <Link to="/auth">
-                  <Button variant="ghost" size="sm">
-                    Sign In
-                  </Button>
-                </Link>
-                <Link to="/signup">
-                  <Button variant="hero" size="sm">
-                    Get Started
-                  </Button>
-                </Link>
-              </>
-            )}
+            <Link to="/demo">
+              <Button variant="ghost" size="sm">
+                Try Demo
+              </Button>
+            </Link>
+            <Link to="/#user-type-selection">
+              <Button variant="hero" size="sm">
+                Get Started
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -135,25 +106,16 @@ const Header = () => {
               )
             ))}
             <div className="flex flex-col gap-3 pt-4 border-t border-border">
-              {user ? (
-                <Button variant="ghost" size="sm" className="w-full" onClick={signOut}>
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Sign Out
+              <Link to="/demo">
+                <Button variant="ghost" size="sm" className="w-full">
+                  Try Demo
                 </Button>
-              ) : (
-                <>
-                  <Link to="/auth">
-                    <Button variant="ghost" size="sm" className="w-full">
-                      Sign In
-                    </Button>
-                  </Link>
-                  <Link to="/signup">
-                    <Button variant="hero" size="sm" className="w-full">
-                      Get Started
-                    </Button>
-                  </Link>
-                </>
-              )}
+              </Link>
+              <Link to="/#user-type-selection">
+                <Button variant="hero" size="sm" className="w-full">
+                  Get Started
+                </Button>
+              </Link>
             </div>
           </nav>
         </div>

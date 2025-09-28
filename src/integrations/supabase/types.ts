@@ -49,48 +49,6 @@ export type Database = {
           },
         ]
       }
-      family_members: {
-        Row: {
-          id: string
-          profile_id: string
-          relationship: string
-          senior_id: string
-          verified: boolean | null
-          verified_at: string | null
-        }
-        Insert: {
-          id?: string
-          profile_id: string
-          relationship: string
-          senior_id: string
-          verified?: boolean | null
-          verified_at?: string | null
-        }
-        Update: {
-          id?: string
-          profile_id?: string
-          relationship?: string
-          senior_id?: string
-          verified?: boolean | null
-          verified_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "family_members_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "family_members_senior_id_fkey"
-            columns: ["senior_id"]
-            isOneToOne: false
-            referencedRelation: "seniors"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       feedback: {
         Row: {
           comments: string | null
@@ -295,42 +253,6 @@ export type Database = {
         }
         Relationships: []
       }
-      schools: {
-        Row: {
-          address: string
-          city: string
-          contact_email: string | null
-          contact_phone: string | null
-          created_at: string | null
-          id: string
-          name: string
-          state: string
-          zip_code: string
-        }
-        Insert: {
-          address: string
-          city: string
-          contact_email?: string | null
-          contact_phone?: string | null
-          created_at?: string | null
-          id?: string
-          name: string
-          state: string
-          zip_code: string
-        }
-        Update: {
-          address?: string
-          city?: string
-          contact_email?: string | null
-          contact_phone?: string | null
-          created_at?: string | null
-          id?: string
-          name?: string
-          state?: string
-          zip_code?: string
-        }
-        Relationships: []
-      }
       senior_centers: {
         Row: {
           address: string
@@ -470,45 +392,6 @@ export type Database = {
           },
         ]
       }
-      teen_admins: {
-        Row: {
-          id: string
-          profile_id: string
-          school_id: string
-          verified: boolean | null
-          verified_at: string | null
-        }
-        Insert: {
-          id?: string
-          profile_id: string
-          school_id: string
-          verified?: boolean | null
-          verified_at?: string | null
-        }
-        Update: {
-          id?: string
-          profile_id?: string
-          school_id?: string
-          verified?: boolean | null
-          verified_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "teen_admins_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "teen_admins_school_id_fkey"
-            columns: ["school_id"]
-            isOneToOne: false
-            referencedRelation: "schools"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       teen_volunteers: {
         Row: {
           approved_at: string | null
@@ -564,13 +447,6 @@ export type Database = {
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "teen_volunteers_school_id_fkey"
-            columns: ["school_id"]
-            isOneToOne: false
-            referencedRelation: "schools"
-            referencedColumns: ["id"]
-          },
         ]
       }
       volunteer_requests: {
@@ -584,7 +460,9 @@ export type Database = {
           senior_center_id: string
           senior_id: string
           status: string | null
-          teen_volunteer_id: string
+          student_email: string | null
+          student_name: string
+          student_phone: string | null
           time_slot_id: string | null
           updated_at: string | null
         }
@@ -598,7 +476,9 @@ export type Database = {
           senior_center_id: string
           senior_id: string
           status?: string | null
-          teen_volunteer_id: string
+          student_email?: string | null
+          student_name?: string
+          student_phone?: string | null
           time_slot_id?: string | null
           updated_at?: string | null
         }
@@ -612,11 +492,21 @@ export type Database = {
           senior_center_id?: string
           senior_id?: string
           status?: string | null
-          teen_volunteer_id?: string
+          student_email?: string | null
+          student_name?: string
+          student_phone?: string | null
           time_slot_id?: string | null
           updated_at?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "volunteer_requests_time_slot_id_fkey"
+            columns: ["time_slot_id"]
+            isOneToOne: false
+            referencedRelation: "senior_time_slots"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       volunteer_slots: {
         Row: {
