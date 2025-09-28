@@ -251,8 +251,8 @@ const Demo = () => {
             <p className="text-sm text-muted-foreground mb-4">
               Create your actual account to start connecting teens with seniors in your community
             </p>
-            <Button variant="outline" onClick={() => navigate('/signup')}>
-              Create Real Account
+            <Button variant="outline" onClick={() => window.location.href = '/#user-type-selection'}>
+              Get Started Now
             </Button>
           </CardContent>
         </Card>

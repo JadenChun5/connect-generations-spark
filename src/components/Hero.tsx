@@ -41,7 +41,7 @@ const Hero = () => {
                 variant="hero" 
                 size="xl" 
                 className="font-semibold"
-                onClick={() => navigate('/signup')}
+                onClick={() => document.getElementById('user-type-selection')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Get Started Today
               </Button>
