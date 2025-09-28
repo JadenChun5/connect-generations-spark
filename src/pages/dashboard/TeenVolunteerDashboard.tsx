@@ -64,62 +64,37 @@ const TeenVolunteerDashboard = () => {
 
   useEffect(() => {
     fetchUserData();
-  }, [user]);
+  }, []);
 
   const fetchUserData = async () => {
-    if (!user) return;
-
+    // For demo mode, we'll bypass user authentication and show sample data
     try {
-      // Fetch user profile
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
+      // Set demo profile data
+      const demoProfile = {
+        id: 'demo-profile-id',
+        user_id: 'demo-user-id',
+        first_name: 'Marcus',
+        last_name: 'Chen',
+        role: 'teen_volunteer',
+        email: 'marcus.chen@demo.com'
+      };
+      
+      setProfile(demoProfile);
+      
+      // Set demo teen volunteer data
+      const demoTeenVolunteer = {
+        id: 'demo-teen-volunteer-id',
+        profile_id: demoProfile.id,
+        grade_level: 17,
+        school_id: 'demo-school-id'
+      };
+      
+      setTeenVolunteer(demoTeenVolunteer);
+      
+      // Set empty requests for now
+      setMyRequests([]);
 
-      if (profileData) {
-        setProfile(profileData);
-        
-        // Fetch teen volunteer data
-        const { data: teenVolData } = await supabase
-          .from('teen_volunteers')
-          .select('*')
-          .eq('profile_id', profileData.id)
-          .single();
-          
-        setTeenVolunteer(teenVolData);
-        
-        // Fetch my volunteer requests
-        if (teenVolData) {
-          const { data: requestsData } = await supabase
-            .from('volunteer_requests')
-            .select(`
-              *,
-              seniors (
-                id,
-                first_name,
-                last_name,
-                age,
-                bio,
-                senior_center_id
-              ),
-              senior_centers (
-                id,
-                name,
-                address,
-                city,
-                state,
-                full_address
-              )
-            `)
-            .eq('teen_volunteer_id', teenVolData.id)
-            .order('created_at', { ascending: false });
-
-          setMyRequests((requestsData as any) || []);
-        }
-      }
-
-      // Fetch all senior centers
+      // Fetch all senior centers (this will work without auth)
       const { data: centersData } = await supabase
         .from('senior_centers')
         .select('*')
@@ -243,7 +218,8 @@ const TeenVolunteerDashboard = () => {
   };
 
   const handleSignOut = async () => {
-    await signOut();
+    // For demo mode, just navigate back to demo page
+    window.location.href = '/demo';
   };
 
   if (loading) {
@@ -270,7 +246,7 @@ const TeenVolunteerDashboard = () => {
               <div>
                 <h1 className="text-xl font-bold text-foreground">Teen Volunteer Dashboard</h1>
                 <p className="text-sm text-muted-foreground">
-                  Welcome back, {profile?.first_name || user?.email}
+                  Welcome back, {profile?.first_name || 'Demo User'}
                 </p>
               </div>
             </div>
