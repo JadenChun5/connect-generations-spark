@@ -38,18 +38,33 @@ const seniorSchema = z.object({
 
 type SeniorFormData = z.infer<typeof seniorSchema>;
 
+interface Senior {
+  id: string;
+  first_name: string;
+  last_name: string;
+  age?: number;
+  bio?: string;
+  interests?: string[];
+  preferred_activities?: string[];
+  mobility_notes?: string;
+  senior_center_id: string;
+  created_at: string;
+}
+
 interface AddSeniorDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSeniorAdded: (newSenior?: any) => void;
   seniorCenterId: string;
+  editingSenior?: Senior | null;
 }
 
 export const AddSeniorDialog = ({ 
   open, 
   onOpenChange, 
   onSeniorAdded,
-  seniorCenterId 
+  seniorCenterId,
+  editingSenior 
 }: AddSeniorDialogProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [interestTags, setInterestTags] = useState<string[]>([]);
@@ -58,14 +73,43 @@ export const AddSeniorDialog = ({
   const form = useForm<SeniorFormData>({
     resolver: zodResolver(seniorSchema),
     defaultValues: {
-      first_name: "",
-      last_name: "",
-      age: undefined,
-      bio: "",
-      mobility_notes: "",
+      first_name: editingSenior?.first_name || "",
+      last_name: editingSenior?.last_name || "",
+      age: editingSenior?.age || undefined,
+      bio: editingSenior?.bio || "",
+      mobility_notes: editingSenior?.mobility_notes || "",
       interests: "",
       preferred_activities: "",
     },
+  });
+
+  // Set tags and form values when editingSenior changes
+  useState(() => {
+    if (editingSenior) {
+      setInterestTags(editingSenior.interests || []);
+      setActivityTags(editingSenior.preferred_activities || []);
+      form.reset({
+        first_name: editingSenior.first_name,
+        last_name: editingSenior.last_name,
+        age: editingSenior.age,
+        bio: editingSenior.bio || "",
+        mobility_notes: editingSenior.mobility_notes || "",
+        interests: "",
+        preferred_activities: "",
+      });
+    } else {
+      setInterestTags([]);
+      setActivityTags([]);
+      form.reset({
+        first_name: "",
+        last_name: "",
+        age: undefined,
+        bio: "",
+        mobility_notes: "",
+        interests: "",
+        preferred_activities: "",
+      });
+    }
   });
 
   const addTag = (value: string, type: 'interests' | 'activities') => {
@@ -104,27 +148,49 @@ export const AddSeniorDialog = ({
         // Demo mode: just simulate success without database call
         await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate loading
         
-        // Create a demo senior object to pass back
-        const newDemoSenior = {
-          id: `demo-senior-${Date.now()}`,
-          first_name: data.first_name,
-          last_name: data.last_name,
-          age: data.age || null,
-          bio: data.bio || null,
-          mobility_notes: data.mobility_notes || null,
-          interests: interestTags.length > 0 ? interestTags : null,
-          preferred_activities: activityTags.length > 0 ? activityTags : null,
-          senior_center_id: seniorCenterId,
-          created_at: new Date().toISOString()
-        };
-        
-        toast.success("Demo senior profile created successfully!");
-        form.reset();
-        setInterestTags([]);
-        setActivityTags([]);
-        onOpenChange(false);
-        onSeniorAdded(newDemoSenior);
-        return;
+        if (editingSenior) {
+          // Update existing demo senior
+          const updatedSenior = {
+            ...editingSenior,
+            first_name: data.first_name,
+            last_name: data.last_name,
+            age: data.age || null,
+            bio: data.bio || null,
+            mobility_notes: data.mobility_notes || null,
+            interests: interestTags.length > 0 ? interestTags : null,
+            preferred_activities: activityTags.length > 0 ? activityTags : null,
+          };
+          
+          toast.success("Demo senior profile updated successfully!");
+          form.reset();
+          setInterestTags([]);
+          setActivityTags([]);
+          onOpenChange(false);
+          onSeniorAdded(updatedSenior);
+          return;
+        } else {
+          // Create new demo senior
+          const newDemoSenior = {
+            id: `demo-senior-${Date.now()}`,
+            first_name: data.first_name,
+            last_name: data.last_name,
+            age: data.age || null,
+            bio: data.bio || null,
+            mobility_notes: data.mobility_notes || null,
+            interests: interestTags.length > 0 ? interestTags : null,
+            preferred_activities: activityTags.length > 0 ? activityTags : null,
+            senior_center_id: seniorCenterId,
+            created_at: new Date().toISOString()
+          };
+          
+          toast.success("Demo senior profile created successfully!");
+          form.reset();
+          setInterestTags([]);
+          setActivityTags([]);
+          onOpenChange(false);
+          onSeniorAdded(newDemoSenior);
+          return;
+        }
       }
 
       const seniorData = {
@@ -138,23 +204,39 @@ export const AddSeniorDialog = ({
         preferred_activities: activityTags.length > 0 ? activityTags : null,
       };
 
-      const { error } = await supabase
-        .from('seniors')
-        .insert([seniorData]);
+      if (editingSenior) {
+        // Update existing senior
+        const { error } = await supabase
+          .from('seniors')
+          .update(seniorData)
+          .eq('id', editingSenior.id);
 
-      if (error) {
-        throw error;
+        if (error) {
+          throw error;
+        }
+
+        toast.success("Senior profile updated successfully!");
+      } else {
+        // Create new senior
+        const { error } = await supabase
+          .from('seniors')
+          .insert([seniorData]);
+
+        if (error) {
+          throw error;
+        }
+
+        toast.success("Senior profile created successfully!");
       }
 
-      toast.success("Senior profile created successfully!");
       form.reset();
       setInterestTags([]);
       setActivityTags([]);
       onOpenChange(false);
       onSeniorAdded();
     } catch (error) {
-      console.error('Error creating senior profile:', error);
-      toast.error("Failed to create senior profile. Please try again.");
+      console.error('Error saving senior profile:', error);
+      toast.error(`Failed to ${editingSenior ? 'update' : 'create'} senior profile. Please try again.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -164,9 +246,14 @@ export const AddSeniorDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Add New Senior Profile</DialogTitle>
+          <DialogTitle>
+            {editingSenior ? "Edit Senior Profile" : "Add New Senior Profile"}
+          </DialogTitle>
           <DialogDescription>
-            Create a profile for a new senior resident to enable volunteer matching.
+            {editingSenior 
+              ? "Update the information for this senior resident."
+              : "Create a profile for a new senior resident to enable volunteer matching."
+            }
           </DialogDescription>
         </DialogHeader>
 
@@ -304,7 +391,10 @@ export const AddSeniorDialog = ({
                 Cancel
               </Button>
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Creating..." : "Create Profile"}
+                {isSubmitting 
+                  ? (editingSenior ? "Updating..." : "Creating...") 
+                  : (editingSenior ? "Update Profile" : "Create Profile")
+                }
               </Button>
             </DialogFooter>
           </form>

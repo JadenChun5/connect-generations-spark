@@ -4,13 +4,26 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users2, Calendar, UserPlus, Clock, CheckCircle, XCircle, Settings, FileText } from "lucide-react";
+import { Users2, Calendar, UserPlus, Clock, CheckCircle, XCircle, Settings, FileText, Edit } from "lucide-react";
 import { AddSeniorDialog } from "@/components/AddSeniorDialog";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import StaffTimeSlotManagement from "@/components/StaffTimeSlotManagement";
 import VisitHistory from "@/components/VisitHistory";
 import CenterSettings from "@/components/CenterSettings";
+
+interface Senior {
+  id: string;
+  first_name: string;
+  last_name: string;
+  age?: number;
+  bio?: string;
+  interests?: string[];
+  preferred_activities?: string[];
+  mobility_notes?: string;
+  senior_center_id: string;
+  created_at: string;
+}
 
 interface VolunteerRequest {
   id: string;
@@ -29,9 +42,10 @@ interface VolunteerRequest {
 const StaffDashboard = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [seniors, setSeniors] = useState<any[]>([]);
+  const [seniors, setSeniors] = useState<Senior[]>([]);
   const [requests, setRequests] = useState<VolunteerRequest[]>([]);
   const [addSeniorDialogOpen, setAddSeniorDialogOpen] = useState(false);
+  const [editingSenior, setEditingSenior] = useState<Senior | null>(null);
   const [stats, setStats] = useState({
     totalSeniors: 0,
     pendingRequests: 0,
@@ -46,14 +60,18 @@ const StaffDashboard = () => {
   const fetchDashboardData = async () => {
     try {
       // Demo data for staff dashboard
-      const demoSeniors = [
+      const demoSeniors: Senior[] = [
         {
           id: 'senior-1',
           first_name: 'Dorothy',
           last_name: 'Johnson',
           age: 78,
           bio: 'Former teacher who loves reading and crossword puzzles',
-          interests: ['Reading', 'Puzzles', 'Gardening']
+          interests: ['Reading', 'Puzzles', 'Gardening'],
+          preferred_activities: ['board games', 'walks', 'storytelling'],
+          mobility_notes: 'Uses a walker for longer distances',
+          senior_center_id: 'demo-senior-center-id',
+          created_at: new Date().toISOString()
         },
         {
           id: 'senior-2',
@@ -61,7 +79,11 @@ const StaffDashboard = () => {
           last_name: 'Miller',
           age: 82,
           bio: 'Retired engineer with a passion for chess and woodworking',
-          interests: ['Chess', 'Woodworking', 'History']
+          interests: ['Chess', 'Woodworking', 'History'],
+          preferred_activities: ['card games', 'discussions', 'art projects'],
+          mobility_notes: 'No mobility restrictions',
+          senior_center_id: 'demo-senior-center-id',
+          created_at: new Date().toISOString()
         },
         {
           id: 'senior-3',
@@ -69,7 +91,11 @@ const StaffDashboard = () => {
           last_name: 'Davis',
           age: 75,
           bio: 'Loves music and has many stories to share about her travels', 
-          interests: ['Music', 'Travel', 'Cooking']
+          interests: ['Music', 'Travel', 'Cooking'],
+          preferred_activities: ['singing', 'crafts', 'mentoring'],
+          mobility_notes: 'Prefers seated activities',
+          senior_center_id: 'demo-senior-center-id',
+          created_at: new Date().toISOString()
         }
       ];
 
@@ -399,9 +425,19 @@ const StaffDashboard = () => {
                                 )}
                               </div>
                             </div>
-                          )}
-                        </div>
-                      </Card>
+                           )}
+                           
+                           <Button
+                             variant="outline"
+                             size="sm"
+                             onClick={() => setEditingSenior(senior)}
+                             className="mt-2"
+                           >
+                             <Edit className="h-4 w-4 mr-1" />
+                             Edit Profile
+                           </Button>
+                         </div>
+                       </Card>
                     ))}
                   </div>
                 )}
@@ -424,10 +460,14 @@ const StaffDashboard = () => {
       </main>
       
       <AddSeniorDialog
-        open={addSeniorDialogOpen}
-        onOpenChange={setAddSeniorDialogOpen}
+        open={addSeniorDialogOpen || !!editingSenior}
+        onOpenChange={(open) => {
+          setAddSeniorDialogOpen(open);
+          if (!open) setEditingSenior(null);
+        }}
         onSeniorAdded={handleSeniorAdded}
         seniorCenterId="demo-senior-center-id"
+        editingSenior={editingSenior}
       />
     </div>
   );
