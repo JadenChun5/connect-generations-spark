@@ -336,14 +336,7 @@ const StudentDashboard = () => {
           <TabsContent value="calendar">
             <CalendarBooking 
               seniors={seniors}
-              timeSlots={timeSlots.map(slot => ({
-                id: slot.id,
-                senior_id: slot.senior_id,
-                date: slot.available_date,
-                start_time: slot.start_time,
-                end_time: slot.end_time,
-                is_available: !slot.is_booked
-              }))}
+              timeSlots={timeSlots}
               onBookSlot={handleBookTimeSlot}
             />
           </TabsContent>

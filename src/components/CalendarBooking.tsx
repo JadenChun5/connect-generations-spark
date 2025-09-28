@@ -20,10 +20,10 @@ interface Senior {
 interface TimeSlot {
   id: string;
   senior_id: string;
-  date: string;
+  available_date: string;
   start_time: string;
   end_time: string;
-  is_available: boolean;
+  is_booked: boolean;
 }
 
 interface CalendarBookingProps {
@@ -49,7 +49,7 @@ const CalendarBooking = ({ seniors, timeSlots, onBookSlot }: CalendarBookingProp
   const getAvailableSlotsForDate = (date: Date) => {
     const dateString = date.toISOString().split('T')[0];
     return timeSlots.filter(slot => 
-      slot.date === dateString && slot.is_available
+      slot.available_date === dateString && !slot.is_booked
     );
   };
 
@@ -79,8 +79,8 @@ const CalendarBooking = ({ seniors, timeSlots, onBookSlot }: CalendarBookingProp
 
   // Get dates with available slots for calendar highlighting
   const datesWithSlots = timeSlots
-    .filter(slot => slot.is_available)
-    .map(slot => new Date(slot.date));
+    .filter(slot => !slot.is_booked)
+    .map(slot => new Date(slot.available_date));
 
   return (
     <div className="space-y-6">
@@ -214,7 +214,7 @@ const CalendarBooking = ({ seniors, timeSlots, onBookSlot }: CalendarBookingProp
                 <div>
                   <p className="text-sm font-medium">Date</p>
                   <p className="text-sm text-muted-foreground">
-                    {new Date(selectedSlot.date).toLocaleDateString('en-US', {
+                    {new Date(selectedSlot.available_date).toLocaleDateString('en-US', {
                       weekday: 'long',
                       month: 'long',
                       day: 'numeric'
