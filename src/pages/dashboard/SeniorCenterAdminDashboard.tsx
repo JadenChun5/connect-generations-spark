@@ -6,11 +6,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Users2, Calendar, UserPlus, Settings, BarChart3, QrCode } from "lucide-react";
+import { AddSeniorDialog } from "@/components/AddSeniorDialog";
 
 const SeniorCenterAdminDashboard = () => {
   const { user, signOut } = useAuth();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<any>(null);
+  const [seniors, setSeniors] = useState<any[]>([]);
+  const [addSeniorDialogOpen, setAddSeniorDialogOpen] = useState(false);
+  const [seniorCenterId, setSeniorCenterId] = useState<string>('');
   const [stats, setStats] = useState({
     totalSeniors: 0,
     activeSlots: 0,
@@ -35,8 +39,31 @@ const SeniorCenterAdminDashboard = () => {
       };
 
       setProfile(demoProfile);
+      setSeniorCenterId('demo-senior-center-id');
+      
+      // Demo seniors data
+      const demoSeniors = [
+        {
+          id: 'demo-senior-1',
+          first_name: 'Dorothy',
+          last_name: 'Johnson',
+          age: 78,
+          bio: 'Former teacher who loves reading and crossword puzzles',
+          interests: ['Reading', 'Puzzles', 'Gardening']
+        },
+        {
+          id: 'demo-senior-2', 
+          first_name: 'Robert',
+          last_name: 'Miller',
+          age: 82,
+          bio: 'Retired engineer with a passion for chess and woodworking',
+          interests: ['Chess', 'Woodworking', 'History']
+        }
+      ];
+      
+      setSeniors(demoSeniors);
       setStats({
-        totalSeniors: 12,
+        totalSeniors: demoSeniors.length,
         activeSlots: 4,
         scheduledVisits: 2,
         completedVisits: 18
@@ -54,11 +81,23 @@ const SeniorCenterAdminDashboard = () => {
 
       if (profileData) {
         setProfile(profileData);
+        
+        // Find the senior center this admin manages
+        const { data: centerData } = await supabase
+          .from('senior_centers')
+          .select('*')
+          .eq('admin_id', profileData.id)
+          .single();
+          
+        if (centerData) {
+          setSeniorCenterId(centerData.id);
+          await fetchSeniors(centerData.id);
+        }
       }
 
       // In a real implementation, fetch actual data
       setStats({
-        totalSeniors: 0,
+        totalSeniors: seniors.length,
         activeSlots: 0,
         scheduledVisits: 0,
         completedVisits: 0
@@ -68,6 +107,29 @@ const SeniorCenterAdminDashboard = () => {
       console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchSeniors = async (centerId: string) => {
+    try {
+      const { data: seniorsData, error } = await supabase
+        .from('seniors')
+        .select('*')
+        .eq('senior_center_id', centerId)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      
+      setSeniors(seniorsData || []);
+      setStats(prev => ({ ...prev, totalSeniors: seniorsData?.length || 0 }));
+    } catch (error) {
+      console.error('Error fetching seniors:', error);
+    }
+  };
+
+  const handleSeniorAdded = () => {
+    if (seniorCenterId) {
+      fetchSeniors(seniorCenterId);
     }
   };
 
@@ -179,25 +241,77 @@ const SeniorCenterAdminDashboard = () => {
                 <CardTitle className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <UserPlus className="h-5 w-5" />
-                    <span>Senior Residents</span>
+                    <span>Senior Residents ({seniors.length})</span>
                   </div>
-                  <Button variant="senior">Add New Senior</Button>
+                  <Button 
+                    variant="senior" 
+                    onClick={() => setAddSeniorDialogOpen(true)}
+                  >
+                    Add New Senior
+                  </Button>
                 </CardTitle>
                 <CardDescription>
                   Manage senior resident profiles and preferences
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-12">
-                  <UserPlus className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                  <p className="text-xl font-semibold mb-2">No Seniors Added Yet</p>
-                  <p className="text-muted-foreground mb-6">
-                    Start by adding senior resident profiles to enable volunteer matching
-                  </p>
-                  <Button variant="senior" size="lg">
-                    Add First Senior Profile
-                  </Button>
-                </div>
+                {seniors.length === 0 ? (
+                  <div className="text-center py-12">
+                    <UserPlus className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                    <p className="text-xl font-semibold mb-2">No Seniors Added Yet</p>
+                    <p className="text-muted-foreground mb-6">
+                      Start by adding senior resident profiles to enable volunteer matching
+                    </p>
+                    <Button 
+                      variant="senior" 
+                      size="lg"
+                      onClick={() => setAddSeniorDialogOpen(true)}
+                    >
+                      Add First Senior Profile
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {seniors.map((senior) => (
+                      <Card key={senior.id} className="p-4">
+                        <div className="space-y-3">
+                          <div>
+                            <h3 className="font-semibold text-lg">
+                              {senior.first_name} {senior.last_name}
+                            </h3>
+                            {senior.age && (
+                              <p className="text-sm text-muted-foreground">Age: {senior.age}</p>
+                            )}
+                          </div>
+                          
+                          {senior.bio && (
+                            <p className="text-sm text-muted-foreground line-clamp-2">
+                              {senior.bio}
+                            </p>
+                          )}
+                          
+                          {senior.interests && senior.interests.length > 0 && (
+                            <div>
+                              <p className="text-xs font-medium mb-1">Interests:</p>
+                              <div className="flex flex-wrap gap-1">
+                                {senior.interests.slice(0, 3).map((interest: string, idx: number) => (
+                                  <Badge key={idx} variant="secondary" className="text-xs">
+                                    {interest}
+                                  </Badge>
+                                ))}
+                                {senior.interests.length > 3 && (
+                                  <Badge variant="outline" className="text-xs">
+                                    +{senior.interests.length - 3} more
+                                  </Badge>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -283,6 +397,13 @@ const SeniorCenterAdminDashboard = () => {
           </TabsContent>
         </Tabs>
       </main>
+      
+      <AddSeniorDialog
+        open={addSeniorDialogOpen}
+        onOpenChange={setAddSeniorDialogOpen}
+        onSeniorAdded={handleSeniorAdded}
+        seniorCenterId={seniorCenterId}
+      />
     </div>
   );
 };
