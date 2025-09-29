@@ -39,16 +39,18 @@ const TEMPLATES = {
     { dayOfWeek: 4, startTime: '15:00', endTime: '18:00' }, // Thursday
     { dayOfWeek: 5, startTime: '15:00', endTime: '18:00' }, // Friday
   ],
-  'Weekends Only': [
-    { dayOfWeek: 0, startTime: '10:00', endTime: '16:00' }, // Sunday
-    { dayOfWeek: 6, startTime: '10:00', endTime: '16:00' }, // Saturday
+  'Weekends': [
+    { dayOfWeek: 0, startTime: '09:00', endTime: '18:00' }, // Sunday
+    { dayOfWeek: 6, startTime: '09:00', endTime: '18:00' }, // Saturday
   ],
-  'Evenings': [
-    { dayOfWeek: 1, startTime: '18:00', endTime: '20:00' }, // Monday
-    { dayOfWeek: 2, startTime: '18:00', endTime: '20:00' }, // Tuesday
-    { dayOfWeek: 3, startTime: '18:00', endTime: '20:00' }, // Wednesday
-    { dayOfWeek: 4, startTime: '18:00', endTime: '20:00' }, // Thursday
-    { dayOfWeek: 5, startTime: '18:00', endTime: '20:00' }, // Friday
+  'Mornings': [
+    { dayOfWeek: 0, startTime: '09:00', endTime: '12:00' }, // Sunday
+    { dayOfWeek: 1, startTime: '09:00', endTime: '12:00' }, // Monday
+    { dayOfWeek: 2, startTime: '09:00', endTime: '12:00' }, // Tuesday
+    { dayOfWeek: 3, startTime: '09:00', endTime: '12:00' }, // Wednesday
+    { dayOfWeek: 4, startTime: '09:00', endTime: '12:00' }, // Thursday
+    { dayOfWeek: 5, startTime: '09:00', endTime: '12:00' }, // Friday
+    { dayOfWeek: 6, startTime: '09:00', endTime: '12:00' }, // Saturday
   ]
 };
 
@@ -112,7 +114,7 @@ export function AvailabilityCalendar({ teenVolunteerId, onAvailabilityChange }: 
         if (error) throw error;
       }
 
-      toast.success('Availability saved successfully!');
+      toast.success('Availability saved! Now showing matching senior centers.');
       onAvailabilityChange?.(availability);
     } catch (error) {
       console.error('Error saving availability:', error);

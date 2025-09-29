@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MapPin, Clock, User, ArrowLeft, Calendar, BookOpen, UserCircle, Settings } from "lucide-react";
+import { MapPin, Clock, User, ArrowLeft, Calendar, BookOpen, UserCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import CalendarBooking from "@/components/CalendarBooking";
@@ -520,28 +520,10 @@ const StudentDashboard = () => {
           </TabsContent>
 
           <TabsContent value="availability">
-            {teenVolunteerId ? (
-              <AvailabilityCalendar
-                teenVolunteerId={teenVolunteerId}
-                onAvailabilityChange={handleAvailabilityChange}
-              />
-            ) : (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Settings className="h-5 w-5" />
-                    <span>Set My Availability</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-8">
-                    <p className="text-muted-foreground">
-                      Please complete your volunteer profile to set your availability.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+            <AvailabilityCalendar
+              teenVolunteerId={teenVolunteerId || 'demo-teen-volunteer-id'}
+              onAvailabilityChange={handleAvailabilityChange}
+            />
           </TabsContent>
 
           <TabsContent value="calendar">
