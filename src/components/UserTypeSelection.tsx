@@ -7,11 +7,11 @@ const UserTypeSelection = () => {
   const navigate = useNavigate();
 
   const handleStudentClick = () => {
-    navigate("/dashboard/student");
+    navigate('/auth');
   };
 
   const handleStaffClick = () => {
-    navigate("/dashboard/staff");
+    navigate('/auth');
   };
 
   return (

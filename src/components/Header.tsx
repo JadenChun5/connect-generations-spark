@@ -1,11 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { Heart, Menu, X } from "lucide-react";
+import { Heart, Menu, X, LogOut, User } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, profile, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const navigation = [
     { name: "How It Works", href: "#user-type-selection" },
@@ -53,16 +56,41 @@ const Header = () => {
 
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link to="/demo">
-              <Button variant="ghost" size="sm">
-                Try Demo
-              </Button>
-            </Link>
-            <Link to="/#user-type-selection">
-              <Button variant="hero" size="sm">
-                Get Started
-              </Button>
-            </Link>
+            {user ? (
+              <>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate(profile?.role === 'teen_volunteer' ? '/dashboard/student' : '/dashboard/staff')}
+                  className="flex items-center gap-2"
+                >
+                  <User className="h-4 w-4" />
+                  Dashboard
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={signOut}
+                  className="flex items-center gap-2"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/demo">
+                  <Button variant="ghost" size="sm">
+                    Try Demo
+                  </Button>
+                </Link>
+                <Link to="/auth">
+                  <Button variant="hero" size="sm">
+                    Get Started
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -106,16 +134,47 @@ const Header = () => {
               )
             ))}
             <div className="flex flex-col gap-3 pt-4 border-t border-border">
-              <Link to="/demo">
-                <Button variant="ghost" size="sm" className="w-full">
-                  Try Demo
-                </Button>
-              </Link>
-              <Link to="/#user-type-selection">
-                <Button variant="hero" size="sm" className="w-full">
-                  Get Started
-                </Button>
-              </Link>
+              {user ? (
+                <>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full flex items-center gap-2"
+                    onClick={() => {
+                      navigate(profile?.role === 'teen_volunteer' ? '/dashboard/student' : '/dashboard/staff');
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    <User className="h-4 w-4" />
+                    Dashboard
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full flex items-center gap-2"
+                    onClick={() => {
+                      signOut();
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sign Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link to="/demo">
+                    <Button variant="ghost" size="sm" className="w-full">
+                      Try Demo
+                    </Button>
+                  </Link>
+                  <Link to="/auth">
+                    <Button variant="hero" size="sm" className="w-full">
+                      Get Started
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </nav>
         </div>
