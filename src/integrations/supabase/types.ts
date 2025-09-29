@@ -392,6 +392,36 @@ export type Database = {
           },
         ]
       }
+      teen_availability: {
+        Row: {
+          created_at: string
+          day_of_week: number
+          end_time: string
+          id: string
+          start_time: string
+          teen_volunteer_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          day_of_week: number
+          end_time: string
+          id?: string
+          start_time: string
+          teen_volunteer_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          day_of_week?: number
+          end_time?: string
+          id?: string
+          start_time?: string
+          teen_volunteer_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       teen_volunteers: {
         Row: {
           approved_at: string | null

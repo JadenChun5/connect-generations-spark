@@ -4,12 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MapPin, Clock, User, ArrowLeft, Calendar, BookOpen, UserCircle } from "lucide-react";
+import { MapPin, Clock, User, ArrowLeft, Calendar, BookOpen, UserCircle, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import CalendarBooking from "@/components/CalendarBooking";
 import MyBookings from "@/components/MyBookings";
 import StudentProfile from "@/components/StudentProfile";
+import { AvailabilityCalendar } from "@/components/AvailabilityCalendar";
 
 interface SeniorCenter {
   id: string;
@@ -38,17 +39,135 @@ interface TimeSlot {
   is_booked: boolean;
 }
 
+interface AvailabilitySlot {
+  id?: string;
+  dayOfWeek: number;
+  startTime: string;
+  endTime: string;
+}
+
+interface SeniorCenterWithMatch extends SeniorCenter {
+  matchPercentage?: number;
+  availableSlots?: number;
+}
+
 const StudentDashboard = () => {
   const navigate = useNavigate();
   const [seniorCenters, setSeniorCenters] = useState<SeniorCenter[]>([]);
-  const [selectedCenter, setSelectedCenter] = useState<SeniorCenter | null>(null);
+  const [selectedCenter, setSelectedCenter] = useState<SeniorCenterWithMatch | null>(null);
   const [seniors, setSeniors] = useState<Senior[]>([]);
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
   const [loading, setLoading] = useState(true);
+  const [userAvailability, setUserAvailability] = useState<AvailabilitySlot[]>([]);
+  const [teenVolunteerId, setTeenVolunteerId] = useState<string | null>(null);
+  const [filteredCenters, setFilteredCenters] = useState<SeniorCenterWithMatch[]>([]);
 
   useEffect(() => {
     fetchSeniorCenters();
+    fetchCurrentUser();
   }, []);
+
+  useEffect(() => {
+    if (userAvailability.length > 0) {
+      calculateMatches();
+    } else {
+      setFilteredCenters(seniorCenters.map(center => ({ ...center })));
+    }
+  }, [seniorCenters, userAvailability, timeSlots]);
+
+  const fetchCurrentUser = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('user_id', user.id)
+        .single();
+
+      if (!profile) return;
+
+      const { data: teenVolunteer } = await supabase
+        .from('teen_volunteers')
+        .select('id')
+        .eq('profile_id', profile.id)
+        .single();
+
+      if (teenVolunteer) {
+        setTeenVolunteerId(teenVolunteer.id);
+      } else {
+        // For demo purposes, create a fallback ID
+        setTeenVolunteerId('demo-teen-volunteer-id');
+      }
+    } catch (error) {
+      console.error('Error fetching current user:', error);
+    }
+  };
+
+  const calculateMatches = () => {
+    const centersWithMatches = seniorCenters.map(center => {
+      // Get all time slots for this center
+      const centerTimeSlots = timeSlots.filter(slot => 
+        seniors.some(senior => 
+          senior.id === slot.senior_id && center.id.includes('center')
+        )
+      );
+
+      if (centerTimeSlots.length === 0) {
+        return { ...center, matchPercentage: 0, availableSlots: 0 };
+      }
+
+      // Calculate match percentage based on availability overlap
+      let matchingSlots = 0;
+      let totalSlots = centerTimeSlots.length;
+
+      centerTimeSlots.forEach(slot => {
+        const slotDate = new Date(slot.available_date);
+        const dayOfWeek = slotDate.getDay();
+        const slotStartHour = parseInt(slot.start_time.split(':')[0]);
+        const slotEndHour = parseInt(slot.end_time.split(':')[0]);
+
+        // Check if user is available during this time slot
+        const isAvailable = userAvailability.some(availability => {
+          if (availability.dayOfWeek !== dayOfWeek) return false;
+          
+          const availStartHour = parseInt(availability.startTime.split(':')[0]);
+          const availEndHour = parseInt(availability.endTime.split(':')[0]);
+          
+          // Check for time overlap
+          return (slotStartHour >= availStartHour && slotStartHour < availEndHour) ||
+                 (slotEndHour > availStartHour && slotEndHour <= availEndHour) ||
+                 (slotStartHour <= availStartHour && slotEndHour >= availEndHour);
+        });
+
+        if (isAvailable) {
+          matchingSlots++;
+        }
+      });
+
+      const matchPercentage = totalSlots > 0 ? Math.round((matchingSlots / totalSlots) * 100) : 0;
+      
+      return {
+        ...center,
+        matchPercentage,
+        availableSlots: matchingSlots
+      };
+    });
+
+    // Sort by match percentage (highest first) and filter out centers with no matches if user has availability set
+    const shouldFilter = userAvailability.length > 0;
+    const filtered = shouldFilter 
+      ? centersWithMatches.filter(center => center.matchPercentage! > 0)
+      : centersWithMatches;
+    
+    filtered.sort((a, b) => (b.matchPercentage || 0) - (a.matchPercentage || 0));
+    setFilteredCenters(filtered);
+  };
+
+  const handleAvailabilityChange = (availability: AvailabilitySlot[]) => {
+    setUserAvailability(availability);
+  };
 
   const fetchSeniorCenters = async () => {
     try {
@@ -164,7 +283,7 @@ const StudentDashboard = () => {
     }
   };
 
-  const handleCenterClick = (center: SeniorCenter) => {
+  const handleCenterClick = (center: SeniorCenterWithMatch) => {
     setSelectedCenter(center);
     fetchCenterDetails(center.id);
   };
@@ -226,8 +345,9 @@ const StudentDashboard = () => {
 
       <main className="max-w-7xl mx-auto px-6 py-8">
         <Tabs defaultValue="browse" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="browse">Browse Centers</TabsTrigger>
+            <TabsTrigger value="availability">Set My Availability</TabsTrigger>
             <TabsTrigger value="calendar">Calendar Booking</TabsTrigger>
             <TabsTrigger value="bookings">My Bookings</TabsTrigger>
             <TabsTrigger value="profile">My Profile</TabsTrigger>
@@ -239,31 +359,72 @@ const StudentDashboard = () => {
                 <CardTitle className="flex items-center space-x-2">
                   <MapPin className="h-5 w-5" />
                   <span>Senior Centers Near You</span>
+                  {userAvailability.length > 0 && (
+                    <Badge variant="secondary">
+                      Filtered by your availability
+                    </Badge>
+                  )}
                 </CardTitle>
-                <CardDescription>Browse local senior centers and their residents</CardDescription>
+                <CardDescription>
+                  {userAvailability.length > 0 
+                    ? "Showing opportunities that match your available times"
+                    : "Browse local senior centers and their residents - set your availability to see personalized matches"
+                  }
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {seniorCenters.map((center) => (
-                    <Card key={center.id} className="hover:shadow-elegant transition-shadow">
-                      <CardHeader>
-                        <CardTitle>{center.name}</CardTitle>
-                        <CardDescription className="flex items-center space-x-1">
-                          <MapPin className="h-4 w-4" />
-                          <span>{center.full_address}</span>
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-3">
-                          <Badge variant="secondary">3 seniors available</Badge>
-                          <Button className="w-full" onClick={() => handleCenterClick(center)}>
-                            View Seniors & Times
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+                {filteredCenters.length === 0 && userAvailability.length > 0 ? (
+                  <div className="text-center py-12">
+                    <div className="max-w-md mx-auto">
+                      <h3 className="text-lg font-medium mb-2">No matching opportunities found</h3>
+                      <p className="text-muted-foreground mb-4">
+                        No senior centers have time slots that match your current availability.
+                        Try adjusting your available hours or check back later for new opportunities.
+                      </p>
+                      <Button variant="outline" onClick={() => setUserAvailability([])}>
+                        Show All Centers
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredCenters.map((center) => (
+                      <Card key={center.id} className="hover:shadow-elegant transition-shadow">
+                        <CardHeader>
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <CardTitle>{center.name}</CardTitle>
+                              <CardDescription className="flex items-center space-x-1">
+                                <MapPin className="h-4 w-4" />
+                                <span>{center.full_address}</span>
+                              </CardDescription>
+                            </div>
+                            {center.matchPercentage !== undefined && center.matchPercentage > 0 && (
+                              <Badge variant="default" className="ml-2">
+                                {center.matchPercentage}% match
+                              </Badge>
+                            )}
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                              <Badge variant="secondary">3 seniors available</Badge>
+                              {center.availableSlots !== undefined && center.availableSlots > 0 && (
+                                <Badge variant="outline">
+                                  {center.availableSlots} matching slots
+                                </Badge>
+                              )}
+                            </div>
+                            <Button className="w-full" onClick={() => handleCenterClick(center)}>
+                              View Seniors & Times
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
 
                 {selectedCenter && (
                   <div className="mt-8">
@@ -273,6 +434,11 @@ const StudentDashboard = () => {
                         Back to Centers
                       </Button>
                       <h2 className="text-2xl font-bold">{selectedCenter.name}</h2>
+                      {selectedCenter.matchPercentage !== undefined && selectedCenter.matchPercentage > 0 && (
+                        <Badge variant="default">
+                          {selectedCenter.matchPercentage}% match with your availability
+                        </Badge>
+                      )}
                     </div>
                     
                     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -303,20 +469,40 @@ const StudentDashboard = () => {
                                 <p className="text-sm font-medium mb-2">Available Times:</p>
                                 {seniorTimeSlots.length > 0 ? (
                                   <div className="space-y-2">
-                                    {seniorTimeSlots.map((slot) => (
-                                      <div key={slot.id} className="flex items-center justify-between p-2 border rounded">
-                                        <div className="flex items-center space-x-2">
-                                          <Clock className="h-4 w-4 text-muted-foreground" />
-                                          <div>
-                                            <p className="text-sm font-medium">{formatDate(slot.available_date)}</p>
-                                            <p className="text-xs text-muted-foreground">{formatTime(slot.start_time)} - {formatTime(slot.end_time)}</p>
+                                    {seniorTimeSlots.map((slot) => {
+                                      // Check if this slot matches user availability
+                                      const slotDate = new Date(slot.available_date);
+                                      const dayOfWeek = slotDate.getDay();
+                                      const slotStartHour = parseInt(slot.start_time.split(':')[0]);
+                                      const slotEndHour = parseInt(slot.end_time.split(':')[0]);
+                                      
+                                      const isMatchingSlot = userAvailability.some(availability => {
+                                        if (availability.dayOfWeek !== dayOfWeek) return false;
+                                        const availStartHour = parseInt(availability.startTime.split(':')[0]);
+                                        const availEndHour = parseInt(availability.endTime.split(':')[0]);
+                                        return (slotStartHour >= availStartHour && slotStartHour < availEndHour) ||
+                                               (slotEndHour > availStartHour && slotEndHour <= availEndHour) ||
+                                               (slotStartHour <= availStartHour && slotEndHour >= availEndHour);
+                                      });
+
+                                      return (
+                                        <div key={slot.id} className={`flex items-center justify-between p-2 border rounded ${isMatchingSlot ? 'border-primary bg-primary/5' : ''}`}>
+                                          <div className="flex items-center space-x-2">
+                                            <Clock className="h-4 w-4 text-muted-foreground" />
+                                            <div>
+                                              <p className="text-sm font-medium">{formatDate(slot.available_date)}</p>
+                                              <p className="text-xs text-muted-foreground">{formatTime(slot.start_time)} - {formatTime(slot.end_time)}</p>
+                                              {isMatchingSlot && userAvailability.length > 0 && (
+                                                <Badge variant="outline" className="text-xs mt-1">Matches your availability</Badge>
+                                              )}
+                                            </div>
                                           </div>
+                                          <Button size="sm" disabled={slot.is_booked} onClick={() => handleBookTimeSlot(slot, senior)}>
+                                            {slot.is_booked ? 'Requested' : 'Request'}
+                                          </Button>
                                         </div>
-                                        <Button size="sm" disabled={slot.is_booked} onClick={() => handleBookTimeSlot(slot, senior)}>
-                                          {slot.is_booked ? 'Requested' : 'Request'}
-                                        </Button>
-                                      </div>
-                                    ))}
+                                      );
+                                    })}
                                   </div>
                                 ) : (
                                   <p className="text-sm text-muted-foreground">No available time slots</p>
@@ -331,6 +517,31 @@ const StudentDashboard = () => {
                 )}
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="availability">
+            {teenVolunteerId ? (
+              <AvailabilityCalendar
+                teenVolunteerId={teenVolunteerId}
+                onAvailabilityChange={handleAvailabilityChange}
+              />
+            ) : (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Settings className="h-5 w-5" />
+                    <span>Set My Availability</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-center py-8">
+                    <p className="text-muted-foreground">
+                      Please complete your volunteer profile to set your availability.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
 
           <TabsContent value="calendar">
