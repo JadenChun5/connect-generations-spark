@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useProfileCompletion } from "@/hooks/useProfileCompletion";
 
 interface StudentProfileData {
   first_name: string;
@@ -36,6 +37,7 @@ interface TeenVolunteerData {
 
 const StudentProfile = () => {
   const { user, profile: authProfile } = useAuth();
+  const { markProfileComplete } = useProfileCompletion();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [newInterest, setNewInterest] = useState("");
@@ -187,8 +189,14 @@ const StudentProfile = () => {
 
       setProfile(editedProfile);
       setIsEditing(false);
-      setIsFirstTimeSetup(false);
-      toast.success(isFirstTimeSetup ? "Profile created successfully! Welcome!" : "Profile updated successfully!");
+      
+      if (isFirstTimeSetup) {
+        setIsFirstTimeSetup(false);
+        markProfileComplete();
+        toast.success("🎉 Profile completed successfully! You now have full access to all features!", { duration: 5000 });
+      } else {
+        toast.success("Profile updated successfully!");
+      }
     } catch (error) {
       console.error('Error saving profile:', error);
       toast.error('Failed to save profile. Please try again.');

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users2, Calendar, UserPlus, Clock, CheckCircle, XCircle, Settings, FileText, Edit, Shield } from "lucide-react";
+import { Users2, Calendar, UserPlus, Clock, CheckCircle, XCircle, Settings, FileText, Edit, Shield, AlertCircle } from "lucide-react";
 import { AddSeniorDialog } from "@/components/AddSeniorDialog";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -13,6 +13,9 @@ import VisitHistory from "@/components/VisitHistory";
 import CenterSettings from "@/components/CenterSettings";
 import { RequirementsManagement } from "@/components/RequirementsManagement";
 import { RealtimeNotifications } from "@/components/RealtimeNotifications";
+import { useProfileCompletion } from "@/hooks/useProfileCompletion";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import StaffProfile from "@/components/StaffProfile";
 
 interface Senior {
   id: string;
@@ -43,6 +46,7 @@ interface VolunteerRequest {
 
 const StaffDashboard = () => {
   const navigate = useNavigate();
+  const { isProfileComplete, loading: profileLoading } = useProfileCompletion();
   const [loading, setLoading] = useState(true);
   const [seniors, setSeniors] = useState<Senior[]>([]);
   const [requests, setRequests] = useState<VolunteerRequest[]>([]);
@@ -183,7 +187,7 @@ const StaffDashboard = () => {
     });
   };
 
-  if (loading) {
+  if (loading || profileLoading) {
     return (
       <div className="min-h-screen bg-gradient-subtle flex items-center justify-center">
         <div className="text-center">
@@ -219,7 +223,6 @@ const StaffDashboard = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardContent className="p-6">
@@ -270,14 +273,36 @@ const StaffDashboard = () => {
           </Card>
         </div>
 
-        <Tabs defaultValue="requests" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
-            <TabsTrigger value="requests">Requests</TabsTrigger>
-            <TabsTrigger value="seniors">Seniors</TabsTrigger>
-            <TabsTrigger value="schedule">Schedule</TabsTrigger>
-            <TabsTrigger value="requirements">Requirements</TabsTrigger>
-            <TabsTrigger value="history">History</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
+        {!isProfileComplete && (
+          <Alert className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              <strong>Complete Your Profile First!</strong> Please fill out your profile information to unlock all dashboard features and manage senior center operations.
+            </AlertDescription>
+          </Alert>
+        )}
+
+        <Tabs defaultValue={isProfileComplete ? "requests" : "profile"} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-7">
+            <TabsTrigger value="requests" disabled={!isProfileComplete}>
+              Requests
+            </TabsTrigger>
+            <TabsTrigger value="seniors" disabled={!isProfileComplete}>
+              Seniors
+            </TabsTrigger>
+            <TabsTrigger value="schedule" disabled={!isProfileComplete}>
+              Schedule
+            </TabsTrigger>
+            <TabsTrigger value="requirements" disabled={!isProfileComplete}>
+              Requirements
+            </TabsTrigger>
+            <TabsTrigger value="history" disabled={!isProfileComplete}>
+              History
+            </TabsTrigger>
+            <TabsTrigger value="settings" disabled={!isProfileComplete}>
+              Settings
+            </TabsTrigger>
+            <TabsTrigger value="profile">My Profile</TabsTrigger>
           </TabsList>
 
           <TabsContent value="requests">
@@ -466,6 +491,10 @@ const StaffDashboard = () => {
 
           <TabsContent value="settings">
             <CenterSettings />
+          </TabsContent>
+
+          <TabsContent value="profile">
+            <StaffProfile />
           </TabsContent>
         </Tabs>
       </main>

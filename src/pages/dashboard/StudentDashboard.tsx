@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MapPin, Clock, User, ArrowLeft, Calendar, BookOpen, UserCircle } from "lucide-react";
+import { MapPin, Clock, User, ArrowLeft, Calendar, BookOpen, UserCircle, AlertCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import CalendarBooking from "@/components/CalendarBooking";
@@ -13,6 +13,8 @@ import StudentProfile from "@/components/StudentProfile";
 import { AvailabilityCalendar } from "@/components/AvailabilityCalendar";
 import { RequirementsDisplay } from "@/components/RequirementsDisplay";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useProfileCompletion } from "@/hooks/useProfileCompletion";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface SeniorCenter {
   id: string;
@@ -55,6 +57,7 @@ interface SeniorCenterWithMatch extends SeniorCenter {
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
+  const { isProfileComplete, loading: profileLoading } = useProfileCompletion();
   const [seniorCenters, setSeniorCenters] = useState<SeniorCenter[]>([]);
   const [selectedCenter, setSelectedCenter] = useState<SeniorCenterWithMatch | null>(null);
   const [seniors, setSeniors] = useState<Senior[]>([]);
@@ -495,12 +498,12 @@ const StudentDashboard = () => {
     });
   };
 
-  if (loading) {
+  if (loading || profileLoading) {
     return (
       <div className="min-h-screen bg-gradient-subtle flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-2 text-muted-foreground">Loading...</p>
+          <p className="mt-2 text-muted-foreground">Loading dashboard...</p>
         </div>
       </div>
     );
@@ -524,12 +527,29 @@ const StudentDashboard = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8">
-        <Tabs defaultValue="browse" className="space-y-6">
+        {!isProfileComplete && (
+          <Alert className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              <strong>Complete Your Profile First!</strong> Please fill out your profile information to unlock all dashboard features and start volunteering.
+            </AlertDescription>
+          </Alert>
+        )}
+        
+        <Tabs defaultValue={isProfileComplete ? "browse" : "profile"} className="space-y-6">
           <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="browse">Browse Centers</TabsTrigger>
-            <TabsTrigger value="availability">Set My Availability</TabsTrigger>
-            <TabsTrigger value="calendar">Calendar Booking</TabsTrigger>
-            <TabsTrigger value="bookings">My Bookings</TabsTrigger>
+            <TabsTrigger value="browse" disabled={!isProfileComplete}>
+              Browse Centers
+            </TabsTrigger>
+            <TabsTrigger value="availability" disabled={!isProfileComplete}>
+              Set My Availability
+            </TabsTrigger>
+            <TabsTrigger value="calendar" disabled={!isProfileComplete}>
+              Calendar Booking
+            </TabsTrigger>
+            <TabsTrigger value="bookings" disabled={!isProfileComplete}>
+              My Bookings
+            </TabsTrigger>
             <TabsTrigger value="profile">My Profile</TabsTrigger>
           </TabsList>
 
