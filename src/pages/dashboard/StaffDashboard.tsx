@@ -12,6 +12,7 @@ import StaffTimeSlotManagement from "@/components/StaffTimeSlotManagement";
 import VisitHistory from "@/components/VisitHistory";
 import CenterSettings from "@/components/CenterSettings";
 import { RequirementsManagement } from "@/components/RequirementsManagement";
+import { RealtimeNotifications } from "@/components/RealtimeNotifications";
 
 interface Senior {
   id: string;
@@ -280,17 +281,20 @@ const StaffDashboard = () => {
           </TabsList>
 
           <TabsContent value="requests">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Clock className="h-5 w-5" />
-                  <span>Volunteer Requests</span>
-                </CardTitle>
-                <CardDescription>
-                  Review and approve volunteer requests from students
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
+            <div className="space-y-6">
+              <RealtimeNotifications onRequestAction={handleRequestAction} />
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Clock className="h-5 w-5" />
+                    <span>All Volunteer Requests</span>
+                  </CardTitle>
+                  <CardDescription>
+                    Review and approve volunteer requests from students
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
                 {requests.length === 0 ? (
                   <div className="text-center py-12">
                     <Clock className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
@@ -352,8 +356,9 @@ const StaffDashboard = () => {
                     ))}
                   </div>
                 )}
-              </CardContent>
-            </Card>
+               </CardContent>
+             </Card>
+            </div>
           </TabsContent>
 
           <TabsContent value="seniors">

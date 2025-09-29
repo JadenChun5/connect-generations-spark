@@ -420,14 +420,62 @@ const StudentDashboard = () => {
     fetchCenterDetails(center.id);
   };
 
-  const handleBookTimeSlot = (timeSlot: TimeSlot, senior: Senior) => {
-    // For demo, just show success message
-    toast.success(`Volunteer request sent for ${senior.first_name} ${senior.last_name}!`);
-    
-    // Mark the time slot as requested (in real app, this would create a pending request)
-    setTimeSlots(prev => prev.map(slot => 
-      slot.id === timeSlot.id ? { ...slot, is_booked: true } : slot
-    ));
+  const handleBookTimeSlot = async (timeSlot: TimeSlot, senior: Senior) => {
+    if (!requirementsAgreed) {
+      toast.error('Please agree to the requirements first');
+      return;
+    }
+
+    try {
+      // Create notification data
+      const notificationData = {
+        volunteerName: 'Demo Student', // In real app, get from user profile
+        volunteerEmail: 'demo.student@email.com',
+        volunteerPhone: '(555) 123-4567',
+        seniorName: `${senior.first_name} ${senior.last_name}`,
+        date: timeSlot.available_date,
+        startTime: timeSlot.start_time,
+        endTime: timeSlot.end_time,
+        activityType: 'General companionship'
+      };
+
+      // Send real-time notification to staff dashboard  
+      const channel = supabase.channel('volunteer-notifications');
+      await channel.send({
+        type: 'broadcast',
+        event: 'volunteer_request',
+        payload: notificationData
+      });
+
+      // Send email notification to senior center staff
+      const { error: emailError } = await supabase.functions.invoke('send-volunteer-request-email', {
+        body: {
+          ...notificationData,
+          seniorCenterName: selectedCenter?.name || 'Demo Senior Center',
+          seniorCenterEmail: 'staff@demosenior.center',
+          dashboardUrl: `${window.location.origin}/dashboard/staff`
+        }
+      });
+
+      if (emailError) {
+        console.error('Error sending email notification:', emailError);
+        // Don't fail the whole operation if email fails
+      }
+
+      // Mark the time slot as requested locally
+      setTimeSlots(prev => prev.map(slot => 
+        slot.id === timeSlot.id ? { ...slot, is_booked: true } : slot
+      ));
+
+      toast.success(
+        `Volunteer request sent for ${senior.first_name} ${senior.last_name}! The senior center will review your request and send a confirmation email.`,
+        { duration: 6000 }
+      );
+
+    } catch (error) {
+      console.error('Error submitting volunteer request:', error);
+      toast.error('Failed to submit volunteer request. Please try again.');
+    }
   };
 
   const formatDate = (dateString: string) => {
