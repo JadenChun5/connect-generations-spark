@@ -105,6 +105,8 @@ const StaffProfile = () => {
       if (isFirstTimeSetup) {
         setIsFirstTimeSetup(false);
         markProfileComplete();
+        // Force a re-render of the dashboard
+        window.dispatchEvent(new CustomEvent('profileCompleted'));
         toast.success("🎉 Profile completed successfully! You now have full access to all dashboard features!", { duration: 5000 });
       } else {
         toast.success("Profile updated successfully!");

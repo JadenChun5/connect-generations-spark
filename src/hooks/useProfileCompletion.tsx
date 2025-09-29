@@ -13,6 +13,18 @@ export const useProfileCompletion = () => {
     } else {
       setLoading(false);
     }
+
+    // Listen for profile completion events
+    const handleProfileCompleted = () => {
+      setTimeout(() => {
+        checkProfileCompletion();
+      }, 500);
+    };
+
+    window.addEventListener('profileCompleted', handleProfileCompleted);
+    return () => {
+      window.removeEventListener('profileCompleted', handleProfileCompleted);
+    };
   }, [authProfile]);
 
   const checkProfileCompletion = async () => {
@@ -86,6 +98,10 @@ export const useProfileCompletion = () => {
 
   const markProfileComplete = () => {
     setIsProfileComplete(true);
+    // Also recheck to ensure consistency
+    setTimeout(() => {
+      checkProfileCompletion();
+    }, 100);
   };
 
   return {

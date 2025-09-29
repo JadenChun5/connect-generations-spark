@@ -193,6 +193,8 @@ const StudentProfile = () => {
       if (isFirstTimeSetup) {
         setIsFirstTimeSetup(false);
         markProfileComplete();
+        // Force a re-render of the dashboard by updating the profile completion state
+        window.dispatchEvent(new CustomEvent('profileCompleted'));
         toast.success("🎉 Profile completed successfully! You now have full access to all features!", { duration: 5000 });
       } else {
         toast.success("Profile updated successfully!");

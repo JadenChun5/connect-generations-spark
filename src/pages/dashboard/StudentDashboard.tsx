@@ -22,7 +22,10 @@ interface SeniorCenter {
   address: string;
   city: string;
   state: string;
-  full_address: string;
+  zip_code?: string;
+  contact_email?: string;
+  contact_phone?: string;
+  full_address?: string;
 }
 
 interface Senior {
@@ -177,38 +180,23 @@ const StudentDashboard = () => {
 
   const fetchSeniorCenters = async () => {
     try {
-      // For demo, show sample centers
-      const demoSeniorCenters = [
-        {
-          id: 'center-1',
-          name: 'Sunrise Senior Center',
-          address: '123 Oak Street',
-          city: 'Springfield',
-          state: 'CA',
-          full_address: '123 Oak Street, Springfield, CA 90210'
-        },
-        {
-          id: 'center-2', 
-          name: 'Golden Years Community Center',
-          address: '456 Maple Avenue',
-          city: 'Riverside',
-          state: 'CA',
-          full_address: '456 Maple Avenue, Riverside, CA 92501'
-        },
-        {
-          id: 'center-3',
-          name: 'Peaceful Pines Senior Living',
-          address: '789 Pine Boulevard',
-          city: 'Lakewood',
-          state: 'CA', 
-          full_address: '789 Pine Boulevard, Lakewood, CA 90712'
-        }
-      ];
+      // Fetch real senior centers from Supabase
+      const { data: centers, error } = await supabase
+        .from('senior_centers')
+        .select('*')
+        .order('name');
 
-      setSeniorCenters(demoSeniorCenters);
+      if (error) {
+        console.error('Error fetching senior centers:', error);
+        // Show empty state instead of demo data
+        setSeniorCenters([]);
+      } else {
+        setSeniorCenters(centers || []);
+      }
       setLoading(false);
     } catch (error) {
       console.error('Error fetching senior centers:', error);
+      setSeniorCenters([]);
       setLoading(false);
     }
   };
@@ -217,202 +205,67 @@ const StudentDashboard = () => {
     try {
       setLoading(true);
       
-      // Create different seniors for each center
-      const seniorsByCenter = {
-        'center-1': [
-          {
-            id: 'senior-1-1',
-            first_name: 'Dorothy',
-            last_name: 'Johnson',
-            age: 78,
-            bio: 'Former teacher who loves reading and crossword puzzles',
-            interests: ['Reading', 'Puzzles', 'Gardening']
-          },
-          {
-            id: 'senior-1-2',
-            first_name: 'Harold', 
-            last_name: 'Thompson',
-            age: 81,
-            bio: 'Retired librarian with a passion for classic literature and poetry',
-            interests: ['Literature', 'Poetry', 'Classical Music']
-          },
-          {
-            id: 'senior-1-3',
-            first_name: 'Ruth',
-            last_name: 'Williams',
-            age: 76,
-            bio: 'Former nurse who enjoys knitting and sharing medical wisdom',
-            interests: ['Knitting', 'Healthcare', 'Volunteering']
-          }
-        ],
-        'center-2': [
-          {
-            id: 'senior-2-1',
-            first_name: 'Robert', 
-            last_name: 'Miller',
-            age: 82,
-            bio: 'Retired engineer with a passion for chess and woodworking',
-            interests: ['Chess', 'Woodworking', 'History']
-          },
-          {
-            id: 'senior-2-2',
-            first_name: 'Eleanor',
-            last_name: 'Rodriguez',
-            age: 79,
-            bio: 'Former art teacher who loves painting and discussing creativity',
-            interests: ['Painting', 'Art History', 'Teaching']
-          },
-          {
-            id: 'senior-2-3',
-            first_name: 'Frank',
-            last_name: 'Chen',
-            age: 84,
-            bio: 'Retired chef who enjoys cooking stories and food traditions',
-            interests: ['Cooking', 'Cultural Heritage', 'Storytelling']
-          }
-        ],
-        'center-3': [
-          {
-            id: 'senior-3-1',
-            first_name: 'Margaret',
-            last_name: 'Davis',
-            age: 75,
-            bio: 'Loves music and has many stories to share about her travels',
-            interests: ['Music', 'Travel', 'Photography']
-          },
-          {
-            id: 'senior-3-2',
-            first_name: 'William',
-            last_name: 'Anderson',
-            age: 80,
-            bio: 'Former mechanic who enjoys discussing cars and sharing repair wisdom',
-            interests: ['Automobiles', 'Mechanics', 'Problem Solving']
-          },
-          {
-            id: 'senior-3-3',
-            first_name: 'Betty',
-            last_name: 'Garcia',
-            age: 77,
-            bio: 'Retired social worker with a love for community service and helping others',
-            interests: ['Community Service', 'Social Work', 'Counseling']
-          }
-        ]
-      };
+      // Fetch real seniors from the selected center
+      const { data: seniorsData, error: seniorsError } = await supabase
+        .from('seniors')
+        .select('*')
+        .eq('senior_center_id', centerId)
+        .order('first_name');
 
-      // Create time slots specific to each center's seniors
-      const timeSlotsByCenter = {
-        'center-1': [
-          {
-            id: 'slot-1-1',
-            senior_id: 'senior-1-1',
-            available_date: '2025-01-15',
-            start_time: '14:00',
-            end_time: '16:00',
-            is_booked: false
-          },
-          {
-            id: 'slot-1-2', 
-            senior_id: 'senior-1-1',
-            available_date: '2025-01-17',
-            start_time: '10:00',
-            end_time: '12:00',
-            is_booked: false
-          },
-          {
-            id: 'slot-1-3',
-            senior_id: 'senior-1-2',
-            available_date: '2025-01-16',
-            start_time: '15:00',
-            end_time: '17:00',
-            is_booked: false
-          },
-          {
-            id: 'slot-1-4',
-            senior_id: 'senior-1-3',
-            available_date: '2025-01-18',
-            start_time: '13:00',
-            end_time: '15:00',
-            is_booked: false
-          }
-        ],
-        'center-2': [
-          {
-            id: 'slot-2-1',
-            senior_id: 'senior-2-1',
-            available_date: '2025-01-15',
-            start_time: '09:00',
-            end_time: '11:00',
-            is_booked: false
-          },
-          {
-            id: 'slot-2-2',
-            senior_id: 'senior-2-1',
-            available_date: '2025-01-19',
-            start_time: '16:00',
-            end_time: '18:00',
-            is_booked: false
-          },
-          {
-            id: 'slot-2-3',
-            senior_id: 'senior-2-2',
-            available_date: '2025-01-16',
-            start_time: '11:00',
-            end_time: '13:00',
-            is_booked: false
-          },
-          {
-            id: 'slot-2-4',
-            senior_id: 'senior-2-3',
-            available_date: '2025-01-20',
-            start_time: '14:00',
-            end_time: '16:00',
-            is_booked: false
-          }
-        ],
-        'center-3': [
-          {
-            id: 'slot-3-1',
-            senior_id: 'senior-3-1',
-            available_date: '2025-01-17',
-            start_time: '10:00',
-            end_time: '12:00',
-            is_booked: false
-          },
-          {
-            id: 'slot-3-2',
-            senior_id: 'senior-3-1',
-            available_date: '2025-01-21',
-            start_time: '15:00',
-            end_time: '17:00',
-            is_booked: false
-          },
-          {
-            id: 'slot-3-3',
-            senior_id: 'senior-3-2',
-            available_date: '2025-01-18',
-            start_time: '09:00',
-            end_time: '11:00',
-            is_booked: false
-          },
-          {
-            id: 'slot-3-4',
-            senior_id: 'senior-3-3',
-            available_date: '2025-01-19',
-            start_time: '13:00',
-            end_time: '15:00',
-            is_booked: false
-          }
-        ]
-      };
+      if (seniorsError) {
+        console.error('Error fetching seniors:', seniorsError);
+        setSeniors([]);
+      } else {
+        setSeniors(seniorsData || []);
+      }
 
-      const demoSeniors = seniorsByCenter[centerId as keyof typeof seniorsByCenter] || seniorsByCenter['center-1'];
-      const demoTimeSlots = timeSlotsByCenter[centerId as keyof typeof timeSlotsByCenter] || timeSlotsByCenter['center-1'];
+      // Fetch available time slots for these seniors
+      const { data: timeSlotsData, error: timeSlotsError } = await supabase
+        .from('senior_time_slots')
+        .select(`
+          id,
+          day_of_week,
+          start_time,
+          end_time,
+          is_available,
+          senior_id,
+          seniors!inner(senior_center_id)
+        `)
+        .eq('seniors.senior_center_id', centerId)
+        .eq('is_available', true)
+        .order('day_of_week')
+        .order('start_time');
 
-      setSeniors(demoSeniors);
-      setTimeSlots(demoTimeSlots);
+      if (timeSlotsError) {
+        console.error('Error fetching time slots:', timeSlotsError);
+        setTimeSlots([]);
+      } else {
+        // Convert the time slots to the expected format
+        const convertedTimeSlots = (timeSlotsData || []).map(slot => {
+          // Convert day_of_week to a future date
+          const today = new Date();
+          const daysUntilSlot = (slot.day_of_week - today.getDay() + 7) % 7;
+          const slotDate = new Date(today);
+          slotDate.setDate(today.getDate() + daysUntilSlot);
+          
+          return {
+            id: slot.id,
+            senior_id: slot.senior_id,
+            available_date: slotDate.toISOString().split('T')[0],
+            start_time: slot.start_time,
+            end_time: slot.end_time,
+            is_booked: false
+          };
+        });
+        
+        setTimeSlots(convertedTimeSlots);
+      }
+      
       setLoading(false);
     } catch (error) {
       console.error('Error fetching center details:', error);
+      setSeniors([]);
+      setTimeSlots([]);
       setLoading(false);
     }
   };
@@ -430,11 +283,19 @@ const StudentDashboard = () => {
     }
 
     try {
-      // Create notification data
+      // Get current user profile data
+      const { data: { user } } = await supabase.auth.getUser();
+      const { data: userProfile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', user?.id)
+        .single();
+
+      // Create notification data with real user info
       const notificationData = {
-        volunteerName: 'Demo Student', // In real app, get from user profile
-        volunteerEmail: 'demo.student@email.com',
-        volunteerPhone: '(555) 123-4567',
+        volunteerName: userProfile ? `${userProfile.first_name} ${userProfile.last_name}` : 'Volunteer',
+        volunteerEmail: userProfile?.email || '',
+        volunteerPhone: userProfile?.phone || '',
         seniorName: `${senior.first_name} ${senior.last_name}`,
         date: timeSlot.available_date,
         startTime: timeSlot.start_time,
@@ -454,8 +315,8 @@ const StudentDashboard = () => {
       const { error: emailError } = await supabase.functions.invoke('send-volunteer-request-email', {
         body: {
           ...notificationData,
-          seniorCenterName: selectedCenter?.name || 'Demo Senior Center',
-          seniorCenterEmail: 'staff@demosenior.center',
+          seniorCenterName: selectedCenter?.name || 'Senior Center',
+          seniorCenterEmail: selectedCenter?.contact_email || 'info@seniorcenter.org',
           dashboardUrl: `${window.location.origin}/dashboard/staff`
         }
       });
