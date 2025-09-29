@@ -211,68 +211,196 @@ const StudentDashboard = () => {
     try {
       setLoading(true);
       
-      // Demo data for seniors and time slots
-      const demoSeniors = [
-        {
-          id: 'senior-1',
-          first_name: 'Dorothy',
-          last_name: 'Johnson',
-          age: 78,
-          bio: 'Former teacher who loves reading and crossword puzzles',
-          interests: ['Reading', 'Puzzles', 'Gardening']
-        },
-        {
-          id: 'senior-2',
-          first_name: 'Robert', 
-          last_name: 'Miller',
-          age: 82,
-          bio: 'Retired engineer with a passion for chess and woodworking',
-          interests: ['Chess', 'Woodworking', 'History']
-        },
-        {
-          id: 'senior-3',
-          first_name: 'Margaret',
-          last_name: 'Davis',
-          age: 75,
-          bio: 'Loves music and has many stories to share about her travels',
-          interests: ['Music', 'Travel', 'Cooking']
-        }
-      ];
+      // Create different seniors for each center
+      const seniorsByCenter = {
+        'center-1': [
+          {
+            id: 'senior-1-1',
+            first_name: 'Dorothy',
+            last_name: 'Johnson',
+            age: 78,
+            bio: 'Former teacher who loves reading and crossword puzzles',
+            interests: ['Reading', 'Puzzles', 'Gardening']
+          },
+          {
+            id: 'senior-1-2',
+            first_name: 'Harold', 
+            last_name: 'Thompson',
+            age: 81,
+            bio: 'Retired librarian with a passion for classic literature and poetry',
+            interests: ['Literature', 'Poetry', 'Classical Music']
+          },
+          {
+            id: 'senior-1-3',
+            first_name: 'Ruth',
+            last_name: 'Williams',
+            age: 76,
+            bio: 'Former nurse who enjoys knitting and sharing medical wisdom',
+            interests: ['Knitting', 'Healthcare', 'Volunteering']
+          }
+        ],
+        'center-2': [
+          {
+            id: 'senior-2-1',
+            first_name: 'Robert', 
+            last_name: 'Miller',
+            age: 82,
+            bio: 'Retired engineer with a passion for chess and woodworking',
+            interests: ['Chess', 'Woodworking', 'History']
+          },
+          {
+            id: 'senior-2-2',
+            first_name: 'Eleanor',
+            last_name: 'Rodriguez',
+            age: 79,
+            bio: 'Former art teacher who loves painting and discussing creativity',
+            interests: ['Painting', 'Art History', 'Teaching']
+          },
+          {
+            id: 'senior-2-3',
+            first_name: 'Frank',
+            last_name: 'Chen',
+            age: 84,
+            bio: 'Retired chef who enjoys cooking stories and food traditions',
+            interests: ['Cooking', 'Cultural Heritage', 'Storytelling']
+          }
+        ],
+        'center-3': [
+          {
+            id: 'senior-3-1',
+            first_name: 'Margaret',
+            last_name: 'Davis',
+            age: 75,
+            bio: 'Loves music and has many stories to share about her travels',
+            interests: ['Music', 'Travel', 'Photography']
+          },
+          {
+            id: 'senior-3-2',
+            first_name: 'William',
+            last_name: 'Anderson',
+            age: 80,
+            bio: 'Former mechanic who enjoys discussing cars and sharing repair wisdom',
+            interests: ['Automobiles', 'Mechanics', 'Problem Solving']
+          },
+          {
+            id: 'senior-3-3',
+            first_name: 'Betty',
+            last_name: 'Garcia',
+            age: 77,
+            bio: 'Retired social worker with a love for community service and helping others',
+            interests: ['Community Service', 'Social Work', 'Counseling']
+          }
+        ]
+      };
 
-      const demoTimeSlots = [
-        {
-          id: 'slot-1',
-          senior_id: 'senior-1',
-          available_date: '2025-01-15',
-          start_time: '14:00',
-          end_time: '16:00',
-          is_booked: false
-        },
-        {
-          id: 'slot-2', 
-          senior_id: 'senior-1',
-          available_date: '2025-01-17',
-          start_time: '10:00',
-          end_time: '12:00',
-          is_booked: false
-        },
-        {
-          id: 'slot-3',
-          senior_id: 'senior-2',
-          available_date: '2025-01-16',
-          start_time: '15:00',
-          end_time: '17:00',
-          is_booked: false
-        },
-        {
-          id: 'slot-4',
-          senior_id: 'senior-3',
-          available_date: '2025-01-18',
-          start_time: '13:00',
-          end_time: '15:00',
-          is_booked: false
-        }
-      ];
+      // Create time slots specific to each center's seniors
+      const timeSlotsByCenter = {
+        'center-1': [
+          {
+            id: 'slot-1-1',
+            senior_id: 'senior-1-1',
+            available_date: '2025-01-15',
+            start_time: '14:00',
+            end_time: '16:00',
+            is_booked: false
+          },
+          {
+            id: 'slot-1-2', 
+            senior_id: 'senior-1-1',
+            available_date: '2025-01-17',
+            start_time: '10:00',
+            end_time: '12:00',
+            is_booked: false
+          },
+          {
+            id: 'slot-1-3',
+            senior_id: 'senior-1-2',
+            available_date: '2025-01-16',
+            start_time: '15:00',
+            end_time: '17:00',
+            is_booked: false
+          },
+          {
+            id: 'slot-1-4',
+            senior_id: 'senior-1-3',
+            available_date: '2025-01-18',
+            start_time: '13:00',
+            end_time: '15:00',
+            is_booked: false
+          }
+        ],
+        'center-2': [
+          {
+            id: 'slot-2-1',
+            senior_id: 'senior-2-1',
+            available_date: '2025-01-15',
+            start_time: '09:00',
+            end_time: '11:00',
+            is_booked: false
+          },
+          {
+            id: 'slot-2-2',
+            senior_id: 'senior-2-1',
+            available_date: '2025-01-19',
+            start_time: '16:00',
+            end_time: '18:00',
+            is_booked: false
+          },
+          {
+            id: 'slot-2-3',
+            senior_id: 'senior-2-2',
+            available_date: '2025-01-16',
+            start_time: '11:00',
+            end_time: '13:00',
+            is_booked: false
+          },
+          {
+            id: 'slot-2-4',
+            senior_id: 'senior-2-3',
+            available_date: '2025-01-20',
+            start_time: '14:00',
+            end_time: '16:00',
+            is_booked: false
+          }
+        ],
+        'center-3': [
+          {
+            id: 'slot-3-1',
+            senior_id: 'senior-3-1',
+            available_date: '2025-01-17',
+            start_time: '10:00',
+            end_time: '12:00',
+            is_booked: false
+          },
+          {
+            id: 'slot-3-2',
+            senior_id: 'senior-3-1',
+            available_date: '2025-01-21',
+            start_time: '15:00',
+            end_time: '17:00',
+            is_booked: false
+          },
+          {
+            id: 'slot-3-3',
+            senior_id: 'senior-3-2',
+            available_date: '2025-01-18',
+            start_time: '09:00',
+            end_time: '11:00',
+            is_booked: false
+          },
+          {
+            id: 'slot-3-4',
+            senior_id: 'senior-3-3',
+            available_date: '2025-01-19',
+            start_time: '13:00',
+            end_time: '15:00',
+            is_booked: false
+          }
+        ]
+      };
+
+      const demoSeniors = seniorsByCenter[centerId as keyof typeof seniorsByCenter] || seniorsByCenter['center-1'];
+      const demoTimeSlots = timeSlotsByCenter[centerId as keyof typeof timeSlotsByCenter] || timeSlotsByCenter['center-1'];
 
       setSeniors(demoSeniors);
       setTimeSlots(demoTimeSlots);
