@@ -4,13 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users2, Calendar, UserPlus, Clock, CheckCircle, XCircle, Settings, FileText, Edit } from "lucide-react";
+import { Users2, Calendar, UserPlus, Clock, CheckCircle, XCircle, Settings, FileText, Edit, Shield } from "lucide-react";
 import { AddSeniorDialog } from "@/components/AddSeniorDialog";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import StaffTimeSlotManagement from "@/components/StaffTimeSlotManagement";
 import VisitHistory from "@/components/VisitHistory";
 import CenterSettings from "@/components/CenterSettings";
+import { RequirementsManagement } from "@/components/RequirementsManagement";
 
 interface Senior {
   id: string;
@@ -269,10 +270,11 @@ const StaffDashboard = () => {
         </div>
 
         <Tabs defaultValue="requests" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="requests">Requests</TabsTrigger>
             <TabsTrigger value="seniors">Seniors</TabsTrigger>
             <TabsTrigger value="schedule">Schedule</TabsTrigger>
+            <TabsTrigger value="requirements">Requirements</TabsTrigger>
             <TabsTrigger value="history">History</TabsTrigger>
             <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
@@ -447,6 +449,10 @@ const StaffDashboard = () => {
 
           <TabsContent value="schedule">
             <StaffTimeSlotManagement seniors={seniors} />
+          </TabsContent>
+
+          <TabsContent value="requirements">
+            <RequirementsManagement seniorCenterId="demo-senior-center-id" />
           </TabsContent>
 
           <TabsContent value="history">

@@ -253,6 +253,39 @@ export type Database = {
         }
         Relationships: []
       }
+      senior_center_requirements: {
+        Row: {
+          created_at: string
+          dress_code: string | null
+          general_expectations: string | null
+          health_requirements: string | null
+          id: string
+          safety_notes: string | null
+          senior_center_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          dress_code?: string | null
+          general_expectations?: string | null
+          health_requirements?: string | null
+          id?: string
+          safety_notes?: string | null
+          senior_center_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          dress_code?: string | null
+          general_expectations?: string | null
+          health_requirements?: string | null
+          id?: string
+          safety_notes?: string | null
+          senior_center_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       senior_centers: {
         Row: {
           address: string

@@ -11,6 +11,8 @@ import CalendarBooking from "@/components/CalendarBooking";
 import MyBookings from "@/components/MyBookings";
 import StudentProfile from "@/components/StudentProfile";
 import { AvailabilityCalendar } from "@/components/AvailabilityCalendar";
+import { RequirementsDisplay } from "@/components/RequirementsDisplay";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface SeniorCenter {
   id: string;
@@ -61,6 +63,7 @@ const StudentDashboard = () => {
   const [userAvailability, setUserAvailability] = useState<AvailabilitySlot[]>([]);
   const [teenVolunteerId, setTeenVolunteerId] = useState<string | null>(null);
   const [filteredCenters, setFilteredCenters] = useState<SeniorCenterWithMatch[]>([]);
+  const [requirementsAgreed, setRequirementsAgreed] = useState(false);
 
   useEffect(() => {
     fetchSeniorCenters();
@@ -413,6 +416,7 @@ const StudentDashboard = () => {
 
   const handleCenterClick = (center: SeniorCenterWithMatch) => {
     setSelectedCenter(center);
+    setRequirementsAgreed(false); // Reset agreement for new center
     fetchCenterDetails(center.id);
   };
 
@@ -568,6 +572,33 @@ const StudentDashboard = () => {
                         </Badge>
                       )}
                     </div>
+
+                    {/* Requirements Display */}
+                    <div className="mb-8">
+                      <RequirementsDisplay centerName={selectedCenter.name} />
+                    </div>
+
+                    {/* Agreement Checkbox */}
+                    <div className="mb-6 p-4 border rounded-lg bg-muted/20">
+                      <div className="flex items-start space-x-3">
+                        <Checkbox 
+                          id="requirements-agreement"
+                          checked={requirementsAgreed}
+                          onCheckedChange={(checked) => setRequirementsAgreed(checked as boolean)}
+                        />
+                        <label 
+                          htmlFor="requirements-agreement" 
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                        >
+                          I understand and agree to meet all requirements listed above before volunteering at this senior center.
+                        </label>
+                      </div>
+                      {!requirementsAgreed && (
+                        <p className="text-xs text-muted-foreground mt-2 ml-6">
+                          You must agree to the requirements before you can request volunteer time slots.
+                        </p>
+                      )}
+                    </div>
                     
                     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                       {seniors.map((senior) => {
@@ -625,7 +656,12 @@ const StudentDashboard = () => {
                                               )}
                                             </div>
                                           </div>
-                                          <Button size="sm" disabled={slot.is_booked} onClick={() => handleBookTimeSlot(slot, senior)}>
+                                          <Button 
+                                            size="sm" 
+                                            disabled={slot.is_booked || !requirementsAgreed} 
+                                            onClick={() => handleBookTimeSlot(slot, senior)}
+                                            title={!requirementsAgreed ? "Please agree to requirements first" : ""}
+                                          >
                                             {slot.is_booked ? 'Requested' : 'Request'}
                                           </Button>
                                         </div>
