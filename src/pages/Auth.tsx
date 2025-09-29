@@ -65,7 +65,21 @@ const Auth = () => {
 
       if (data.user) {
         toast.success("Successfully logged in!");
-        // User will be redirected by the auth state change
+        
+        // Fetch user profile to determine dashboard redirect
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('user_id', data.user.id)
+          .single();
+
+        if (profile?.role === 'teen_volunteer') {
+          navigate('/dashboard/student');
+        } else if (profile?.role === 'senior_center_admin') {
+          navigate('/dashboard/staff');
+        } else {
+          navigate('/');
+        }
       }
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -115,8 +129,17 @@ const Auth = () => {
       }
 
       if (data.user) {
-        toast.success("Account created successfully! Please check your email to verify your account.");
-        navigate('/');
+        // Success message and direct navigation to dashboard
+        toast.success("Account created successfully! Complete your profile to get started.");
+        
+        // Navigate directly to role-specific dashboard
+        if (selectedRole === 'teen_volunteer') {
+          navigate('/dashboard/student');
+        } else if (selectedRole === 'senior_center_admin') {
+          navigate('/dashboard/staff');
+        } else {
+          navigate('/');
+        }
       }
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -208,16 +231,17 @@ const Auth = () => {
           </div>
 
           {/* Login Link */}
-          <div className="text-center mt-8">
-            <p className="text-muted-foreground">
-              Already have an account?{" "}
-              <button 
-                onClick={() => setMode('login')}
-                className="text-primary hover:text-primary/80 font-medium transition-smooth"
-              >
-                Sign in here
-              </button>
+          <div className="text-center mt-8 pt-6 border-t">
+            <p className="text-muted-foreground mb-3">
+              Already have an account?
             </p>
+            <Button 
+              variant="outline" 
+              onClick={() => setMode('login')}
+              className="min-w-[120px]"
+            >
+              Sign In
+            </Button>
           </div>
         </div>
       </div>
@@ -307,25 +331,33 @@ const Auth = () => {
 
           <div className="mt-6 text-center">
             {mode === 'login' ? (
-              <p className="text-muted-foreground text-sm">
-                Don't have an account?{" "}
-                <button 
+              <div>
+                <p className="text-muted-foreground text-sm mb-3">
+                  Don't have an account?
+                </p>
+                <Button 
+                  type="button"
+                  variant="outline" 
                   onClick={() => setMode('role-select')}
-                  className="text-primary hover:text-primary/80 font-medium transition-smooth"
+                  className="min-w-[120px]"
                 >
-                  Sign up here
-                </button>
-              </p>
+                  Sign Up
+                </Button>
+              </div>
             ) : (
-              <p className="text-muted-foreground text-sm">
-                Already have an account?{" "}
-                <button 
+              <div>
+                <p className="text-muted-foreground text-sm mb-3">
+                  Already have an account?
+                </p>
+                <Button 
+                  type="button"
+                  variant="outline" 
                   onClick={() => setMode('login')}
-                  className="text-primary hover:text-primary/80 font-medium transition-smooth"
+                  className="min-w-[120px]"
                 >
-                  Sign in here
-                </button>
-              </p>
+                  Sign In
+                </Button>
+              </div>
             )}
           </div>
         </CardContent>
