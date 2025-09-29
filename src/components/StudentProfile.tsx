@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { User, Mail, Phone, GraduationCap, Heart, Plus, X } from "lucide-react";
+import { User, Mail, Phone, GraduationCap, Heart, Plus, X, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface StudentProfileData {
   first_name: string;
@@ -20,30 +23,176 @@ interface StudentProfileData {
   preferred_activities: string[];
 }
 
+interface TeenVolunteerData {
+  id?: string;
+  profile_id: string;
+  school_id?: string;
+  grade_level?: number;
+  parent_email?: string;
+  parent_phone?: string;
+  interests?: string[];
+  total_hours?: number;
+}
+
 const StudentProfile = () => {
+  const { user, profile: authProfile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [newInterest, setNewInterest] = useState("");
   const [newActivity, setNewActivity] = useState("");
+  const [isFirstTimeSetup, setIsFirstTimeSetup] = useState(false);
   
   const [profile, setProfile] = useState<StudentProfileData>({
-    first_name: "Alex",
-    last_name: "Student", 
-    email: "alex.student@email.com",
-    phone: "(555) 123-4567",
-    school: "Springfield High School",
-    grade: "11th Grade",
-    bio: "I'm passionate about helping seniors and learning from their life experiences. I enjoy reading, playing chess, and gardening.",
-    interests: ["Reading", "Chess", "Gardening", "History", "Music"],
-    volunteer_hours: 24,
-    preferred_activities: ["Reading together", "Playing games", "Listening to stories", "Light gardening", "Technology help"]
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    school: "",
+    grade: "",
+    bio: "",
+    interests: [],
+    volunteer_hours: 0,
+    preferred_activities: []
   });
 
   const [editedProfile, setEditedProfile] = useState<StudentProfileData>(profile);
+  const [teenVolunteerData, setTeenVolunteerData] = useState<TeenVolunteerData | null>(null);
 
-  const handleSave = () => {
-    setProfile(editedProfile);
-    setIsEditing(false);
-    toast.success("Profile updated successfully!");
+  useEffect(() => {
+    if (authProfile) {
+      fetchProfileData();
+    }
+  }, [authProfile]);
+
+  const fetchProfileData = async () => {
+    if (!authProfile) return;
+
+    try {
+      setLoading(true);
+      
+      // Fetch full profile data from profiles table
+      const { data: fullProfile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', authProfile.id)
+        .single();
+
+      // Fetch teen volunteer data
+      const { data: teenData } = await supabase
+        .from('teen_volunteers')
+        .select('*')
+        .eq('profile_id', authProfile.id)
+        .single();
+
+      if (teenData) {
+        setTeenVolunteerData(teenData);
+        
+        // Combine full profile with teen volunteer data
+        const combinedProfile: StudentProfileData = {
+          first_name: fullProfile?.first_name || "",
+          last_name: fullProfile?.last_name || "",
+          email: fullProfile?.email || "",
+          phone: fullProfile?.phone || "",
+          school: "", // Will be populated from school data if needed
+          grade: teenData.grade_level ? `${teenData.grade_level}th Grade` : "",
+          bio: fullProfile?.bio || "",
+          interests: teenData.interests || [],
+          volunteer_hours: Number(teenData.total_hours) || 0,
+          preferred_activities: [] // Will be populated from other data if available
+        };
+
+        setProfile(combinedProfile);
+        setEditedProfile(combinedProfile);
+        
+        // Check if this is first time setup
+        const isIncomplete = !combinedProfile.first_name || !combinedProfile.last_name || 
+                            !combinedProfile.phone || !combinedProfile.bio || 
+                            combinedProfile.interests.length === 0;
+        setIsFirstTimeSetup(isIncomplete);
+        if (isIncomplete) {
+          setIsEditing(true);
+        }
+      } else {
+        // No teen volunteer data exists, create initial profile from full profile data
+        const initialProfile: StudentProfileData = {
+          first_name: fullProfile?.first_name || "",
+          last_name: fullProfile?.last_name || "",
+          email: fullProfile?.email || "",
+          phone: fullProfile?.phone || "",
+          school: "",
+          grade: "",
+          bio: fullProfile?.bio || "",
+          interests: [],
+          volunteer_hours: 0,
+          preferred_activities: []
+        };
+
+        setProfile(initialProfile);
+        setEditedProfile(initialProfile);
+        setIsFirstTimeSetup(true);
+        setIsEditing(true);
+      }
+    } catch (error) {
+      console.error('Error fetching profile data:', error);
+      toast.error('Failed to load profile data');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!authProfile) return;
+
+    try {
+      // Update profiles table
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .update({
+          first_name: editedProfile.first_name,
+          last_name: editedProfile.last_name,
+          phone: editedProfile.phone,
+          bio: editedProfile.bio,
+        })
+        .eq('id', authProfile.id);
+
+      if (profileError) throw profileError;
+
+      // Update or create teen volunteer data
+      const teenVolunteerUpdate = {
+        profile_id: authProfile.id,
+        grade_level: editedProfile.grade ? parseInt(editedProfile.grade) : null,
+        interests: editedProfile.interests,
+        total_hours: editedProfile.volunteer_hours
+      };
+
+      if (teenVolunteerData) {
+        // Update existing teen volunteer record
+        const { error: teenError } = await supabase
+          .from('teen_volunteers')
+          .update(teenVolunteerUpdate)
+          .eq('id', teenVolunteerData.id);
+        
+        if (teenError) throw teenError;
+      } else {
+        // Create new teen volunteer record
+        const { data: newTeenData, error: teenError } = await supabase
+          .from('teen_volunteers')
+          .insert(teenVolunteerUpdate)
+          .select()
+          .single();
+        
+        if (teenError) throw teenError;
+        setTeenVolunteerData(newTeenData);
+      }
+
+      setProfile(editedProfile);
+      setIsEditing(false);
+      setIsFirstTimeSetup(false);
+      toast.success(isFirstTimeSetup ? "Profile created successfully! Welcome!" : "Profile updated successfully!");
+    } catch (error) {
+      console.error('Error saving profile:', error);
+      toast.error('Failed to save profile. Please try again.');
+    }
   };
 
   const handleCancel = () => {
@@ -85,8 +234,28 @@ const StudentProfile = () => {
     }));
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-[400px] flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+          <p className="text-muted-foreground mt-2">Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
+      {isFirstTimeSetup && (
+        <Alert>
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>
+            Welcome! Please complete your profile to get started with volunteering opportunities.
+          </AlertDescription>
+        </Alert>
+      )}
+      
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -105,11 +274,13 @@ const StudentProfile = () => {
               </Button>
             ) : (
               <div className="flex space-x-2">
-                <Button variant="outline" onClick={handleCancel}>
-                  Cancel
-                </Button>
+                {!isFirstTimeSetup && (
+                  <Button variant="outline" onClick={handleCancel}>
+                    Cancel
+                  </Button>
+                )}
                 <Button onClick={handleSave}>
-                  Save Changes
+                  {isFirstTimeSetup ? "Complete Profile" : "Save Changes"}
                 </Button>
               </div>
             )}
