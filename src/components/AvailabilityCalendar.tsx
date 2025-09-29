@@ -65,25 +65,15 @@ export function AvailabilityCalendar({ teenVolunteerId, onAvailabilityChange }: 
 
   const loadAvailability = async () => {
     try {
-      const { data, error } = await supabase
-        .from('teen_availability')
-        .select('*')
-        .eq('teen_volunteer_id', teenVolunteerId);
-
-      if (error) throw error;
-
-      const slots = data.map(item => ({
-        id: item.id,
-        dayOfWeek: item.day_of_week,
-        startTime: item.start_time,
-        endTime: item.end_time
-      }));
-
-      setAvailability(slots);
-      onAvailabilityChange?.(slots);
+      // For demo purposes, load from localStorage
+      const savedAvailability = localStorage.getItem('teen_availability');
+      if (savedAvailability) {
+        const slots = JSON.parse(savedAvailability);
+        setAvailability(slots);
+        onAvailabilityChange?.(slots);
+      }
     } catch (error) {
       console.error('Error loading availability:', error);
-      toast.error('Failed to load availability');
     } finally {
       setLoading(false);
     }
@@ -92,28 +82,9 @@ export function AvailabilityCalendar({ teenVolunteerId, onAvailabilityChange }: 
   const saveAvailability = async () => {
     setSaving(true);
     try {
-      // Delete existing availability
-      await supabase
-        .from('teen_availability')
-        .delete()
-        .eq('teen_volunteer_id', teenVolunteerId);
-
-      // Insert new availability
-      if (availability.length > 0) {
-        const { error } = await supabase
-          .from('teen_availability')
-          .insert(
-            availability.map(slot => ({
-              teen_volunteer_id: teenVolunteerId,
-              day_of_week: slot.dayOfWeek,
-              start_time: slot.startTime,
-              end_time: slot.endTime
-            }))
-          );
-
-        if (error) throw error;
-      }
-
+      // For demo purposes, save to localStorage
+      localStorage.setItem('teen_availability', JSON.stringify(availability));
+      
       toast.success('Availability saved! Now showing matching senior centers.');
       onAvailabilityChange?.(availability);
     } catch (error) {
