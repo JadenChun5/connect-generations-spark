@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import { Calendar, Clock, Trash2 } from 'lucide-react';
 
 interface AvailabilitySlot {
   id?: string;
@@ -58,6 +61,7 @@ export function AvailabilityCalendar({ teenVolunteerId, onAvailabilityChange }: 
   const [availability, setAvailability] = useState<AvailabilitySlot[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [showClearDialog, setShowClearDialog] = useState(false);
 
   useEffect(() => {
     loadAvailability();
@@ -85,7 +89,21 @@ export function AvailabilityCalendar({ teenVolunteerId, onAvailabilityChange }: 
       // For demo purposes, save to localStorage
       localStorage.setItem('teen_availability', JSON.stringify(availability));
       
-      toast.success('Availability saved! Now showing matching senior centers.');
+      // Calculate matches (in a real app, this would query the database)
+      const matchCount = calculateMatchCount();
+      
+      if (matchCount > 0) {
+        toast.success(`Great! We found ${matchCount} matching opportunities for you!`, {
+          duration: 5000,
+        });
+      } else if (availability.length > 0) {
+        toast.info('No matches yet. Try expanding your availability or check back later!', {
+          duration: 5000,
+        });
+      } else {
+        toast.success('Availability cleared!');
+      }
+      
       onAvailabilityChange?.(availability);
     } catch (error) {
       console.error('Error saving availability:', error);
@@ -93,6 +111,15 @@ export function AvailabilityCalendar({ teenVolunteerId, onAvailabilityChange }: 
     } finally {
       setSaving(false);
     }
+  };
+
+  const calculateMatchCount = () => {
+    // Simulate match calculation based on number of slots
+    // In a real app, this would query senior centers with matching time slots
+    if (availability.length === 0) return 0;
+    if (availability.length < 5) return Math.floor(Math.random() * 3) + 1;
+    if (availability.length < 10) return Math.floor(Math.random() * 5) + 3;
+    return Math.floor(Math.random() * 8) + 5;
   };
 
   const applyTemplate = (templateName: keyof typeof TEMPLATES) => {
@@ -122,8 +149,19 @@ export function AvailabilityCalendar({ teenVolunteerId, onAvailabilityChange }: 
     );
   };
 
-  const clearAll = () => {
+  const confirmClearAll = () => {
     setAvailability([]);
+    setShowClearDialog(false);
+    toast.success('All availability cleared');
+  };
+
+  const getTotalHours = () => {
+    return availability.length;
+  };
+
+  const getUniqueDays = () => {
+    const uniqueDays = new Set(availability.map(slot => slot.dayOfWeek));
+    return uniqueDays.size;
   };
 
   if (loading) {
@@ -144,10 +182,28 @@ export function AvailabilityCalendar({ teenVolunteerId, onAvailabilityChange }: 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Set My Availability</CardTitle>
-        <CardDescription>
-          Click time blocks to mark when you're available. This helps us show you opportunities that match your schedule.
-        </CardDescription>
+        <div className="flex items-start justify-between">
+          <div>
+            <CardTitle className="flex items-center gap-2">
+              <Calendar className="h-5 w-5" />
+              Set My Availability
+            </CardTitle>
+            <CardDescription>
+              Click time blocks to mark when you're available. This helps us show you opportunities that match your schedule.
+            </CardDescription>
+          </div>
+          {availability.length > 0 && (
+            <div className="flex flex-col items-end gap-1">
+              <Badge variant="secondary" className="text-sm">
+                <Clock className="h-3 w-3 mr-1" />
+                {getTotalHours()} {getTotalHours() === 1 ? 'hour' : 'hours'}
+              </Badge>
+              <Badge variant="outline" className="text-xs">
+                {getUniqueDays()} {getUniqueDays() === 1 ? 'day' : 'days'}
+              </Badge>
+            </div>
+          )}
+        </div>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Quick Templates */}
@@ -164,7 +220,14 @@ export function AvailabilityCalendar({ teenVolunteerId, onAvailabilityChange }: 
                 {templateName}
               </Button>
             ))}
-            <Button variant="outline" size="sm" onClick={clearAll}>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setShowClearDialog(true)}
+              disabled={availability.length === 0}
+              className="text-destructive hover:text-destructive"
+            >
+              <Trash2 className="h-4 w-4 mr-1" />
               Clear All
             </Button>
           </div>
@@ -198,10 +261,11 @@ export function AvailabilityCalendar({ teenVolunteerId, onAvailabilityChange }: 
                         key={`${day.value}-${timeSlot}`}
                         onClick={() => toggleTimeSlot(day.value, timeSlot)}
                         className={`
-                          p-2 h-10 rounded border-2 transition-colors text-xs font-medium
+                          p-2 h-10 rounded border-2 text-xs font-medium
+                          transition-all duration-300 ease-in-out
                           ${isSlotSelected(day.value, timeSlot)
-                            ? 'bg-primary text-primary-foreground border-primary'
-                            : 'bg-background hover:bg-muted border-border'
+                            ? 'bg-primary text-primary-foreground border-primary scale-105 shadow-md'
+                            : 'bg-background hover:bg-muted border-border hover:border-primary/50 hover:scale-102'
                           }
                         `}
                       >
@@ -248,6 +312,26 @@ export function AvailabilityCalendar({ teenVolunteerId, onAvailabilityChange }: 
           {saving ? 'Saving...' : 'Save Availability'}
         </Button>
       </CardContent>
+
+      {/* Clear Confirmation Dialog */}
+      <Dialog open={showClearDialog} onOpenChange={setShowClearDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Clear All Availability?</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to clear all your availability? This will remove all {getTotalHours()} selected time slots across {getUniqueDays()} days.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowClearDialog(false)}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={confirmClearAll}>
+              Clear All
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 }
