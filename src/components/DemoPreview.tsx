@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 import { 
   Play,
   Calendar,
@@ -15,6 +16,7 @@ import {
 } from "lucide-react";
 
 const DemoPreview = () => {
+  const navigate = useNavigate();
   const features = [
     {
       title: "Smart Matching",
@@ -159,11 +161,11 @@ const DemoPreview = () => {
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button variant="hero" size="lg">
+              <Button variant="hero" size="lg" onClick={() => navigate('/demo')}>
                 <Play className="h-5 w-5 mr-2" />
                 Watch Full Demo
               </Button>
-              <Button variant="outline" size="lg">
+              <Button variant="outline" size="lg" onClick={() => navigate('/demo')}>
                 Try Interactive Demo
                 <ArrowRight className="h-5 w-5 ml-2" />
               </Button>

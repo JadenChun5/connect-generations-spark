@@ -19,50 +19,55 @@ const Demo = () => {
     setLoading(true);
     
     try {
-      // Since authentication is bypassed, we'll just show demo accounts directly
+      // Demo users with corrected dashboard paths
       const demoUsers = [
         {
           email: "sarah.johnson@demo.com",
+          password: "demo123",
           role: "teen_volunteer",
           first_name: "Sarah",
           last_name: "Johnson",
           grade_level: 16,
           school: "Lincoln High School",
-          dashboard: "/dashboard/teen-volunteer"
+          dashboard: "/dashboard/student"
         },
         {
-          email: "marcus.chen@demo.com", 
+          email: "marcus.chen@demo.com",
+          password: "demo123",
           role: "teen_volunteer",
           first_name: "Marcus",
           last_name: "Chen",
           grade_level: 17,
           school: "Roosevelt Academy",
-          dashboard: "/dashboard/teen-volunteer"
+          dashboard: "/dashboard/student"
         },
         {
           email: "emma.rodriguez@demo.com",
+          password: "demo123",
           role: "teen_volunteer",
           first_name: "Emma",
           last_name: "Rodriguez",
           grade_level: 15,
           school: "Washington Prep",
-          dashboard: "/dashboard/teen-volunteer"
+          dashboard: "/dashboard/student"
         },
         {
           email: "admin.sunset@demo.com",
+          password: "demo123",
           role: "senior_center_admin",
           first_name: "Linda",
           last_name: "Smith",
           center_name: "Sunset Gardens Senior Center",
-          dashboard: "/dashboard/senior-center-admin"
+          dashboard: "/dashboard/staff"
         },
         {
           email: "admin.golden@demo.com",
+          password: "demo123",
           role: "senior_center_admin", 
           first_name: "Michael",
           last_name: "Johnson",
           center_name: "Golden Years Community",
-          dashboard: "/dashboard/senior-center-admin"
+          dashboard: "/dashboard/staff"
         }
       ];
 
@@ -85,12 +90,44 @@ const Demo = () => {
     }
   };
 
-  const goToDashboard = (dashboardPath: string, firstName: string) => {
-    toast({
-      title: `Viewing as ${firstName}`,
-      description: "Exploring the platform from their perspective..."
-    });
-    navigate(dashboardPath);
+  const loginDemoAccount = async (email: string, password: string, dashboardPath: string, firstName: string) => {
+    setLoading(true);
+    try {
+      // Sign in with demo account
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        toast({
+          title: "Login failed",
+          description: error.message,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      toast({
+        title: `Signed in as ${firstName}!`,
+        description: "Redirecting to dashboard...",
+      });
+
+      // Navigate to dashboard after successful login
+      setTimeout(() => {
+        navigate(dashboardPath);
+      }, 1000);
+
+    } catch (error) {
+      console.error('Error logging in:', error);
+      toast({
+        title: "Error",
+        description: "Failed to sign in. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -215,9 +252,10 @@ const Demo = () => {
                     <Button 
                       variant="teen" 
                       size="sm"
-                      onClick={() => goToDashboard(account.dashboard, account.first_name)}
+                      onClick={() => loginDemoAccount(account.email, account.password, account.dashboard, account.first_name)}
+                      disabled={loading}
                     >
-                      View as {account.first_name}
+                      {loading ? 'Signing in...' : `View as ${account.first_name}`}
                     </Button>
                   </div>
                 ))}
@@ -234,9 +272,10 @@ const Demo = () => {
                     <Button 
                       variant="senior" 
                       size="sm"
-                      onClick={() => goToDashboard(account.dashboard, account.first_name)}
+                      onClick={() => loginDemoAccount(account.email, account.password, account.dashboard, account.first_name)}
+                      disabled={loading}
                     >
-                      View as {account.first_name}
+                      {loading ? 'Signing in...' : `View as ${account.first_name}`}
                     </Button>
                   </div>
                 ))}
