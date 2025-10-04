@@ -15,6 +15,8 @@ import { RequirementsDisplay } from "@/components/RequirementsDisplay";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useProfileCompletion } from "@/hooks/useProfileCompletion";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Tutorial } from "@/components/Tutorial";
+import { useTutorial } from "@/hooks/useTutorial";
 
 interface SeniorCenter {
   id: string;
@@ -61,6 +63,7 @@ interface SeniorCenterWithMatch extends SeniorCenter {
 const StudentDashboard = () => {
   const navigate = useNavigate();
   const { isProfileComplete, loading: profileLoading } = useProfileCompletion();
+  const { showTutorial, loading: tutorialLoading, completeTutorial, skipTutorial, setShowTutorial } = useTutorial('student-dashboard');
   const [seniorCenters, setSeniorCenters] = useState<SeniorCenter[]>([]);
   const [selectedCenter, setSelectedCenter] = useState<SeniorCenterWithMatch | null>(null);
   const [seniors, setSeniors] = useState<Senior[]>([]);
@@ -70,6 +73,48 @@ const StudentDashboard = () => {
   const [teenVolunteerId, setTeenVolunteerId] = useState<string | null>(null);
   const [filteredCenters, setFilteredCenters] = useState<SeniorCenterWithMatch[]>([]);
   const [requirementsAgreed, setRequirementsAgreed] = useState(false);
+
+  const tutorialSteps = [
+    {
+      title: "Welcome to Your Dashboard! 🎉",
+      description: "Let's take a quick tour to help you get started with volunteering. We'll show you how to find opportunities and book your first session.",
+    },
+    {
+      title: "Set Your Availability",
+      description: "First, tell us when you're available to volunteer. This helps us show you opportunities that fit your schedule perfectly.",
+      targetId: "student-availability-tab",
+      position: "bottom" as const,
+    },
+    {
+      title: "Browse Senior Centers",
+      description: "Explore senior centers near you. Each center has different residents and opportunities waiting for volunteers like you!",
+      targetId: "student-browse-tab",
+      position: "bottom" as const,
+    },
+    {
+      title: "View Time Slots",
+      description: "Click on any senior center to see available time slots and learn about the seniors you can visit.",
+      targetId: "student-centers-list",
+      position: "right" as const,
+    },
+    {
+      title: "Book Your Session",
+      description: "Found the perfect match? Click 'Book' to request a volunteer session. The center will review and approve your request!",
+      targetId: "student-calendar-tab",
+      position: "bottom" as const,
+    },
+  ];
+
+  // Show tutorial only after profile is complete and tutorial hasn't been shown
+  useEffect(() => {
+    if (isProfileComplete && !tutorialLoading && showTutorial) {
+      // Small delay to let the dashboard render
+      const timer = setTimeout(() => {
+        setShowTutorial(true);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isProfileComplete, tutorialLoading]);
 
   useEffect(() => {
     fetchSeniorCenters();
@@ -390,13 +435,13 @@ const StudentDashboard = () => {
       <main className="max-w-7xl mx-auto px-6 py-8">
         <Tabs defaultValue="browse" className="space-y-6">
           <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="browse">
+            <TabsTrigger value="browse" id="student-browse-tab">
               Browse Centers
             </TabsTrigger>
-            <TabsTrigger value="availability" disabled={!isProfileComplete}>
+            <TabsTrigger value="availability" disabled={!isProfileComplete} id="student-availability-tab">
               Set My Availability
             </TabsTrigger>
-            <TabsTrigger value="calendar" disabled={!isProfileComplete}>
+            <TabsTrigger value="calendar" disabled={!isProfileComplete} id="student-calendar-tab">
               Calendar Booking
             </TabsTrigger>
             <TabsTrigger value="bookings" disabled={!isProfileComplete}>
@@ -439,7 +484,7 @@ const StudentDashboard = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="student-centers-list">
                     {filteredCenters.map((center) => (
                       <Card key={center.id} className="hover:shadow-elegant transition-shadow">
                         <CardHeader>
@@ -628,6 +673,15 @@ const StudentDashboard = () => {
           </TabsContent>
         </Tabs>
       </main>
+
+      {/* Tutorial */}
+      {showTutorial && (
+        <Tutorial
+          steps={tutorialSteps}
+          onComplete={completeTutorial}
+          onSkip={skipTutorial}
+        />
+      )}
     </div>
   );
 };

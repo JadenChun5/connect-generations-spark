@@ -17,6 +17,8 @@ import { RealtimeNotifications } from "@/components/RealtimeNotifications";
 import { useProfileCompletion } from "@/hooks/useProfileCompletion";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import StaffProfile from "@/components/StaffProfile";
+import { Tutorial } from "@/components/Tutorial";
+import { useTutorial } from "@/hooks/useTutorial";
 
 interface Senior {
   id: string;
@@ -48,6 +50,7 @@ interface VolunteerRequest {
 const StaffDashboard = () => {
   const navigate = useNavigate();
   const { isProfileComplete, loading: profileLoading } = useProfileCompletion();
+  const { showTutorial, loading: tutorialLoading, completeTutorial, skipTutorial, setShowTutorial } = useTutorial('staff-dashboard');
   const [loading, setLoading] = useState(true);
   const [seniors, setSeniors] = useState<Senior[]>([]);
   const [requests, setRequests] = useState<VolunteerRequest[]>([]);
@@ -58,6 +61,48 @@ const StaffDashboard = () => {
     approvedRequests: 0,
     completedVisits: 0
   });
+
+  const tutorialSteps = [
+    {
+      title: "Welcome to Staff Dashboard! 👋",
+      description: "Let's walk through how to manage your senior center and connect with teen volunteers. This will only take a minute!",
+    },
+    {
+      title: "Add Senior Residents",
+      description: "Start by adding profiles for your senior residents. Include their interests and preferences to help match them with the right volunteers.",
+      targetId: "staff-seniors-tab",
+      position: "bottom" as const,
+    },
+    {
+      title: "Create Time Slots",
+      description: "Set up available time slots when volunteers can visit. You can schedule recurring times or one-time sessions.",
+      targetId: "staff-schedule-tab",
+      position: "bottom" as const,
+    },
+    {
+      title: "Review Requests",
+      description: "When teens request to volunteer, you'll see their requests here. Review their information and approve the ones that are a good fit!",
+      targetId: "staff-requests-tab",
+      position: "bottom" as const,
+    },
+    {
+      title: "Track Your Impact",
+      description: "Check visit history and stats to see the positive impact volunteers are making at your center. You're all set!",
+      targetId: "staff-history-tab",
+      position: "bottom" as const,
+    },
+  ];
+
+  // Show tutorial only after profile is complete and tutorial hasn't been shown
+  useEffect(() => {
+    if (isProfileComplete && !tutorialLoading && showTutorial) {
+      // Small delay to let the dashboard render
+      const timer = setTimeout(() => {
+        setShowTutorial(true);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isProfileComplete, tutorialLoading]);
 
   useEffect(() => {
     fetchDashboardData();
@@ -275,19 +320,19 @@ const StaffDashboard = () => {
 
         <Tabs defaultValue="requests" className="space-y-6">
           <TabsList className="grid w-full grid-cols-7">
-            <TabsTrigger value="requests">
+            <TabsTrigger value="requests" id="staff-requests-tab">
               Requests
             </TabsTrigger>
-            <TabsTrigger value="seniors">
+            <TabsTrigger value="seniors" id="staff-seniors-tab">
               Seniors
             </TabsTrigger>
-            <TabsTrigger value="schedule" disabled={!isProfileComplete}>
+            <TabsTrigger value="schedule" disabled={!isProfileComplete} id="staff-schedule-tab">
               Schedule
             </TabsTrigger>
             <TabsTrigger value="requirements" disabled={!isProfileComplete}>
               Requirements
             </TabsTrigger>
-            <TabsTrigger value="history" disabled={!isProfileComplete}>
+            <TabsTrigger value="history" disabled={!isProfileComplete} id="staff-history-tab">
               History
             </TabsTrigger>
             <TabsTrigger value="settings" disabled={!isProfileComplete}>
@@ -418,6 +463,15 @@ const StaffDashboard = () => {
         seniorCenterId="demo-senior-center-id"
         editingSenior={editingSenior}
       />
+
+      {/* Tutorial */}
+      {showTutorial && (
+        <Tutorial
+          steps={tutorialSteps}
+          onComplete={completeTutorial}
+          onSkip={skipTutorial}
+        />
+      )}
     </div>
   );
 };
