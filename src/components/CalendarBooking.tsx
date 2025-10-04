@@ -30,13 +30,15 @@ interface CalendarBookingProps {
   seniors: Senior[];
   timeSlots: TimeSlot[];
   onBookSlot: (timeSlot: TimeSlot, senior: Senior) => void;
+  isProfileComplete: boolean;
 }
 
-const CalendarBooking = ({ seniors, timeSlots, onBookSlot }: CalendarBookingProps) => {
+const CalendarBooking = ({ seniors, timeSlots, onBookSlot, isProfileComplete }: CalendarBookingProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [selectedSenior, setSelectedSenior] = useState<Senior | null>(null);
   const [bookingDialogOpen, setBookingDialogOpen] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
+  const [profileWarningOpen, setProfileWarningOpen] = useState(false);
 
   const formatTime = (timeString: string) => {
     return new Date(`1970-01-01T${timeString}`).toLocaleTimeString('en-US', {
@@ -58,6 +60,11 @@ const CalendarBooking = ({ seniors, timeSlots, onBookSlot }: CalendarBookingProp
   };
 
   const handleSlotClick = (slot: TimeSlot) => {
+    if (!isProfileComplete) {
+      setProfileWarningOpen(true);
+      return;
+    }
+    
     const senior = getSeniorById(slot.senior_id);
     if (senior) {
       setSelectedSlot(slot);
@@ -250,6 +257,23 @@ const CalendarBooking = ({ seniors, timeSlots, onBookSlot }: CalendarBookingProp
             </Button>
             <Button onClick={confirmBooking}>
               Confirm Booking
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Profile Completion Warning Dialog */}
+      <Dialog open={profileWarningOpen} onOpenChange={setProfileWarningOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Complete Your Profile</DialogTitle>
+            <DialogDescription>
+              You need to complete your profile before you can book volunteer sessions.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button onClick={() => setProfileWarningOpen(false)}>
+              Got it
             </Button>
           </DialogFooter>
         </DialogContent>

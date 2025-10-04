@@ -28,10 +28,12 @@ interface TimeSlot {
 
 interface StaffTimeSlotManagementProps {
   seniors: Senior[];
+  isProfileComplete: boolean;
 }
 
-const StaffTimeSlotManagement = ({ seniors }: StaffTimeSlotManagementProps) => {
+const StaffTimeSlotManagement = ({ seniors, isProfileComplete }: StaffTimeSlotManagementProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [profileWarningOpen, setProfileWarningOpen] = useState(false);
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([
     {
       id: 'slot-1',
@@ -83,6 +85,11 @@ const StaffTimeSlotManagement = ({ seniors }: StaffTimeSlotManagementProps) => {
   };
 
   const openAddDialog = () => {
+    if (!isProfileComplete) {
+      setProfileWarningOpen(true);
+      return;
+    }
+    
     setEditingSlot(null);
     setNewSlot({
       senior_id: '',
@@ -368,6 +375,23 @@ const StaffTimeSlotManagement = ({ seniors }: StaffTimeSlotManagementProps) => {
             </Button>
             <Button onClick={handleSaveSlot}>
               {editingSlot ? 'Update Slot' : 'Create Slot'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Profile Completion Warning Dialog */}
+      <Dialog open={profileWarningOpen} onOpenChange={setProfileWarningOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Complete Your Profile</DialogTitle>
+            <DialogDescription>
+              You need to complete your profile before you can add time slots.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button onClick={() => setProfileWarningOpen(false)}>
+              Got it
             </Button>
           </DialogFooter>
         </DialogContent>

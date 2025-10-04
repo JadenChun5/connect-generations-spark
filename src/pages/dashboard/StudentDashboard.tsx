@@ -388,18 +388,9 @@ const StudentDashboard = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {!isProfileComplete && (
-          <Alert className="mb-6">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>
-              <strong>Complete Your Profile First!</strong> Please fill out your profile information to unlock all dashboard features and start volunteering.
-            </AlertDescription>
-          </Alert>
-        )}
-        
-        <Tabs defaultValue={isProfileComplete ? "browse" : "profile"} className="space-y-6">
+        <Tabs defaultValue="browse" className="space-y-6">
           <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="browse" disabled={!isProfileComplete}>
+            <TabsTrigger value="browse">
               Browse Centers
             </TabsTrigger>
             <TabsTrigger value="availability" disabled={!isProfileComplete}>
@@ -624,6 +615,7 @@ const StudentDashboard = () => {
               seniors={seniors}
               timeSlots={timeSlots}
               onBookSlot={handleBookTimeSlot}
+              isProfileComplete={isProfileComplete}
             />
           </TabsContent>
 

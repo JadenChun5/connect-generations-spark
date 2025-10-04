@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Users2, Calendar, UserPlus, Clock, CheckCircle, XCircle, Settings, FileText, Edit, Shield, AlertCircle } from "lucide-react";
 import { AddSeniorDialog } from "@/components/AddSeniorDialog";
+import { SeniorsManagement } from "@/components/SeniorsManagement";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import StaffTimeSlotManagement from "@/components/StaffTimeSlotManagement";
@@ -50,7 +51,6 @@ const StaffDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [seniors, setSeniors] = useState<Senior[]>([]);
   const [requests, setRequests] = useState<VolunteerRequest[]>([]);
-  const [addSeniorDialogOpen, setAddSeniorDialogOpen] = useState(false);
   const [editingSenior, setEditingSenior] = useState<Senior | null>(null);
   const [stats, setStats] = useState({
     totalSeniors: 0,
@@ -273,21 +273,12 @@ const StaffDashboard = () => {
           </Card>
         </div>
 
-        {!isProfileComplete && (
-          <Alert className="mb-6">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>
-              <strong>Complete Your Profile First!</strong> Please fill out your profile information to unlock all dashboard features and manage senior center operations.
-            </AlertDescription>
-          </Alert>
-        )}
-
-        <Tabs defaultValue={isProfileComplete ? "requests" : "profile"} className="space-y-6">
+        <Tabs defaultValue="requests" className="space-y-6">
           <TabsList className="grid w-full grid-cols-7">
-            <TabsTrigger value="requests" disabled={!isProfileComplete}>
+            <TabsTrigger value="requests">
               Requests
             </TabsTrigger>
-            <TabsTrigger value="seniors" disabled={!isProfileComplete}>
+            <TabsTrigger value="seniors">
               Seniors
             </TabsTrigger>
             <TabsTrigger value="schedule" disabled={!isProfileComplete}>
@@ -387,98 +378,17 @@ const StaffDashboard = () => {
           </TabsContent>
 
           <TabsContent value="seniors">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <UserPlus className="h-5 w-5" />
-                    <span>Senior Residents ({seniors.length})</span>
-                  </div>
-                  <Button 
-                    variant="secondary" 
-                    onClick={() => setAddSeniorDialogOpen(true)}
-                  >
-                    Add New Senior
-                  </Button>
-                </CardTitle>
-                <CardDescription>
-                  Manage senior resident profiles and availability
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {seniors.length === 0 ? (
-                  <div className="text-center py-12">
-                    <UserPlus className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-xl font-semibold mb-2">No Seniors Added Yet</p>
-                    <p className="text-muted-foreground mb-6">
-                      Start by adding senior resident profiles to enable volunteer matching
-                    </p>
-                    <Button 
-                      variant="secondary" 
-                      size="lg"
-                      onClick={() => setAddSeniorDialogOpen(true)}
-                    >
-                      Add First Senior Profile
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {seniors.map((senior) => (
-                      <Card key={senior.id} className="p-4">
-                        <div className="space-y-3">
-                          <div>
-                            <h3 className="font-semibold text-lg">
-                              {senior.first_name} {senior.last_name}
-                            </h3>
-                            {senior.age && (
-                              <p className="text-sm text-muted-foreground">Age: {senior.age}</p>
-                            )}
-                          </div>
-                          
-                          {senior.bio && (
-                            <p className="text-sm text-muted-foreground line-clamp-2">
-                              {senior.bio}
-                            </p>
-                          )}
-                          
-                          {senior.interests && senior.interests.length > 0 && (
-                            <div>
-                              <p className="text-xs font-medium mb-1">Interests:</p>
-                              <div className="flex flex-wrap gap-1">
-                                {senior.interests.slice(0, 3).map((interest: string, idx: number) => (
-                                  <Badge key={idx} variant="secondary" className="text-xs">
-                                    {interest}
-                                  </Badge>
-                                ))}
-                                {senior.interests.length > 3 && (
-                                  <Badge variant="outline" className="text-xs">
-                                    +{senior.interests.length - 3} more
-                                  </Badge>
-                                )}
-                              </div>
-                            </div>
-                           )}
-                           
-                           <Button
-                             variant="outline"
-                             size="sm"
-                             onClick={() => setEditingSenior(senior)}
-                             className="mt-2"
-                           >
-                             <Edit className="h-4 w-4 mr-1" />
-                             Edit Profile
-                           </Button>
-                         </div>
-                       </Card>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+            <SeniorsManagement 
+              seniors={seniors}
+              onSeniorAdded={handleSeniorAdded}
+              onEditSenior={setEditingSenior}
+              seniorCenterId="demo-senior-center-id"
+              isProfileComplete={isProfileComplete}
+            />
           </TabsContent>
 
           <TabsContent value="schedule">
-            <StaffTimeSlotManagement seniors={seniors} />
+            <StaffTimeSlotManagement seniors={seniors} isProfileComplete={isProfileComplete} />
           </TabsContent>
 
           <TabsContent value="requirements">
@@ -500,9 +410,8 @@ const StaffDashboard = () => {
       </main>
       
       <AddSeniorDialog
-        open={addSeniorDialogOpen || !!editingSenior}
+        open={!!editingSenior}
         onOpenChange={(open) => {
-          setAddSeniorDialogOpen(open);
           if (!open) setEditingSenior(null);
         }}
         onSeniorAdded={handleSeniorAdded}
