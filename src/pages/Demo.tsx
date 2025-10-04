@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { Play, Users, MapPin, Clock, ArrowLeft, CheckCircle } from "lucide-react";
+import { Play, Users, MapPin, Clock, ArrowLeft, CheckCircle, Calendar } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -14,6 +14,8 @@ const Demo = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [demoAccounts, setDemoAccounts] = useState<any[]>([]);
+  const [timeSlotsCreated, setTimeSlotsCreated] = useState(0);
+  const [seniorsCount, setSeniorsCount] = useState(0);
 
   const createDemoData = async () => {
     setLoading(true);
@@ -71,11 +73,63 @@ const Demo = () => {
         }
       ];
 
+      // Fetch all seniors from the database
+      const { data: seniors, error: seniorsError } = await supabase
+        .from('seniors')
+        .select('id');
+
+      if (seniorsError) throw seniorsError;
+
+      if (seniors && seniors.length > 0) {
+        // Create varied time slots for each senior
+        const timeSlotTemplates = [
+          { day: 1, start: '09:00', end: '11:00' }, // Monday morning
+          { day: 1, start: '14:00', end: '16:00' }, // Monday afternoon
+          { day: 2, start: '10:00', end: '12:00' }, // Tuesday morning
+          { day: 2, start: '15:00', end: '17:00' }, // Tuesday afternoon
+          { day: 3, start: '09:00', end: '11:00' }, // Wednesday morning
+          { day: 3, start: '13:00', end: '15:00' }, // Wednesday afternoon
+          { day: 4, start: '10:00', end: '12:00' }, // Thursday morning
+          { day: 4, start: '16:00', end: '18:00' }, // Thursday evening
+          { day: 5, start: '09:00', end: '11:00' }, // Friday morning
+          { day: 5, start: '14:00', end: '16:00' }, // Friday afternoon
+        ];
+
+        const timeSlotsToInsert = [];
+        
+        // Create 3-4 varied time slots per senior
+        for (const senior of seniors) {
+          const numSlots = 3 + Math.floor(Math.random() * 2); // 3 or 4 slots
+          const shuffled = [...timeSlotTemplates].sort(() => Math.random() - 0.5);
+          
+          for (let i = 0; i < numSlots; i++) {
+            const template = shuffled[i];
+            timeSlotsToInsert.push({
+              senior_id: senior.id,
+              day_of_week: template.day,
+              start_time: template.start,
+              end_time: template.end,
+              is_available: true
+            });
+          }
+        }
+
+        // Insert all time slots
+        const { error: insertError } = await supabase
+          .from('senior_time_slots')
+          .insert(timeSlotsToInsert);
+
+        if (insertError) throw insertError;
+
+        setTimeSlotsCreated(timeSlotsToInsert.length);
+        setSeniorsCount(seniors.length);
+      }
+
       setDemoAccounts(demoUsers);
       
       toast({
-        title: "Demo accounts ready!",
-        description: "Click on any account below to explore that user's perspective.",
+        title: "Demo data created!",
+        description: `Created ${timeSlotsCreated} time slots across ${seniorsCount} seniors. Login to explore!`,
       });
 
     } catch (error) {
@@ -173,11 +227,15 @@ const Demo = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <CheckCircle className="h-4 w-4 text-green-600" />
-                <span className="text-sm">7+ Seniors with available time slots</span>
+                <span className="text-sm">
+                  {timeSlotsCreated > 0 
+                    ? `${seniorsCount} Seniors with ${timeSlotsCreated} time slots`
+                    : '7+ Seniors with available time slots'}
+                </span>
               </div>
               <div className="flex items-center space-x-2">
-                <CheckCircle className="h-4 w-4 text-green-600" />
-                <span className="text-sm">Pre-configured time slots & scheduling</span>
+                <Calendar className="h-4 w-4 text-green-600" />
+                <span className="text-sm">Morning, afternoon & evening availability</span>
               </div>
               <div className="flex items-center space-x-2">
                 <CheckCircle className="h-4 w-4 text-green-600" />
