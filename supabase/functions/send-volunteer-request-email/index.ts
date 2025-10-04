@@ -29,7 +29,16 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const requestData: VolunteerRequestEmail = await req.json();
-    console.log("Sending volunteer request email:", requestData);
+    console.log("📧 Sending volunteer request email:", requestData);
+
+    // Validate required fields
+    if (!RESEND_API_KEY) {
+      throw new Error('RESEND_API_KEY is not configured. Please add it to edge function secrets.');
+    }
+
+    if (!requestData.seniorCenterEmail) {
+      throw new Error('Senior center email is required');
+    }
 
     const formatDate = (dateString: string) => {
       const date = new Date(dateString);
@@ -134,7 +143,13 @@ const handler = async (req: Request): Promise<Response> => {
     });
 
     const emailResult = await emailResponse.json();
-    console.log("Email sent successfully:", emailResult);
+    
+    if (!emailResponse.ok) {
+      console.error("❌ Resend API error:", emailResult);
+      throw new Error(`Resend API failed: ${emailResult.message || 'Unknown error'}`);
+    }
+    
+    console.log("✅ Email sent successfully:", emailResult);
 
     return new Response(JSON.stringify(emailResult), {
       status: 200,
@@ -144,9 +159,14 @@ const handler = async (req: Request): Promise<Response> => {
       },
     });
   } catch (error: any) {
-    console.error("Error in send-volunteer-request-email function:", error);
+    console.error("❌ Error in send-volunteer-request-email function:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        hint: error.message.includes('RESEND_API_KEY') 
+          ? 'Configure RESEND_API_KEY in Supabase Edge Function secrets'
+          : 'Check edge function logs for details'
+      }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },

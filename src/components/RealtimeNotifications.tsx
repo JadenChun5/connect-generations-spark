@@ -98,41 +98,99 @@ export function RealtimeNotifications({ onRequestAction }: RealtimeNotifications
     // Show success message
     toast.success(`Volunteer request ${action === 'approve' ? 'approved' : 'declined'}!`);
 
-    // If approved, send confirmation email
+    // If approved, send confirmation email with real center data
     if (action === 'approve') {
       const notification = notifications.find(n => n.id === notificationId);
       if (notification) {
         try {
-          const { error } = await supabase.functions.invoke('send-approval-confirmation', {
+          console.log('📧 Fetching center data for approval confirmation email...');
+          
+          // Fetch the user's profile to get their center
+          const { data: { user } } = await supabase.auth.getUser();
+          
+          if (!user) {
+            throw new Error('User not authenticated');
+          }
+
+          // Get staff profile and their center
+          const { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('user_id', user.id)
+            .single();
+
+          if (profileError) throw profileError;
+
+          const { data: centerData, error: centerError } = await supabase
+            .from('senior_centers')
+            .select(`
+              id,
+              name,
+              address,
+              city,
+              state,
+              zip_code,
+              contact_phone,
+              contact_email
+            `)
+            .eq('admin_id', profile.id)
+            .single();
+
+          if (centerError) {
+            console.error('Error fetching center data:', centerError);
+            throw new Error('Could not load center information');
+          }
+
+          // Fetch requirements for this center
+          const { data: requirementsData, error: requirementsError } = await supabase
+            .from('senior_center_requirements')
+            .select('*')
+            .eq('senior_center_id', centerData.id)
+            .maybeSingle();
+
+          if (requirementsError) {
+            console.error('Error fetching requirements:', requirementsError);
+          }
+
+          const fullAddress = `${centerData.address}, ${centerData.city}, ${centerData.state} ${centerData.zip_code}`;
+
+          console.log('📧 Sending approval confirmation email with real data:', {
+            center: centerData.name,
+            address: fullAddress,
+            hasRequirements: !!requirementsData
+          });
+
+          const { error: emailError } = await supabase.functions.invoke('send-approval-confirmation', {
             body: {
               teenName: notification.data.volunteerName,
               teenEmail: notification.data.volunteerEmail,
               seniorName: notification.data.seniorName,
-              seniorCenterName: 'Demo Senior Center',
-              seniorCenterAddress: '123 Main St, Demo City, CA 90210',
-              seniorCenterPhone: '(555) 123-4567',
+              seniorCenterName: centerData.name,
+              seniorCenterAddress: fullAddress,
+              seniorCenterPhone: centerData.contact_phone || '(Contact center for phone)',
               date: notification.data.date,
               startTime: notification.data.startTime,
               endTime: notification.data.endTime,
-              requirements: {
-                health_requirements: 'Current COVID-19 vaccination recommended. Please stay home if feeling unwell.',
-                dress_code: 'Business casual or volunteer t-shirt (provided by center)',
-                general_expectations: 'Please wear closed-toe shoes and check in at the front desk upon arrival.',
-                safety_notes: 'No strong perfumes or scents due to resident allergies.'
+              requirements: requirementsData || {
+                health_requirements: '',
+                dress_code: '',
+                general_expectations: '',
+                safety_notes: ''
               },
               activityType: notification.data.activityType
             }
           });
 
-          if (error) {
-            console.error('Error sending confirmation email:', error);
-            toast.error('Failed to send confirmation email');
+          if (emailError) {
+            console.error('❌ Email API error:', emailError);
+            toast.error('Failed to send confirmation email. Check console for details.');
           } else {
+            console.log('✅ Confirmation email sent successfully!');
             toast.success('Confirmation email sent to volunteer!');
           }
         } catch (error) {
-          console.error('Error sending confirmation email:', error);
-          toast.error('Failed to send confirmation email');
+          console.error('❌ Error in approval email flow:', error);
+          toast.error(`Failed to send confirmation email: ${error instanceof Error ? error.message : 'Unknown error'}`);
         }
       }
     }

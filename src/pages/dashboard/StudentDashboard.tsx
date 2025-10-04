@@ -357,6 +357,12 @@ const StudentDashboard = () => {
       });
 
       // Send email notification to senior center staff
+      console.log('📧 Sending volunteer request email to center:', {
+        center: selectedCenter?.name,
+        email: selectedCenter?.contact_email,
+        volunteer: notificationData.volunteerName
+      });
+
       const { error: emailError } = await supabase.functions.invoke('send-volunteer-request-email', {
         body: {
           ...notificationData,
@@ -367,8 +373,13 @@ const StudentDashboard = () => {
       });
 
       if (emailError) {
-        console.error('Error sending email notification:', emailError);
-        // Don't fail the whole operation if email fails
+        console.error('❌ Failed to send email notification:', emailError);
+        toast.error(
+          'Your request was saved, but we could not send an email notification to the center. They can still see your request in their dashboard.',
+          { duration: 6000 }
+        );
+      } else {
+        console.log('✅ Email notification sent successfully to center');
       }
 
       // Mark the time slot as requested locally
