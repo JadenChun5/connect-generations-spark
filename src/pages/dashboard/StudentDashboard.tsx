@@ -15,7 +15,7 @@ import { RequirementsDisplay } from "@/components/RequirementsDisplay";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useProfileCompletion } from "@/hooks/useProfileCompletion";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Tutorial } from "@/components/Tutorial";
+import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride';
 import { useTutorial } from "@/hooks/useTutorial";
 
 interface SeniorCenter {
@@ -74,38 +74,49 @@ const StudentDashboard = () => {
   const [filteredCenters, setFilteredCenters] = useState<SeniorCenterWithMatch[]>([]);
   const [requirementsAgreed, setRequirementsAgreed] = useState(false);
 
-  const tutorialSteps = [
+  const joyrideSteps: Step[] = [
     {
-      title: "Welcome to Your Dashboard! 🎉",
-      description: "Let's take a quick tour to help you get started with volunteering. We'll show you how to find opportunities and book your first session.",
+      target: 'body',
+      placement: 'center',
+      content: (
+        <div>
+          <h3 className="text-base font-medium">Welcome to Your Dashboard!</h3>
+          <p className="mt-1 text-sm text-muted-foreground">Let's take a quick tour to help you get started with volunteering. We'll show you how to find opportunities and book your first session.</p>
+        </div>
+      ),
     },
     {
-      title: "Set Your Availability",
-      description: "First, tell us when you're available to volunteer. This helps us show you opportunities that fit your schedule perfectly.",
-      targetId: "student-availability-tab",
-      position: "bottom" as const,
+      target: '#student-availability-tab',
+      placement: 'bottom',
+      content: 'First, tell us when you’re available to volunteer. This helps us show you opportunities that fit your schedule perfectly.',
     },
     {
-      title: "Browse Senior Centers",
-      description: "Explore senior centers near you. Each center has different residents and opportunities waiting for volunteers like you!",
-      targetId: "student-browse-tab",
-      position: "bottom" as const,
+      target: '#student-browse-tab',
+      placement: 'bottom',
+      content: 'Explore senior centers near you. Each center has different residents and opportunities waiting for volunteers like you!',
     },
     {
-      title: "View Time Slots",
-      description: "Click on any senior center to see available time slots and learn about the seniors you can visit.",
-      targetId: "student-centers-list",
-      position: "right" as const,
+      target: '#student-centers-list',
+      placement: 'right',
+      content: 'Click on any senior center to see available time slots and learn about the seniors you can visit.',
     },
     {
-      title: "Book Your Session",
-      description: "Found the perfect match? Click 'Book' to request a volunteer session. The center will review and approve your request!",
-      targetId: "student-calendar-tab",
-      position: "bottom" as const,
+      target: '#student-calendar-tab',
+      placement: 'bottom',
+      content: "Found the perfect match? Click 'Book' to request a volunteer session. The center will review and approve your request!",
     },
   ];
-
-  // Show tutorial only after profile is complete and tutorial hasn't been shown
+  
+  const handleJoyrideCallback = (data: CallBackProps) => {
+    const { status } = data;
+    if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
+      if (status === STATUS.FINISHED) {
+        completeTutorial();
+      } else {
+        skipTutorial();
+      }
+    }
+  };
   useEffect(() => {
     if (isProfileComplete && !tutorialLoading && showTutorial) {
       // Small delay to let the dashboard render
@@ -685,12 +696,21 @@ const StudentDashboard = () => {
         </Tabs>
       </main>
 
-      {/* Tutorial */}
-      {showTutorial && (
-        <Tutorial
-          steps={tutorialSteps}
-          onComplete={completeTutorial}
-          onSkip={skipTutorial}
+      {/* Onboarding Tour */}
+      {isProfileComplete && showTutorial && (
+        <Joyride
+          steps={joyrideSteps}
+          run
+          continuous
+          showSkipButton
+          showProgress
+          scrollToFirstStep
+          disableScrolling={false}
+          spotlightClicks={false}
+          spotlightPadding={8}
+          styles={{ options: { zIndex: 10000 }, overlay: { backgroundColor: 'rgba(0,0,0,0.6)' } }}
+          callback={handleJoyrideCallback}
+          locale={{ back: 'Previous', close: 'Close', last: 'Finish', next: 'Next', skip: 'Skip' }}
         />
       )}
     </div>

@@ -17,7 +17,7 @@ import { RealtimeNotifications } from "@/components/RealtimeNotifications";
 import { useProfileCompletion } from "@/hooks/useProfileCompletion";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import StaffProfile from "@/components/StaffProfile";
-import { Tutorial } from "@/components/Tutorial";
+import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride';
 import { useTutorial } from "@/hooks/useTutorial";
 
 interface Senior {
@@ -62,38 +62,49 @@ const StaffDashboard = () => {
     completedVisits: 0
   });
 
-  const tutorialSteps = [
+  const joyrideSteps: Step[] = [
     {
-      title: "Welcome to Staff Dashboard! 👋",
-      description: "Let's walk through how to manage your senior center and connect with teen volunteers. This will only take a minute!",
+      target: 'body',
+      placement: 'center',
+      content: (
+        <div>
+          <h3 className="text-base font-medium">Welcome to Staff Dashboard!</h3>
+          <p className="mt-1 text-sm text-muted-foreground">Let's walk through how to manage your senior center and connect with teen volunteers. This will only take a minute!</p>
+        </div>
+      ),
     },
     {
-      title: "Add Senior Residents",
-      description: "Start by adding profiles for your senior residents. Include their interests and preferences to help match them with the right volunteers.",
-      targetId: "staff-seniors-tab",
-      position: "bottom" as const,
+      target: '#staff-seniors-tab',
+      placement: 'bottom',
+      content: 'Start by adding profiles for your senior residents. Include their interests and preferences to help match them with the right volunteers.',
     },
     {
-      title: "Create Time Slots",
-      description: "Set up available time slots when volunteers can visit. You can schedule recurring times or one-time sessions.",
-      targetId: "staff-schedule-tab",
-      position: "bottom" as const,
+      target: '#staff-schedule-tab',
+      placement: 'bottom',
+      content: 'Set up available time slots when volunteers can visit. You can schedule recurring times or one-time sessions.',
     },
     {
-      title: "Review Requests",
-      description: "When teens request to volunteer, you'll see their requests here. Review their information and approve the ones that are a good fit!",
-      targetId: "staff-requests-tab",
-      position: "bottom" as const,
+      target: '#staff-requests-tab',
+      placement: 'bottom',
+      content: "When teens request to volunteer, you'll see their requests here. Review their information and approve the ones that are a good fit!",
     },
     {
-      title: "Track Your Impact",
-      description: "Check visit history and stats to see the positive impact volunteers are making at your center. You're all set!",
-      targetId: "staff-history-tab",
-      position: "bottom" as const,
+      target: '#staff-history-tab',
+      placement: 'bottom',
+      content: "Check visit history and stats to see the positive impact volunteers are making at your center. You're all set!",
     },
   ];
 
-  // Show tutorial only after profile is complete and tutorial hasn't been shown
+  const handleJoyrideCallback = (data: CallBackProps) => {
+    const { status } = data;
+    if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
+      if (status === STATUS.FINISHED) {
+        completeTutorial();
+      } else {
+        skipTutorial();
+      }
+    }
+  };
   useEffect(() => {
     if (isProfileComplete && !tutorialLoading && showTutorial) {
       // Small delay to let the dashboard render
@@ -464,12 +475,21 @@ const StaffDashboard = () => {
         editingSenior={editingSenior}
       />
 
-      {/* Tutorial */}
-      {showTutorial && (
-        <Tutorial
-          steps={tutorialSteps}
-          onComplete={completeTutorial}
-          onSkip={skipTutorial}
+      {/* Onboarding Tour */}
+      {isProfileComplete && showTutorial && (
+        <Joyride
+          steps={joyrideSteps}
+          run
+          continuous
+          showSkipButton
+          showProgress
+          scrollToFirstStep
+          disableScrolling={false}
+          spotlightClicks={false}
+          spotlightPadding={8}
+          styles={{ options: { zIndex: 10000 }, overlay: { backgroundColor: 'rgba(0,0,0,0.6)' } }}
+          callback={handleJoyrideCallback}
+          locale={{ back: 'Previous', close: 'Close', last: 'Finish', next: 'Next', skip: 'Skip' }}
         />
       )}
     </div>
