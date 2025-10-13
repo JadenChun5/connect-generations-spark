@@ -27,13 +27,21 @@ export const Tutorial = ({ steps, onComplete, onSkip }: TutorialProps) => {
 
   useEffect(() => {
     if (currentTutorialStep.targetId) {
-      const element = document.getElementById(currentTutorialStep.targetId);
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        setTargetRect(rect);
-        // Scroll element into view
-        element.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
+      // Add a small delay to ensure the DOM is fully rendered
+      const timeout = setTimeout(() => {
+        const element = document.getElementById(currentTutorialStep.targetId);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          setTargetRect(rect);
+          // Scroll element into view
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        } else {
+          console.warn(`Tutorial target element not found: ${currentTutorialStep.targetId}`);
+          setTargetRect(null);
+        }
+      }, 100);
+      
+      return () => clearTimeout(timeout);
     } else {
       setTargetRect(null);
     }
@@ -104,12 +112,12 @@ export const Tutorial = ({ steps, onComplete, onSkip }: TutorialProps) => {
   return (
     <div className="fixed inset-0 z-50 animate-fade-in">
       {/* Overlay with cutout for highlighted element */}
-      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm">
+      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm pointer-events-none">
         {targetRect && (
           <>
-            {/* Spotlight effect */}
+            {/* Spotlight effect - removed animate-pulse to prevent strobing */}
             <div
-              className="absolute bg-transparent border-4 border-primary rounded-lg shadow-[0_0_0_9999px_rgba(0,0,0,0.5)] animate-pulse transition-all duration-300"
+              className="absolute bg-transparent border-4 border-primary rounded-lg shadow-[0_0_0_9999px_rgba(0,0,0,0.6)] transition-all duration-500 ease-in-out pointer-events-none"
               style={{
                 top: `${targetRect.top - 8}px`,
                 left: `${targetRect.left - 8}px`,
