@@ -16,9 +16,7 @@ export const useProfileCompletion = () => {
 
     // Listen for profile completion events
     const handleProfileCompleted = () => {
-      setTimeout(() => {
-        checkProfileCompletion();
-      }, 500);
+      setIsProfileComplete(true);
     };
 
     window.addEventListener('profileCompleted', handleProfileCompleted);
@@ -109,10 +107,6 @@ export const useProfileCompletion = () => {
 
   const markProfileComplete = () => {
     setIsProfileComplete(true);
-    // Also recheck to ensure consistency
-    setTimeout(() => {
-      checkProfileCompletion();
-    }, 100);
   };
 
   return {
