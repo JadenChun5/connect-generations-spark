@@ -15,7 +15,7 @@ const UserTypeSelection = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-subtle flex items-center justify-center p-6">
+    <div id="user-type-selection" className="min-h-screen bg-gradient-subtle flex items-center justify-center p-6">
       <div className="max-w-4xl w-full">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-foreground mb-4">

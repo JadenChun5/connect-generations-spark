@@ -2,16 +2,26 @@ import { Button } from "@/components/ui/button";
 import { Heart, Menu, X, LogOut, User } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, profile, signOut } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleHowItWorksClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (location.pathname !== '/') {
+      navigate('/', { state: { scrollTo: 'user-type-selection' } });
+    } else {
+      document.getElementById('user-type-selection')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const navigation = [
-    { name: "How It Works", href: "#user-type-selection" },
+    { name: "How It Works", href: "#user-type-selection", onClick: handleHowItWorksClick },
     { name: "About", href: "/about" },
     { name: "Connect", href: "/connect" }
   ];
@@ -46,7 +56,8 @@ const Header = () => {
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-muted-foreground hover:text-foreground transition-smooth font-medium"
+                  onClick={item.onClick}
+                  className="text-muted-foreground hover:text-foreground transition-smooth font-medium cursor-pointer"
                 >
                   {item.name}
                 </a>
@@ -119,8 +130,11 @@ const Header = () => {
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-muted-foreground hover:text-foreground transition-smooth font-medium py-2"
-                  onClick={() => setIsMenuOpen(false)}
+                  className="text-muted-foreground hover:text-foreground transition-smooth font-medium py-2 cursor-pointer"
+                  onClick={(e) => {
+                    item.onClick?.(e);
+                    setIsMenuOpen(false);
+                  }}
                 >
                   {item.name}
                 </a>

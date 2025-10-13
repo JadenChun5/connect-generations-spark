@@ -77,13 +77,14 @@ const About = () => {
                 Through technology, we're solving the loneliness epidemic while building stronger, 
                 more connected communities.
               </p>
-              <Button 
-                variant="hero" 
-                size="lg"
-                onClick={() => document.getElementById('user-type-selection')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                Join Our Mission
-              </Button>
+              <Link to="/">
+                <Button 
+                  variant="hero" 
+                  size="lg"
+                >
+                  Join Our Mission
+                </Button>
+              </Link>
             </div>
             
             <div className="grid grid-cols-2 gap-6">
@@ -179,14 +180,15 @@ const About = () => {
             intergenerational connections.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              variant="secondary" 
-              size="lg" 
-              className="w-full sm:w-auto"
-              onClick={() => window.location.href = '/#user-type-selection'}
-            >
-              Get Started Today
-            </Button>
+            <Link to="/auth">
+              <Button 
+                variant="secondary" 
+                size="lg" 
+                className="w-full sm:w-auto"
+              >
+                Get Started Today
+              </Button>
+            </Link>
             <Link to="/connect">
               <Button variant="outline" size="lg" className="w-full sm:w-auto bg-white/10 border-white/20 text-white hover:bg-white/20">
                 Contact Us
