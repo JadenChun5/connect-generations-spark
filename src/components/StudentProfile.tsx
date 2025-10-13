@@ -261,7 +261,7 @@ const StudentProfile = () => {
         <Alert>
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>
-            Welcome! Please complete your profile to get started with volunteering opportunities.
+            <strong>Welcome! Please complete your profile to get started with volunteering opportunities.</strong>
           </AlertDescription>
         </Alert>
       )}
