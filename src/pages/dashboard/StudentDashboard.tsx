@@ -455,6 +455,12 @@ const StudentDashboard = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8">
+        {/* Debug info for profile completion */}
+        {process.env.NODE_ENV === 'development' && (
+          <div className="mb-4 p-2 bg-muted text-xs">
+            Profile Complete: {isProfileComplete ? 'YES' : 'NO'} | Loading: {profileLoading ? 'YES' : 'NO'}
+          </div>
+        )}
         <Tabs value={!isProfileComplete ? "profile" : undefined} defaultValue="browse" className="space-y-6">
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="browse" id="student-browse-tab">
