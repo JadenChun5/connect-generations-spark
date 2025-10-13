@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { X, ChevronRight, ChevronLeft } from "lucide-react";
@@ -25,7 +25,7 @@ export const Tutorial = ({ steps, onComplete, onSkip }: TutorialProps) => {
   const isLastStep = currentStep === steps.length - 1;
   const isFirstStep = currentStep === 0;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (currentTutorialStep.targetId) {
       // Add a small delay to ensure the DOM is fully rendered
       const timeout = setTimeout(() => {
@@ -45,6 +45,32 @@ export const Tutorial = ({ steps, onComplete, onSkip }: TutorialProps) => {
     } else {
       setTargetRect(null);
     }
+  }, [currentStep, currentTutorialStep.targetId]);
+
+  // Keep spotlight aligned on scroll/resize
+  useEffect(() => {
+    if (!currentTutorialStep.targetId) return;
+    let raf: number | null = null;
+    const update = () => {
+      const el = document.getElementById(currentTutorialStep.targetId!);
+      if (el) {
+        setTargetRect(el.getBoundingClientRect());
+      }
+    };
+    const onScrollOrResize = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
+    };
+    window.addEventListener('scroll', onScrollOrResize, true);
+    window.addEventListener('resize', onScrollOrResize);
+    const timeout = setTimeout(update, 350);
+    update();
+    return () => {
+      window.removeEventListener('scroll', onScrollOrResize, true);
+      window.removeEventListener('resize', onScrollOrResize);
+      if (raf) cancelAnimationFrame(raf);
+      clearTimeout(timeout);
+    };
   }, [currentStep, currentTutorialStep.targetId]);
 
   const handleNext = () => {
@@ -112,12 +138,15 @@ export const Tutorial = ({ steps, onComplete, onSkip }: TutorialProps) => {
   return (
     <div className="fixed inset-0 z-50 animate-fade-in">
       {/* Overlay with cutout for highlighted element */}
-      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none">
+        {!targetRect && (
+          <div className="absolute inset-0 bg-background/80" />
+        )}
         {targetRect && (
           <>
-            {/* Spotlight effect - removed animate-pulse to prevent strobing */}
+            {/* Spotlight effect - no blur, no pulse to avoid strobing */}
             <div
-              className="absolute bg-transparent border-4 border-primary rounded-lg shadow-[0_0_0_9999px_rgba(0,0,0,0.6)] transition-all duration-500 ease-in-out pointer-events-none"
+              className="absolute bg-transparent border-4 border-primary/80 rounded-lg shadow-[0_0_0_9999px_rgba(0,0,0,0.6)] transition-all duration-500 ease-in-out pointer-events-none"
               style={{
                 top: `${targetRect.top - 8}px`,
                 left: `${targetRect.left - 8}px`,
