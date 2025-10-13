@@ -56,7 +56,18 @@ export const useProfileCompletion = () => {
           .from('teen_volunteers')
           .select('*')
           .eq('profile_id', authProfile.id)
-          .single();
+          .maybeSingle();
+
+        console.log('Profile completion check:', {
+          fullProfile: {
+            first_name: fullProfile.first_name,
+            last_name: fullProfile.last_name,
+            phone: fullProfile.phone,
+            bio: fullProfile.bio,
+            school: fullProfile.school
+          },
+          teenData: teenData
+        });
 
         const isComplete = !!(
           fullProfile.first_name &&
