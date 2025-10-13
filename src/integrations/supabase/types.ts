@@ -214,6 +214,7 @@ export type Database = {
           photo_url: string | null
           points: number | null
           role: Database["public"]["Enums"]["user_role"]
+          school: string | null
           updated_at: string | null
           user_id: string
         }
@@ -231,6 +232,7 @@ export type Database = {
           photo_url?: string | null
           points?: number | null
           role: Database["public"]["Enums"]["user_role"]
+          school?: string | null
           updated_at?: string | null
           user_id: string
         }
@@ -248,6 +250,7 @@ export type Database = {
           photo_url?: string | null
           points?: number | null
           role?: Database["public"]["Enums"]["user_role"]
+          school?: string | null
           updated_at?: string | null
           user_id?: string
         }
@@ -465,6 +468,7 @@ export type Database = {
           parent_consent: boolean | null
           parent_email: string | null
           parent_phone: string | null
+          preferred_activities: string[] | null
           profile_id: string
           school_id: string | null
           total_hours: number | null
@@ -478,6 +482,7 @@ export type Database = {
           parent_consent?: boolean | null
           parent_email?: string | null
           parent_phone?: string | null
+          preferred_activities?: string[] | null
           profile_id: string
           school_id?: string | null
           total_hours?: number | null
@@ -491,6 +496,7 @@ export type Database = {
           parent_consent?: boolean | null
           parent_email?: string | null
           parent_phone?: string | null
+          preferred_activities?: string[] | null
           profile_id?: string
           school_id?: string | null
           total_hours?: number | null

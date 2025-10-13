@@ -455,7 +455,7 @@ const StudentDashboard = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8">
-        <Tabs defaultValue={!isProfileComplete ? "profile" : "browse"} className="space-y-6">
+        <Tabs value={!isProfileComplete ? "profile" : undefined} defaultValue="browse" className="space-y-6">
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="browse" id="student-browse-tab">
               Browse Centers

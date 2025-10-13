@@ -95,12 +95,12 @@ const StudentProfile = () => {
           last_name: fullProfile?.last_name || "",
           email: fullProfile?.email || "",
           phone: fullProfile?.phone || "",
-          school: "", // Will be populated from school data if needed
-          grade: teenData.grade_level ? `${teenData.grade_level}th Grade` : "",
+          school: fullProfile?.school || "",
+          grade: teenData.grade_level ? String(teenData.grade_level) : "",
           bio: fullProfile?.bio || "",
           interests: teenData.interests || [],
           volunteer_hours: Number(teenData.total_hours) || 0,
-          preferred_activities: [] // Will be populated from other data if available
+          preferred_activities: teenData.preferred_activities || []
         };
 
         setProfile(combinedProfile);
@@ -154,16 +154,20 @@ const StudentProfile = () => {
           last_name: editedProfile.last_name,
           phone: editedProfile.phone,
           bio: editedProfile.bio,
+          school: editedProfile.school,
         })
         .eq('id', authProfile.id);
 
       if (profileError) throw profileError;
 
       // Update or create teen volunteer data
+      const gradeLevel = editedProfile.grade ? parseInt(editedProfile.grade.replace(/\D/g, '')) || null : null;
+      
       const teenVolunteerUpdate = {
         profile_id: authProfile.id,
-        grade_level: editedProfile.grade ? parseInt(editedProfile.grade) : null,
+        grade_level: gradeLevel,
         interests: editedProfile.interests,
+        preferred_activities: editedProfile.preferred_activities,
         total_hours: editedProfile.volunteer_hours
       };
 
