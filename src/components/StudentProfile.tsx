@@ -196,14 +196,7 @@ const StudentProfile = () => {
       
       if (isFirstTimeSetup) {
         setIsFirstTimeSetup(false);
-        console.log('🎯 Profile completed - updating state');
-        // Force update the profile completion state immediately
-        markProfileComplete();
-        // Force a page refresh to ensure state is updated
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-        toast.success("🎉 Profile completed successfully! Refreshing to enable all features...", { duration: 3000 });
+        toast.success("🎉 Profile completed successfully! You now have full access to all features!", { duration: 5000 });
       } else {
         toast.success("Profile updated successfully!");
       }

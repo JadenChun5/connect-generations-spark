@@ -455,24 +455,18 @@ const StudentDashboard = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {/* Debug info for profile completion */}
-        {process.env.NODE_ENV === 'development' && (
-          <div className="mb-4 p-2 bg-muted text-xs">
-            Profile Complete: {isProfileComplete ? 'YES' : 'NO'} | Loading: {profileLoading ? 'YES' : 'NO'}
-          </div>
-        )}
-        <Tabs value={!isProfileComplete ? "profile" : undefined} defaultValue="browse" className="space-y-6">
+        <Tabs defaultValue="browse" className="space-y-6">
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="browse" id="student-browse-tab">
               Browse Centers
             </TabsTrigger>
-            <TabsTrigger value="availability" disabled={!isProfileComplete} id="student-availability-tab">
+            <TabsTrigger value="availability" id="student-availability-tab">
               Set My Availability
             </TabsTrigger>
-            <TabsTrigger value="calendar" disabled={!isProfileComplete} id="student-calendar-tab">
+            <TabsTrigger value="calendar" id="student-calendar-tab">
               Calendar Booking
             </TabsTrigger>
-            <TabsTrigger value="bookings" disabled={!isProfileComplete}>
+            <TabsTrigger value="bookings">
               My Bookings
             </TabsTrigger>
             <TabsTrigger value="profile">My Profile</TabsTrigger>
