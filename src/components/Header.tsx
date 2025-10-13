@@ -78,18 +78,11 @@ const Header = () => {
                 </Button>
               </>
             ) : (
-              <>
-                <Link to="/demo">
-                  <Button variant="ghost" size="sm">
-                    Try Demo
-                  </Button>
-                </Link>
-                <Link to="/auth">
-                  <Button variant="hero" size="sm">
-                    Get Started
-                  </Button>
-                </Link>
-              </>
+              <Link to="/auth">
+                <Button variant="hero" size="sm">
+                  Get Started
+                </Button>
+              </Link>
             )}
           </div>
 
@@ -162,18 +155,11 @@ const Header = () => {
                   </Button>
                 </>
               ) : (
-                <>
-                  <Link to="/demo">
-                    <Button variant="ghost" size="sm" className="w-full">
-                      Try Demo
-                    </Button>
-                  </Link>
-                  <Link to="/auth">
-                    <Button variant="hero" size="sm" className="w-full">
-                      Get Started
-                    </Button>
-                  </Link>
-                </>
+                <Link to="/auth">
+                  <Button variant="hero" size="sm" className="w-full">
+                    Get Started
+                  </Button>
+                </Link>
               )}
             </div>
           </nav>

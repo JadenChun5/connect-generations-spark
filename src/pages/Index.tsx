@@ -2,7 +2,6 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import UserTypeSelection from "@/components/UserTypeSelection";
 import ValuePropositions from "@/components/ValuePropositions";
-import DemoPreview from "@/components/DemoPreview";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -13,7 +12,6 @@ const Index = () => {
         <Hero />
         <UserTypeSelection />
         <ValuePropositions />
-        <DemoPreview />
       </main>
       <Footer />
     </div>

@@ -12,8 +12,6 @@ import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import StudentDashboard from "./pages/dashboard/StudentDashboard";
 import StaffDashboard from "./pages/dashboard/StaffDashboard";
-import Demo from "./pages/Demo";
-
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -25,7 +23,6 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/demo" element={<Demo />} />
             <Route path="/about" element={<About />} />
             <Route path="/connect" element={<Connect />} />
             <Route path="/auth" element={<Auth />} />

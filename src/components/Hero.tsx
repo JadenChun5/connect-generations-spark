@@ -49,9 +49,9 @@ const Hero = () => {
                 variant="outline" 
                 size="xl" 
                 className="bg-white/10 border-white/30 text-white hover:bg-white/20"
-                onClick={() => navigate('/demo')}
+                onClick={() => navigate('/auth')}
               >
-                Try Demo
+                Sign In
               </Button>
             </div>
             
