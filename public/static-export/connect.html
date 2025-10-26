@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - ElderConnect</title>
+    <meta name="description" content="Get in touch with ElderConnect. Whether you're a school, senior center, or community organization, we'd love to hear from you.">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--foreground);
+        }
+        
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .contact-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .contact-card:hover {
+            box-shadow: 0 10px 30px rgba(155, 135, 245, 0.2);
+        }
+        
+        .contact-icon {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">♥</span>
+                <div>
+                    <div class="logo-text">ElderConnect</div>
+                    <div style="font-size: 0.75rem; color: var(--muted);">Bridging Generations</div>
+                </div>
+            </a>
+            <nav class="nav">
+                <a href="index.html#how-it-works">How It Works</a>
+                <a href="features.html">Features</a>
+                <a href="demo.html">Demo</a>
+                <a href="about.html">About</a>
+                <a href="connect.html" style="color: var(--primary);">Connect</a>
+                <a href="demo.html" class="btn btn-outline">View Demo</a>
+                <a href="connect.html" class="btn btn-primary">Contact Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section style="padding-top: 120px; padding-bottom: 3rem; text-align: center; background: linear-gradient(135deg, rgba(155, 135, 245, 0.1), rgba(14, 165, 233, 0.1));">
+        <div class="container">
+            <h1 style="font-size: 3rem; font-weight: bold; margin-bottom: 1rem;">
+                Let's Connect
+            </h1>
+            <p style="font-size: 1.25rem; color: var(--muted); max-width: 600px; margin: 0 auto;">
+                Whether you're a school, senior center, or community organization, we'd love to hear from you.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Methods -->
+    <section class="section">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
+                
+                <div class="contact-card">
+                    <div class="contact-icon">📧</div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Email Us</h3>
+                    <p style="color: var(--muted); font-size: 0.875rem; margin-bottom: 1rem;">
+                        Get a response within 24 hours
+                    </p>
+                    <a href="mailto:hello@elderconnect.org" style="color: var(--primary); font-weight: 600; text-decoration: none;">
+                        hello@elderconnect.org
+                    </a>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">📞</div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Call Us</h3>
+                    <p style="color: var(--muted); font-size: 0.875rem; margin-bottom: 1rem;">
+                        Mon-Fri, 9am-5pm EST
+                    </p>
+                    <a href="tel:+15555551234" style="color: var(--primary); font-weight: 600; text-decoration: none;">
+                        (555) 555-1234
+                    </a>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">📍</div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Visit Us</h3>
+                    <p style="color: var(--muted); font-size: 0.875rem; margin-bottom: 0.5rem;">
+                        123 Community Drive<br>
+                        Suite 200<br>
+                        Anytown, ST 12345
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Contact Form -->
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div style="background: white; padding: 3rem; border-radius: 1.5rem; border: 1px solid var(--border);">
+                    <h2 style="font-size: 2rem; margin-bottom: 0.5rem; text-align: center;">Send Us a Message</h2>
+                    <p style="text-align: center; color: var(--muted); margin-bottom: 2rem;">
+                        Fill out the form below and we'll get back to you as soon as possible.
+                    </p>
+
+                    <form action="#" method="POST">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Full Name *</label>
+                            <input type="text" id="name" name="name" class="form-input" required placeholder="John Doe">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address *</label>
+                            <input type="email" id="email" name="email" class="form-input" required placeholder="john@example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="organization" class="form-label">Organization</label>
+                            <input type="text" id="organization" name="organization" class="form-input" placeholder="School or Senior Center Name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="type" class="form-label">I am a... *</label>
+                            <select id="type" name="type" class="form-select" required>
+                                <option value="">Select one</option>
+                                <option value="student">High School Student</option>
+                                <option value="parent">Parent/Guardian</option>
+                                <option value="teacher">Teacher/School Administrator</option>
+                                <option value="senior-center">Senior Center Staff</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message *</label>
+                            <textarea id="message" name="message" class="form-textarea" required placeholder="Tell us how we can help..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.125rem;">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section" style="background: linear-gradient(135deg, rgba(155, 135, 245, 0.05), rgba(14, 165, 233, 0.05));">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 3rem;">Frequently Asked Questions</h2>
+            
+            <div style="max-width: 800px; margin: 0 auto; display: grid; gap: 1.5rem;">
+                
+                <div style="background: white; padding: 2rem; border-radius: 1rem; border: 1px solid var(--border);">
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--primary);">How do I get started?</h3>
+                    <p style="color: var(--muted);">
+                        Simply fill out the contact form above, and our team will reach out to schedule a demo and walk you through the setup process. We'll have you up and running in no time!
+                    </p>
+                </div>
+
+                <div style="background: white; padding: 2rem; border-radius: 1rem; border: 1px solid var(--border);">
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--primary);">Is there a cost to use ElderConnect?</h3>
+                    <p style="color: var(--muted);">
+                        We offer flexible pricing plans for schools and senior centers. Contact us to learn more about options that fit your organization's needs and budget.
+                    </p>
+                </div>
+
+                <div style="background: white; padding: 2rem; border-radius: 1rem; border: 1px solid var(--border);">
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--primary);">How is volunteer hour tracking verified?</h3>
+                    <p style="color: var(--muted);">
+                        Senior center staff confirm each visit through the platform, creating an official record that can be exported for college applications, awards, and other programs.
+                    </p>
+                </div>
+
+                <div style="background: white; padding: 2rem; border-radius: 1rem; border: 1px solid var(--border);">
+                    <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--primary);">What safety measures are in place?</h3>
+                    <p style="color: var(--muted);">
+                        We prioritize safety with verified accounts, parent notifications for minors, secure communications, and coordination with senior center staff. All volunteers must follow center-specific requirements and protocols.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; margin-bottom: 2rem;">
+                <a href="index.html" class="logo" style="color: white;">
+                    <span class="logo-icon">♥</span>
+                    <div>
+                        <div class="logo-text">ElderConnect</div>
+                        <div style="font-size: 0.75rem; opacity: 0.8;">Bridging Generations</div>
+                    </div>
+                </a>
+                <nav style="display: flex; gap: 2rem;">
+                    <a href="features.html">Features</a>
+                    <a href="demo.html">Demo</a>
+                    <a href="about.html">About</a>
+                    <a href="connect.html">Contact</a>
+                </nav>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 1.5rem; opacity: 0.8; text-align: center;">
+                <p>&copy; 2025 ElderConnect. All rights reserved. Built with ♥ for intergenerational connection.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
