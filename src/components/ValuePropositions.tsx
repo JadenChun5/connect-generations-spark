@@ -12,8 +12,10 @@ import {
   BookOpen,
   Activity
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const ValuePropositions = () => {
+  const navigate = useNavigate();
   const benefits = [
     {
       category: "For Teen Volunteers",
@@ -154,15 +156,20 @@ const ValuePropositions = () => {
 
           <div className="bg-gradient-subtle p-8 rounded-2xl max-w-2xl mx-auto">
             <h3 className="text-2xl font-semibold mb-4 text-foreground">
-              Ready to Make a Difference?
+              See ElderConnect in Action
             </h3>
             <p className="text-muted-foreground mb-6">
-              Join thousands of teens and seniors already building meaningful connections in their communities.
+              Explore our interactive demo to see how we're connecting thousands of teens and seniors across communities.
             </p>
-            <Button variant="hero" size="xl">
-              Get Started Today
-              <ArrowRight className="h-5 w-5 ml-2" />
-            </Button>
+            <div className="flex gap-4 justify-center">
+              <Button variant="hero" size="xl" onClick={() => navigate('/demo')}>
+                View Demo
+                <ArrowRight className="h-5 w-5 ml-2" />
+              </Button>
+              <Button variant="outline" size="xl" onClick={() => navigate('/connect')}>
+                Contact Us
+              </Button>
+            </div>
           </div>
         </div>
       </div>

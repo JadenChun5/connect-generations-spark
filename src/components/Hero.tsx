@@ -41,17 +41,17 @@ const Hero = () => {
                 variant="hero" 
                 size="xl" 
                 className="font-semibold"
-                onClick={() => document.getElementById('user-type-selection')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => navigate('/demo')}
               >
-                Get Started Today
+                View Demo
               </Button>
               <Button 
                 variant="outline" 
                 size="xl" 
                 className="bg-white/10 border-white/30 text-white hover:bg-white/20"
-                onClick={() => navigate('/auth')}
+                onClick={() => navigate('/connect')}
               >
-                Sign In
+                Contact Us
               </Button>
             </div>
             

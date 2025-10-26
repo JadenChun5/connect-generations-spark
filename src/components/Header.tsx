@@ -1,13 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Heart, Menu, X, LogOut, User } from "lucide-react";
+import { Heart, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, profile, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -22,6 +20,8 @@ const Header = () => {
 
   const navigation = [
     { name: "How It Works", href: "#user-type-selection", onClick: handleHowItWorksClick },
+    { name: "Features", href: "/features" },
+    { name: "Demo", href: "/demo" },
     { name: "About", href: "/about" },
     { name: "Connect", href: "/connect" }
   ];
@@ -67,34 +67,16 @@ const Header = () => {
 
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-3">
-            {user ? (
-              <>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => navigate(profile?.role === 'teen_volunteer' ? '/dashboard/student' : '/dashboard/staff')}
-                  className="flex items-center gap-2"
-                >
-                  <User className="h-4 w-4" />
-                  Dashboard
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={signOut}
-                  className="flex items-center gap-2"
-                >
-                  <LogOut className="h-4 w-4" />
-                  Sign Out
-                </Button>
-              </>
-            ) : (
-              <Link to="/auth">
-                <Button variant="hero" size="sm">
-                  Get Started/Sign In
-                </Button>
-              </Link>
-            )}
+            <Link to="/demo">
+              <Button variant="outline" size="sm">
+                View Demo
+              </Button>
+            </Link>
+            <Link to="/connect">
+              <Button variant="hero" size="sm">
+                Contact Us
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -141,40 +123,16 @@ const Header = () => {
               )
             ))}
             <div className="flex flex-col gap-3 pt-4 border-t border-border">
-              {user ? (
-                <>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="w-full flex items-center gap-2"
-                    onClick={() => {
-                      navigate(profile?.role === 'teen_volunteer' ? '/dashboard/student' : '/dashboard/staff');
-                      setIsMenuOpen(false);
-                    }}
-                  >
-                    <User className="h-4 w-4" />
-                    Dashboard
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="w-full flex items-center gap-2"
-                    onClick={() => {
-                      signOut();
-                      setIsMenuOpen(false);
-                    }}
-                  >
-                    <LogOut className="h-4 w-4" />
-                    Sign Out
-                  </Button>
-                </>
-              ) : (
-                <Link to="/auth">
-                  <Button variant="hero" size="sm" className="w-full">
-                    Get Started/Sign In
-                  </Button>
-                </Link>
-              )}
+              <Link to="/demo" onClick={() => setIsMenuOpen(false)}>
+                <Button variant="outline" size="sm" className="w-full">
+                  View Demo
+                </Button>
+              </Link>
+              <Link to="/connect" onClick={() => setIsMenuOpen(false)}>
+                <Button variant="hero" size="sm" className="w-full">
+                  Contact Us
+                </Button>
+              </Link>
             </div>
           </nav>
         </div>
