@@ -122,21 +122,8 @@ const About = () => {
             </h2>
           </div>
           
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Image */}
-            <div className="order-2 lg:order-1">
-              <div className="relative rounded-2xl overflow-hidden shadow-strong">
-                <img 
-                  src={founderPortrait} 
-                  alt="Jaden, Founder of ElderConnect"
-                  className="w-full h-auto object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent" />
-              </div>
-            </div>
-            
-            {/* Text */}
-            <div className="order-1 lg:order-2">
+          <div className="max-w-3xl mx-auto">
+            <div>
               <Card className="bg-gradient-warm/10 border-secondary/20">
                 <CardContent className="p-8">
                   <div className="text-lg text-muted-foreground leading-relaxed space-y-4">
@@ -159,29 +146,16 @@ const About = () => {
       
       {/* Mission Visual Section */}
       <section className="py-16 px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-6">
-                Building Connections That Matter
-              </h2>
-              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                Every day, our platform facilitates meaningful conversations between generations. These aren't just volunteer hours—they're moments of genuine human connection that transform lives on both sides.
-              </p>
-              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                From the South Bay to communities nationwide, we're proving that technology can be a bridge, not a barrier, to the relationships that matter most.
-              </p>
-            </div>
-            
-            <div className="relative rounded-2xl overflow-hidden shadow-strong">
-              <img 
-                src={connectionImage} 
-                alt="Senior and teen volunteer connecting"
-                className="w-full h-auto object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/10 to-transparent" />
-            </div>
-          </div>
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-6">
+            Building Connections That Matter
+          </h2>
+          <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+            Every day, our platform facilitates meaningful conversations between generations. These aren't just volunteer hours—they're moments of genuine human connection that transform lives on both sides.
+          </p>
+          <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+            From the South Bay to communities nationwide, we're proving that technology can be a bridge, not a barrier, to the relationships that matter most.
+          </p>
         </div>
       </section>
 
