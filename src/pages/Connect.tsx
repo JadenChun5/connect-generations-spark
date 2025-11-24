@@ -13,9 +13,9 @@ const Connect = () => {
     {
       icon: Mail,
       title: "Email Us",
-      details: "hello@elderconnect.org",
+      details: "jadenbusiness5d@gmail.com",
       description: "Get in touch for general inquiries",
-      action: "mailto:hello@elderconnect.org"
+      action: "mailto:jadenbusiness5d@gmail.com"
     },
     {
       icon: Phone,

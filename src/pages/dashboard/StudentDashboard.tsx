@@ -148,7 +148,7 @@ const StudentDashboard = () => {
       const { data: profile } = await supabase
         .from('profiles')
         .select('id')
-        .eq('user_id', user.id)
+        .eq('id', user.id)
         .single();
 
       if (!profile) return;
@@ -349,7 +349,7 @@ const StudentDashboard = () => {
       const { data: userProfile } = await supabase
         .from('profiles')
         .select('*')
-        .eq('user_id', user?.id)
+        .eq('id', user?.id)
         .single();
 
       // Create notification data with real user info
