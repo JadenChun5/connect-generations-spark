@@ -167,7 +167,7 @@ export function RealtimeNotifications({ onRequestAction }: RealtimeNotifications
               seniorName: notification.data.seniorName,
               seniorCenterName: centerData.name,
               seniorCenterAddress: fullAddress,
-              seniorCenterPhone: centerData.contact_phone || '(Contact center for phone)',
+              seniorCenterPhone: centerData.phone || '(Contact center for phone)',
               date: notification.data.date,
               startTime: notification.data.startTime,
               endTime: notification.data.endTime,

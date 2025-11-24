@@ -275,6 +275,9 @@ const StudentDashboard = () => {
         setSeniors(seniorsData || []);
       }
 
+      // TODO: Time slots functionality needs to be re-implemented with new schema
+      // Commenting out until senior_time_slots table is added
+      /*
       // Fetch available time slots for these seniors
       const { data: timeSlotsData, error: timeSlotsError } = await supabase
         .from('senior_time_slots')
@@ -316,6 +319,8 @@ const StudentDashboard = () => {
         
         setTimeSlots(convertedTimeSlots);
       }
+      */
+      setTimeSlots([]);
       
       setLoading(false);
     } catch (error) {
