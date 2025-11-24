@@ -6,13 +6,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const About = () => {
-  const stats = [
-    { icon: Users, value: "1,000+", label: "Connections Made" },
-    { icon: Heart, value: "500+", label: "Volunteer Hours" },
-    { icon: Award, value: "50+", label: "Partner Centers" },
-    { icon: Clock, value: "24/7", label: "Platform Support" }
-  ];
-
   const values = [
     {
       icon: Heart,
@@ -62,43 +55,27 @@ const About = () => {
 
       {/* Mission Section */}
       <section className="py-16 px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-6">
-                Our Mission
-              </h2>
-              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                We believe that every senior deserves companionship and every teen deserves the opportunity 
-                to contribute meaningfully to society. Our platform creates safe, supervised connections 
-                that enrich lives across generations.
-              </p>
-              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                Through technology, we're solving the loneliness epidemic while building stronger, 
-                more connected communities.
-              </p>
-              <Link to="/">
-                <Button 
-                  variant="hero" 
-                  size="lg"
-                >
-                  Join Our Mission
-                </Button>
-              </Link>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-6">
-              {stats.map((stat, index) => (
-                <Card key={index} className="text-center hover:shadow-medium transition-all duration-300">
-                  <CardContent className="pt-6">
-                    <stat.icon className="h-8 w-8 text-primary mx-auto mb-4" />
-                    <div className="text-3xl font-bold text-foreground mb-2">{stat.value}</div>
-                    <div className="text-sm text-muted-foreground">{stat.label}</div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-6">
+            Our Mission
+          </h2>
+          <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+            We believe that every senior deserves companionship and every teen deserves the opportunity 
+            to contribute meaningfully to society. Our platform creates safe, supervised connections 
+            that enrich lives across generations.
+          </p>
+          <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+            Through technology, we're solving the loneliness epidemic while building stronger, 
+            more connected communities.
+          </p>
+          <Link to="/">
+            <Button 
+              variant="hero" 
+              size="lg"
+            >
+              Join Our Mission
+            </Button>
+          </Link>
         </div>
       </section>
 
@@ -134,34 +111,26 @@ const About = () => {
         </div>
       </section>
 
-      {/* How We Started Section */}
+      {/* Founder Section */}
       <section className="py-16 px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
-              How We Started
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-2">
+              Jaden, Founder
             </h2>
-            <p className="text-xl text-muted-foreground">
-              Born from a simple observation about the power of intergenerational connection
-            </p>
           </div>
           
           <Card className="bg-gradient-warm/10 border-secondary/20">
             <CardContent className="p-8 lg:p-12">
               <div className="text-lg text-muted-foreground leading-relaxed space-y-4">
                 <p>
-                  ElderConnect began when our founders noticed a troubling trend: seniors in care facilities 
-                  were experiencing unprecedented levels of loneliness, while teenagers were searching for 
-                  meaningful ways to contribute to their communities.
+                  I am a high school junior who believes that technology should connect us, not isolate us. I founded ElderConnect after seeing two problems could solve each other. Seniors struggling with loneliness and students searching for meaningful volunteer work.
                 </p>
                 <p>
-                  What started as a small volunteer program in a single senior center has grown into a 
-                  comprehensive platform that facilitates thousands of intergenerational connections 
-                  across the country.
+                  ElderConnect was started with a simple idea: what if we made it easy for high school students to show up consistently with seniors in our communities? An idea born from lines of code is now a full-fledged platform that connects volunteers with local senior centers throughout the South Bay, because everyone deserves companionship, and every generation has something to teach the next.
                 </p>
                 <p>
-                  Today, we're proud to be the leading platform for safe, meaningful connections between 
-                  seniors and teens, making a real difference in communities everywhere.
+                  Each conversation between a student and a senior is a shared story, a lesson learned, and a reminder that we're not alone.
                 </p>
               </div>
             </CardContent>

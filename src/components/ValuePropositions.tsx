@@ -24,16 +24,6 @@ const ValuePropositions = () => {
       textColor: "text-secondary",
       benefits: [
         {
-          icon: BookOpen,
-          title: "College Application Hours",
-          description: "Earn verified volunteer hours that make your college applications stand out with meaningful community service."
-        },
-        {
-          icon: Gift, 
-          title: "Local Business Rewards",
-          description: "Get exclusive discounts and rewards from local partners for consistent volunteering and engagement."
-        },
-        {
           icon: Users,
           title: "Meaningful Connections",
           description: "Build real relationships with seniors who have incredible stories and wisdom to share."
@@ -42,6 +32,16 @@ const ValuePropositions = () => {
           icon: Target,
           title: "Interest-Based Matching", 
           description: "Get matched with seniors who share your hobbies, interests, or career aspirations."
+        },
+        {
+          icon: Gift, 
+          title: "Local Business Rewards",
+          description: "Get exclusive discounts and rewards from local partners for consistent volunteering and engagement."
+        },
+        {
+          icon: BookOpen,
+          title: "College Application Hours",
+          description: "Earn verified volunteer hours that make your college applications stand out with meaningful community service."
         }
       ]
     },

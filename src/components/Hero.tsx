@@ -54,22 +54,6 @@ const Hero = () => {
                 Contact Us
               </Button>
             </div>
-            
-            {/* Stats Row */}
-            <div className="flex justify-center lg:justify-start gap-8 mt-12">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-secondary">500+</div>
-                <div className="text-sm text-primary-soft">Teen Volunteers</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-secondary">50+</div>
-                <div className="text-sm text-primary-soft">Senior Centers</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-secondary">15K+</div>
-                <div className="text-sm text-primary-soft">Volunteer Hours</div>
-              </div>
-            </div>
           </div>
           
           {/* Right Column - Quick Value Cards */}
