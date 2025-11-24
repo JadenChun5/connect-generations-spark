@@ -18,20 +18,6 @@ const Connect = () => {
       action: "mailto:jadenbusiness5d@gmail.com"
     },
     {
-      icon: Phone,
-      title: "Call Us",
-      details: "(555) 123-4567",
-      description: "Mon-Fri, 9 AM - 6 PM EST",
-      action: "tel:+15551234567"
-    },
-    {
-      icon: MapPin,
-      title: "Visit Us",
-      details: "123 Community Street, Suite 100",
-      description: "New York, NY 10001",
-      action: "#"
-    },
-    {
       icon: MessageSquare,
       title: "Live Chat",
       details: "Available 24/7",
@@ -85,7 +71,7 @@ const Connect = () => {
       {/* Contact Cards */}
       <section className="py-16 px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <div className="grid md:grid-cols-2 gap-6 mb-16 max-w-3xl mx-auto">
             {contactInfo.map((contact, index) => (
               <Card key={index} className="text-center hover:shadow-medium transition-all duration-300 cursor-pointer" 
                     onClick={() => contact.action !== "#" && window.open(contact.action, "_blank")}>
