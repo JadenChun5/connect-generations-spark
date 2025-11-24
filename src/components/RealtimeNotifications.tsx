@@ -116,7 +116,7 @@ export function RealtimeNotifications({ onRequestAction }: RealtimeNotifications
           const { data: profile, error: profileError } = await supabase
             .from('profiles')
             .select('id')
-            .eq('user_id', user.id)
+            .eq('id', user.id)
             .single();
 
           if (profileError) throw profileError;
@@ -130,8 +130,8 @@ export function RealtimeNotifications({ onRequestAction }: RealtimeNotifications
               city,
               state,
               zip_code,
-              contact_phone,
-              contact_email
+              phone,
+              email
             `)
             .eq('admin_id', profile.id)
             .single();

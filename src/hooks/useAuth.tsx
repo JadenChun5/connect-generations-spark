@@ -5,7 +5,6 @@ import { toast } from 'sonner';
 
 interface Profile {
   id: string;
-  user_id: string;
   role: 'teen_volunteer' | 'senior_center_admin' | 'teen_admin' | 'family_member';
   first_name: string;
   last_name: string;
@@ -68,7 +67,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
-        .eq('user_id', userId)
+        .eq('id', userId)
         .single();
 
       if (error) {

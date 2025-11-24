@@ -1,9 +1,11 @@
-import { Heart, Users, Shield, Target, Award, Clock } from "lucide-react";
+import { Heart, Users, Shield, Target, Award } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import founderPortrait from "@/assets/founder-portrait.jpg";
+import connectionImage from "@/assets/intergenerational-connection.jpg";
 
 const About = () => {
   const values = [
@@ -112,29 +114,74 @@ const About = () => {
       </section>
 
       {/* Founder Section */}
-      <section className="py-16 px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
+      <section className="py-16 px-6 lg:px-8 bg-card/50">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-2">
               Jaden, Founder
             </h2>
           </div>
           
-          <Card className="bg-gradient-warm/10 border-secondary/20">
-            <CardContent className="p-8 lg:p-12">
-              <div className="text-lg text-muted-foreground leading-relaxed space-y-4">
-                <p>
-                  I am a high school junior who believes that technology should connect us, not isolate us. I founded ElderConnect after seeing two problems could solve each other. Seniors struggling with loneliness and students searching for meaningful volunteer work.
-                </p>
-                <p>
-                  ElderConnect was started with a simple idea: what if we made it easy for high school students to show up consistently with seniors in our communities? An idea born from lines of code is now a full-fledged platform that connects volunteers with local senior centers throughout the South Bay, because everyone deserves companionship, and every generation has something to teach the next.
-                </p>
-                <p>
-                  Each conversation between a student and a senior is a shared story, a lesson learned, and a reminder that we're not alone.
-                </p>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Image */}
+            <div className="order-2 lg:order-1">
+              <div className="relative rounded-2xl overflow-hidden shadow-strong">
+                <img 
+                  src={founderPortrait} 
+                  alt="Jaden, Founder of ElderConnect"
+                  className="w-full h-auto object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent" />
               </div>
-            </CardContent>
-          </Card>
+            </div>
+            
+            {/* Text */}
+            <div className="order-1 lg:order-2">
+              <Card className="bg-gradient-warm/10 border-secondary/20">
+                <CardContent className="p-8">
+                  <div className="text-lg text-muted-foreground leading-relaxed space-y-4">
+                    <p>
+                      I am a high school junior who believes that technology should connect us, not isolate us. I founded ElderConnect after seeing two problems could solve each other. Seniors struggling with loneliness and students searching for meaningful volunteer work.
+                    </p>
+                    <p>
+                      ElderConnect was started with a simple idea: what if we made it easy for high school students to show up consistently with seniors in our communities? An idea born from lines of code is now a full-fledged platform that connects volunteers with local senior centers throughout the South Bay, because everyone deserves companionship, and every generation has something to teach the next.
+                    </p>
+                    <p className="font-semibold text-foreground">
+                      Each conversation between a student and a senior is a shared story, a lesson learned, and a reminder that we're not alone.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Mission Visual Section */}
+      <section className="py-16 px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-6">
+                Building Connections That Matter
+              </h2>
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                Every day, our platform facilitates meaningful conversations between generations. These aren't just volunteer hours—they're moments of genuine human connection that transform lives on both sides.
+              </p>
+              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+                From the South Bay to communities nationwide, we're proving that technology can be a bridge, not a barrier, to the relationships that matter most.
+              </p>
+            </div>
+            
+            <div className="relative rounded-2xl overflow-hidden shadow-strong">
+              <img 
+                src={connectionImage} 
+                alt="Senior and teen volunteer connecting"
+                className="w-full h-auto object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/10 to-transparent" />
+            </div>
+          </div>
         </div>
       </section>
 
