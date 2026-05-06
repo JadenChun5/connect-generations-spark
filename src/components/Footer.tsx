@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import { 
   Heart, 
   Mail, 
@@ -190,12 +191,12 @@ const Footer = () => {
               © 2024 ElderConnect. All rights reserved. Made with ❤️ for community building.
             </div>
             <div className="flex gap-6">
-              <a href="#privacy" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">
+              <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">
                 Privacy Policy
-              </a>
-              <a href="#terms" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">
+              </Link>
+              <Link to="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">
                 Terms of Service
-              </a>
+              </Link>
               <a href="#accessibility" className="text-sm text-muted-foreground hover:text-foreground transition-smooth">
                 Accessibility
               </a>
