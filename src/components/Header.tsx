@@ -22,6 +22,7 @@ const Header = () => {
     { name: "How It Works", href: "#user-type-selection", onClick: handleHowItWorksClick },
     { name: "Features", href: "/features" },
     { name: "Demo", href: "/demo" },
+    { name: "Why", href: "/why" },
     { name: "About", href: "/about" },
     { name: "Connect", href: "/connect" }
   ];

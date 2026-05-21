@@ -10,6 +10,7 @@ import Demo from "./pages/Demo";
 import Connect from "./pages/Connect";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import Why from "./pages/Why";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/connect" element={<Connect />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
+          <Route path="/why" element={<Why />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
