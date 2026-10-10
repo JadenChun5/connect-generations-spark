@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import heroPhoto from "@/assets/photos/hero.webp.asset.json";
 
 const Hero = () => (
@@ -9,7 +10,7 @@ const Hero = () => (
       <p className="mt-7 text-muted-foreground">ElderConnect helps students sign up for supervised group activities at local senior centers. Staff run every session, so students always have someone to follow and seniors always have a familiar team.</p>
       <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         <Button asChild><a href="#join">Join the waitlist</a></Button>
-        <Button asChild variant="outline"><a href="#centers">I run a senior center</a></Button>
+        <Button asChild variant="outline"><Link to="/senior-centers">I run a senior center</Link></Button>
       </div>
       <p className="mt-6 max-w-xl text-base text-muted-foreground">Built by a student in the South Bay who wanted a simple, safe way for young people to spend time with their neighbors.</p>
     </div>

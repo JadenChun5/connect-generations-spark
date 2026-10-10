@@ -1,10 +1,9 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
-import PhotoPlaceholder from "@/components/PhotoPlaceholder";
 import WaitlistForm from "@/components/WaitlistForm";
 import seniorCentersPhoto from "@/assets/photos/senior-centers.webp.asset.json";
 
@@ -14,7 +13,6 @@ const steps = [
   { title: "Staff lead the session", text: "Students show up, join in and follow staff direction. Center staff run the activity from start to finish." },
 ];
 const studentBenefits = ["Browse activities at nearby senior centers", "Sign up, and cancel if something comes up", "Always a staff member leading, never one-on-one", "Under 18? You take part with a parent or guardian's permission"];
-const centerBenefits = ["You choose which activities to open and how many volunteers you want", "You see who has signed up before the day", "Your staff lead the session, and you decide who may take part", "Free for centers during our pilot"];
 const safety = [
   { title: "Group activities only", text: "There are no one-on-one visits. Every activity is a group, in the center." },
   { title: "Staff run every session", text: "Center staff lead each activity and students follow their instructions." },
@@ -64,9 +62,8 @@ const Index = () => {
             </ol>
           </div>
         </section>
-        <section id="students" className="site-container grid items-center gap-10 py-16 lg:grid-cols-2 lg:gap-20 lg:py-24">
-          <PhotoPlaceholder>[REAL PHOTO: student volunteers at an activity, with permission]</PhotoPlaceholder>
-          <div>
+        <section id="students" className="site-container py-16 lg:py-24">
+          <div className="max-w-[760px]">
             <h2>For students</h2>
             <p className="mt-5 text-muted-foreground">Find a group activity near you, sign up in a minute, and spend an afternoon with people who are glad you came.</p>
             <BenefitList items={studentBenefits} />
@@ -77,8 +74,7 @@ const Index = () => {
           <div>
             <h2>For senior centers</h2>
             <p className="mt-5 text-muted-foreground">Keep running your activities the way you do now. ElderConnect gives you a steady group of students who sign up in advance, so you can plan.</p>
-            <BenefitList items={centerBenefits} />
-            <Button asChild><a href="#join">Talk to us about a pilot</a></Button>
+            <Button asChild className="mt-7"><Link to="/senior-centers">Talk to us about a pilot</Link></Button>
           </div>
           <figure className="min-w-0">
             <img src={seniorCentersPhoto.url} alt="A group of seniors in a chair exercise class." width={1600} height={1067} loading="lazy" className="aspect-[4/3] w-full rounded-2xl object-cover" />
