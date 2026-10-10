@@ -9,7 +9,7 @@ const Footer = () => (
           <img src={logo} alt="" width={36} height={36} loading="lazy" className="h-9 w-9" />
           ElderConnect
         </Link>
-        <p className="mt-3 text-base text-muted-foreground">A student-led project. Nonprofit registration in progress.</p>
+        <p className="mt-3 text-base text-muted-foreground">A student-led project.</p>
         <p className="mt-2 text-base text-muted-foreground">Contact: <a href="mailto:admin@elderconnect.org" className="text-primary underline underline-offset-4">admin@elderconnect.org</a></p>
       </div>
       <nav aria-label="Footer navigation" className="flex flex-wrap content-start gap-x-7 gap-y-4 text-base font-semibold">

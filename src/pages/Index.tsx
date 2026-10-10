@@ -25,7 +25,7 @@ const questions = [
   { question: "Who can volunteer?", answer: "Students aged 13 and up. Students under 18 need a parent or guardian's permission." },
   { question: "Are volunteers ever alone with seniors?", answer: "No. ElderConnect supports group activities that center staff run. There are no one-on-one visits." },
   { question: "What does it cost?", answer: "Nothing for students or centers during the pilot." },
-  { question: "Is ElderConnect a nonprofit?", answer: "We are a student-led project and our nonprofit registration is in progress." },
+  { question: "Is ElderConnect a nonprofit?", answer: "ElderConnect is a student-led project, not a registered nonprofit. Joining the waitlist is free." },
   { question: "Where is it available?", answer: "We are starting in the South Bay area of Los Angeles. Join the waitlist for updates." },
 ];
 
