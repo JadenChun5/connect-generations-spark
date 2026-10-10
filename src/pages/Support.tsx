@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import PublicPage from "@/components/PublicPage";
 
-const emailLink = "mailto:jaden@techonsite.com";
+const emailLink = "mailto:admin@elderconnect.org";
 const linkClass = "text-primary underline underline-offset-4";
 
 const Support = () => (
@@ -13,7 +13,7 @@ const Support = () => (
   >
     <section aria-label="Contact" className="border-y border-border py-8">
       <p className="text-xl font-semibold sm:text-2xl">
-        Email us: <a href={emailLink} className={`${linkClass} inline-flex min-h-12 items-center break-all`}>jaden@techonsite.com</a>
+        Email us: <a href={emailLink} className={`${linkClass} inline-flex min-h-12 items-center break-all`}>admin@elderconnect.org</a>
       </p>
       <p className="mt-2 text-muted-foreground">We reply as soon as we can.</p>
     </section>
@@ -30,11 +30,11 @@ const Support = () => (
         </div>
         <div className="py-6">
           <dt className="text-xl font-bold">I am a parent or guardian and want to review or delete my child's information.</dt>
-          <dd className="mt-3 text-muted-foreground">Email us at <a href={emailLink} className={`${linkClass} break-all`}>jaden@techonsite.com</a> and tell us your child's name and the email address on the account. We will help.</dd>
+          <dd className="mt-3 text-muted-foreground">Email us at <a href={emailLink} className={`${linkClass} break-all`}>admin@elderconnect.org</a> and tell us your child's name and the email address on the account. We will help.</dd>
         </div>
         <div className="py-6">
           <dt className="text-xl font-bold">How do I report a safety concern?</dt>
-          <dd className="mt-3 text-muted-foreground">Email us right away at <a href={emailLink} className={`${linkClass} break-all`}>jaden@techonsite.com</a>. If someone is in immediate danger, call 911.</dd>
+          <dd className="mt-3 text-muted-foreground">Email us right away at <a href={emailLink} className={`${linkClass} break-all`}>admin@elderconnect.org</a>. If someone is in immediate danger, call 911.</dd>
         </div>
         <div className="py-6">
           <dt className="text-xl font-bold">I run a senior center and want to join the pilot.</dt>

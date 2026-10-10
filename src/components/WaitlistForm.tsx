@@ -33,7 +33,7 @@ const WaitlistForm = () => {
         <input id="waitlist-email" name="email" type="email" autoComplete="email" maxLength={255} required className="waitlist-input" aria-describedby="waitlist-status" />
       </div>
       <Button type="submit" variant="waitlist" className="w-full">Join the waitlist</Button>
-      <p id="waitlist-status" role="status" className="text-base leading-relaxed">{error || "Waitlist signup is not available yet. You can contact jaden@techonsite.com."}</p>
+      <p id="waitlist-status" role="status" className="text-base leading-relaxed">{error || "Waitlist signup is not available yet. You can contact admin@elderconnect.org."}</p>
     </form>
   );
 };

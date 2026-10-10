@@ -18,7 +18,7 @@ const DeleteAccount = () => (
     </section>
     <section aria-labelledby="cant-use-app">
       <h2 id="cant-use-app">Can't use the app?</h2>
-      <p className="mt-5 text-muted-foreground">Email <a href="mailto:jaden@techonsite.com" className="break-all text-primary underline underline-offset-4">jaden@techonsite.com</a> from the address on your account and ask us to delete it. For your safety we may ask you to confirm it is you. A parent or guardian can also ask us to delete a child's account.</p>
+      <p className="mt-5 text-muted-foreground">Email <a href="mailto:admin@elderconnect.org" className="break-all text-primary underline underline-offset-4">admin@elderconnect.org</a> from the address on your account and ask us to delete it. For your safety we may ask you to confirm it is you. A parent or guardian can also ask us to delete a child's account.</p>
     </section>
     <section aria-labelledby="what-gets-deleted">
       <h2 id="what-gets-deleted">What gets deleted</h2>
