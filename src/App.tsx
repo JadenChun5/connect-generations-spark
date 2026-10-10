@@ -14,20 +14,12 @@ import Thanks from "./pages/Thanks";
 import SeniorCenters from "./pages/SeniorCenters";
 import Safety from "./pages/Safety";
 import Parents from "./pages/Parents";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { HelmetProvider } from "react-helmet-async";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <HelmetProvider>
-  <Helmet>
-    <title>ElderConnect: group volunteering at senior centers, led by center staff.</title>
-    <meta name="description" content="ElderConnect: group volunteering at senior centers, led by center staff." />
-    <meta property="og:title" content="ElderConnect: group volunteering at senior centers, led by center staff." />
-    <meta property="og:description" content="ElderConnect: group volunteering at senior centers, led by center staff." />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-  </Helmet>
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />

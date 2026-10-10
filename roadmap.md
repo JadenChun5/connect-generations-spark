@@ -1,4 +1,7 @@
 # Public website redesign
+- [x] Publish-readiness: requested policy/parents edits and public-copy audit; unsupported existing claims reported without rewriting legal text.
+- [x] Search/share metadata, robots, sitemap, and confirmation noindex; default Lovable favicon retained as requested and reported.
+- [x] Verify public pages at 1280px/390px and test waitlist with test-row cleanup; not published. Development warnings remain; no runtime exceptions.
 - [x] Replace hero and senior-center placeholders with supplied photos and linked credits; desktop and phone checks passed.
 - [x] Remove the student photo placeholder; keep the students section text-only as requested.
 - [x] Replace homepage and shared header/footer with the supplied copy and placeholders.

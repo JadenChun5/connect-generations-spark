@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 
 const NotFound = () => (
   <PublicPage
+    noindex
     title="Page not found"
     description="This ElderConnect link may be old or mistyped. Return to the home page or contact support."
     heading="We can't find that page"

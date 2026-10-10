@@ -1,5 +1,4 @@
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import PublicPage from "@/components/PublicPage";
 
 const CONTACT_EMAIL = "admin@elderconnect.org";
 
@@ -11,11 +10,8 @@ const EmailLink = () => (
 
 const Privacy = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main className="max-w-4xl mx-auto px-6 lg:px-8 pt-32 pb-20">
-        <h1 className="text-4xl font-bold text-foreground mb-2">Privacy Policy</h1>
-        <p className="text-muted-foreground mb-2">Last updated: October 9, 2026</p>
+    <PublicPage title="Privacy Policy" heading="Privacy Policy" description="How ElderConnect handles account and website waitlist information, children’s privacy, parental permission and requests to review or delete data.">
+        <p className="text-muted-foreground mb-2">Last updated: October 10, 2026</p>
         <p className="text-muted-foreground italic text-sm mb-10">
           This policy is a working draft pending attorney review and may be updated.
         </p>
@@ -43,7 +39,10 @@ const Privacy = () => {
                 activities.
               </p>
               <p>
-                If you join the waitlist, we store your email address and the role you select so we can contact you about ElderConnect. To have it removed, email admin@elderconnect.org.
+                Website waitlist: if you join the waitlist on our website, we store your email address and the role you select so we can contact you about ElderConnect. We keep it until you ask us to remove it or until the waitlist is no longer needed. To have it removed, email admin@elderconnect.org.
+              </p>
+              <p>
+                Website visits: our website may record basic, aggregate visit information through our hosting provider, such as which pages are viewed, the type of device and the country of the visit. We do not use it for advertising.
               </p>
               <p>
                 <strong className="text-foreground">Activity sign-ups:</strong> the activities you sign up
@@ -96,6 +95,7 @@ const Privacy = () => {
 
           <section id="childrens-privacy" className="scroll-mt-8">
             <h2 className="text-2xl font-semibold mb-3">6. Children's Privacy</h2>
+            <p className="text-muted-foreground">Our website, including the waitlist, is not directed to children under 13, and children under 13 should not submit their information.</p>
             <p className="text-muted-foreground">
               ElderConnect is intended for users aged 13 and older. We do not knowingly collect personal
               information from children under 13. If we learn that we have collected information from a
@@ -108,6 +108,7 @@ const Privacy = () => {
               activity sign-up records. We do not sell personal information and do not use it for
               advertising.
             </p>
+            <p className="text-muted-foreground">A parent or guardian can ask to review the information we hold about their child, ask us to correct or delete it, and withdraw permission for their child to use ElderConnect at any time by contacting us at admin@elderconnect.org. If permission is withdrawn, we will delete the child's account.</p>
           </section>
 
           <section>
@@ -126,7 +127,7 @@ const Privacy = () => {
               You can delete your account in the app through Settings. When you do, we delete your personal
               data, except where we are legally required to keep it. A parent or guardian can also ask us
               to review, correct, or delete information about a child by contacting us at{" "}
-              <EmailLink />.
+              <EmailLink />. A parent or guardian may also withdraw permission, which ends the child's use of ElderConnect.
             </p>
           </section>
 
@@ -156,9 +157,7 @@ const Privacy = () => {
             </p>
           </section>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </PublicPage>
   );
 };
 

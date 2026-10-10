@@ -26,7 +26,7 @@ const Support = () => (
         </div>
         <div className="py-6">
           <dt className="text-xl font-bold">How do I delete my account?</dt>
-          <dd className="mt-3 text-muted-foreground">You can delete your account in the app under Settings. You can also read how it works on our <Link to="/delete-account" className={linkClass}>account deletion page</Link>.</dd>
+          <dd className="mt-3 text-muted-foreground">You can delete your account in the app under Settings → Delete account. You can also read how it works on our <Link to="/delete-account" className={linkClass}>account deletion page</Link>.</dd>
         </div>
         <div className="py-6">
           <dt className="text-xl font-bold">I am a parent or guardian and want to review or delete my child's information.</dt>

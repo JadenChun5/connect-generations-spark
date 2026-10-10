@@ -1,3 +1,4 @@
+import PageMetadata from "@/components/PageMetadata";
 import { Mail, Phone, MapPin, Clock, MessageSquare, Users, Heart, Send } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -46,6 +47,7 @@ const Connect = () => {
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
+      <PageMetadata title="Contact | ElderConnect" description="Contact ElderConnect about volunteering, senior-center partnerships or support." url="https://elderconnect.org/connect" />
       <Header />
       <div className="pt-16">
       {/* Hero Section */}
