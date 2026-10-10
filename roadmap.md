@@ -1,4 +1,7 @@
 # Public website redesign
+- [ ] Final cleanup: trace live imports, remove Connect and unreachable legacy code; preserve live routes and waitlist logic.
+- [ ] Apply exact student-led legal wording and email-based reporting/record review; replace default favicon with requested placeholder mark.
+- [ ] Verify all live pages at 1280px/390px, redirects, menu, overflow and waitlist; delete test rows and check clean compilation; do not publish.
 - [x] Publish-readiness: requested policy/parents edits and public-copy audit; unsupported existing claims reported without rewriting legal text.
 - [x] Search/share metadata, robots, sitemap, and confirmation noindex; default Lovable favicon retained as requested and reported.
 - [x] Verify public pages at 1280px/390px and test waitlist with test-row cleanup; not published. Development warnings remain; no runtime exceptions.
