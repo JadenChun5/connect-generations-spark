@@ -31,3 +31,8 @@
 - [x] Replaced the placeholder favicon with the user's real logo (favicons, Apple icon, header and footer).
 - [x] Waitlist signup email alerts — built and verified sending to jaden@techonsite.com (WAITLIST_EMAIL_TO secret overrides the recipient).
 - [ ] Switch alerts to admin@elderconnect.org — needs elderconnect.org verified in Resend, WAITLIST_EMAIL_FROM set on it, and WAITLIST_EMAIL_TO set to admin@elderconnect.org.
+
+# Terms edits and support form
+- [x] Terms: Privacy Policy link in section 1; removed inline attorney-review sentences in sections 12 and 13.
+- [x] /support message form -> support_messages table (insert-only RLS) -> notify-support function emails SUPPORT_EMAIL_TO (default jaden@techonsite.com) with Reply-To.
+- [x] Privacy: Support messages paragraph and Summary mention.
