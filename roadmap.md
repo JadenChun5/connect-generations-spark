@@ -1,4 +1,7 @@
 # Public website redesign
+- [ ] Publish-readiness: requested policy/parents edits and public-copy audit.
+- [ ] Search/share metadata, robots, sitemap, and confirmation noindex; inspect favicon.
+- [ ] Verify public pages at 1280px/390px and test waitlist with test-row cleanup; do not publish.
 - [x] Replace hero and senior-center placeholders with supplied photos and linked credits; desktop and phone checks passed.
 - [x] Remove the student photo placeholder; keep the students section text-only as requested.
 - [x] Replace homepage and shared header/footer with the supplied copy and placeholders.
