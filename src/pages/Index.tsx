@@ -6,6 +6,7 @@ import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
 import PhotoPlaceholder from "@/components/PhotoPlaceholder";
 import WaitlistForm from "@/components/WaitlistForm";
+import seniorCentersPhoto from "@/assets/photos/senior-centers.webp.asset.json";
 
 const steps = [
   { title: "Centers post group activities", text: "A senior center lists an activity it already runs, such as a game afternoon, a craft hour or a music session, and how many volunteers it can welcome." },
@@ -79,7 +80,12 @@ const Index = () => {
             <BenefitList items={centerBenefits} />
             <Button asChild><a href="#join">Talk to us about a pilot</a></Button>
           </div>
-          <PhotoPlaceholder>[REAL PHOTO: a senior center activity room, with permission]</PhotoPlaceholder>
+          <figure className="min-w-0">
+            <img src={seniorCentersPhoto.url} alt="A group of seniors in a chair exercise class." width={1600} height={1067} loading="lazy" className="aspect-[4/3] w-full rounded-2xl object-cover" />
+            <figcaption className="mt-2 text-sm text-muted-foreground">
+              <a href="https://www.pexels.com/photo/seniors-exercising-11674389/" className="underline underline-offset-2">Photo: Centre for Ageing Better on Pexels</a>
+            </figcaption>
+          </figure>
         </section>
         <section id="safety" className="bg-band py-16 text-band-foreground lg:py-20">
           <div className="site-container">

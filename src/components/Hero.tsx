@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import PhotoPlaceholder from "@/components/PhotoPlaceholder";
+import heroPhoto from "@/assets/photos/hero.webp.asset.json";
 
 const Hero = () => (
   <section className="site-container grid items-center gap-12 pb-16 pt-12 lg:grid-cols-[1.15fr_1fr] lg:gap-14 lg:pb-20 lg:pt-16">
@@ -13,7 +13,12 @@ const Hero = () => (
       </div>
       <p className="mt-6 max-w-xl text-base text-muted-foreground">Built by a student in the South Bay who wanted a simple, safe way for young people to spend time with their neighbors.</p>
     </div>
-    <PhotoPlaceholder>[REAL PHOTO: a staff-led activity at a senior center, with permission]</PhotoPlaceholder>
+    <figure className="min-w-0">
+      <img src={heroPhoto.url} alt="Three seniors playing cards at a table in a sunny park." width={1600} height={1068} fetchPriority="high" className="aspect-[4/3] w-full rounded-2xl object-cover" />
+      <figcaption className="mt-2 text-sm text-muted-foreground">
+        <a href="https://www.pexels.com/photo/elderly-people-playing-cards-6838583/" className="underline underline-offset-2">Photo: Kampus Production on Pexels</a>
+      </figcaption>
+    </figure>
   </section>
 );
 

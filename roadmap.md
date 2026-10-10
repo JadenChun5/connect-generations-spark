@@ -1,4 +1,6 @@
 # Public website redesign
+- [x] Replace hero and senior-center placeholders with supplied photos and linked credits; desktop and phone checks passed.
+- [ ] Replace the student photo placeholder — blocked: the supplied Unsplash download returns HTTP 401; retain placeholder without substitution.
 - [x] Replace homepage and shared header/footer with the supplied copy and placeholders.
 - [x] Apply shared font, palette, accessible controls and page metadata; redirect outdated public pages.
 - [x] Verify desktop/mobile layouts, anchors and unchanged legal content.
