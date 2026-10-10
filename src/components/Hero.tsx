@@ -1,112 +1,20 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Heart, Users, Award, Clock } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import heroImage from "@/assets/hero-image.jpg";
+import PhotoPlaceholder from "@/components/PhotoPlaceholder";
 
-const Hero = () => {
-  const navigate = useNavigate();
-  return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/60 to-transparent" />
+const Hero = () => (
+  <section className="site-container grid items-center gap-12 pb-16 pt-12 lg:grid-cols-[1.15fr_1fr] lg:gap-14 lg:pb-20 lg:pt-16">
+    <div>
+      <p className="mb-5 text-sm font-bold uppercase tracking-[0.12em] text-primary">Starting in the South Bay</p>
+      <h1 className="text-[38px] font-bold leading-[1.08] sm:text-5xl lg:text-[64px]">Group volunteering at senior centers, led by center staff.</h1>
+      <p className="mt-7 text-muted-foreground">ElderConnect helps students sign up for supervised group activities at local senior centers. Staff run every session, so students always have someone to follow and seniors always have a familiar team.</p>
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        <Button asChild><a href="#join">Join the waitlist</a></Button>
+        <Button asChild variant="outline"><a href="#centers">I run a senior center</a></Button>
       </div>
-      
-      {/* Content Container */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Main Message */}
-          <div className="text-center lg:text-left text-white">
-            <div className="flex items-center justify-center lg:justify-start gap-2 mb-6">
-              <Heart className="h-6 w-6 text-secondary" />
-              <span className="text-secondary-soft font-medium tracking-wide">ELDERCONNECT</span>
-            </div>
-            
-            <h1 className="text-5xl lg:text-7xl font-bold leading-tight mb-6">
-              Bridging
-              <span className="text-secondary block">Generations</span>
-            </h1>
-            
-            <p className="text-xl lg:text-2xl text-primary-soft mb-8 leading-relaxed">
-              Connect high school teens with seniors for meaningful volunteer opportunities. 
-              Build community, earn college hours, and create lasting friendships across generations.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button 
-                variant="hero" 
-                size="xl" 
-                className="font-semibold"
-                onClick={() => navigate('/demo')}
-              >
-                View Demo
-              </Button>
-              <Button 
-                variant="outline" 
-                size="xl" 
-                className="bg-white/10 border-white/30 text-white hover:bg-white/20"
-                onClick={() => navigate('/connect')}
-              >
-                Contact Us
-              </Button>
-            </div>
-          </div>
-          
-          {/* Right Column - Quick Value Cards */}
-          <div className="grid gap-6">
-            <Card className="p-6 bg-white/95 backdrop-blur-sm shadow-strong border-0">
-              <div className="flex items-start gap-4">
-                <div className="bg-secondary-soft p-3 rounded-lg">
-                  <Award className="h-6 w-6 text-secondary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-2">For High School Students</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Earn meaningful volunteer hours for college applications while building real relationships with seniors in your community.
-                  </p>
-                </div>
-              </div>
-            </Card>
-            
-            <Card className="p-6 bg-white/95 backdrop-blur-sm shadow-strong border-0">
-              <div className="flex items-start gap-4">
-                <div className="bg-accent-soft p-3 rounded-lg">
-                  <Users className="h-6 w-6 text-accent" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-2">For Senior Centers</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Bring energy and engagement to your community with reliable, enthusiastic young volunteers who truly care.
-                  </p>
-                </div>
-              </div>
-            </Card>
-            
-            <Card className="p-6 bg-white/95 backdrop-blur-sm shadow-strong border-0">
-              <div className="flex items-start gap-4">
-                <div className="bg-lavender-soft p-3 rounded-lg">
-                  <Clock className="h-6 w-6 text-lavender" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-2">Easy Scheduling</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Smart matching system connects volunteers with perfect opportunities based on interests, availability, and location.
-                  </p>
-                </div>
-              </div>
-            </Card>
-          </div>
-        </div>
-      </div>
-      
-      {/* Decorative Elements */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
-    </section>
-  );
-};
+      <p className="mt-6 max-w-xl text-base text-muted-foreground">Built by a student in the South Bay who wanted a simple, safe way for young people to spend time with their neighbors.</p>
+    </div>
+    <PhotoPlaceholder>[REAL PHOTO: a staff-led activity at a senior center, with permission]</PhotoPlaceholder>
+  </section>
+);
 
 export default Hero;
