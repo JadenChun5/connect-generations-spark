@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import PublicPage from "@/components/PublicPage";
+import SupportForm from "@/components/SupportForm";
 
 const emailLink = "mailto:admin@elderconnect.org";
 const linkClass = "text-primary underline underline-offset-4";
@@ -11,6 +12,10 @@ const Support = () => (
     heading="Support"
     intro="Questions about ElderConnect? We are a small student-led team and we read every message."
   >
+    <section aria-labelledby="send-message">
+      <h2 id="send-message">Send us a message</h2>
+      <SupportForm />
+    </section>
     <section aria-label="Contact" className="border-y border-border py-8">
       <p className="text-xl font-semibold sm:text-2xl">
         Email us: <a href={emailLink} className={`${linkClass} inline-flex min-h-12 items-center break-all`}>admin@elderconnect.org</a>

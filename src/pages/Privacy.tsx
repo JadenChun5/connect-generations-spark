@@ -49,7 +49,7 @@ const Privacy = () => {
         <section aria-labelledby="privacy-summary">
           <h2 id="privacy-summary" className="text-2xl font-semibold mb-3">Summary</h2>
           <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-            <li>We collect account, activity and consent information, waitlist email addresses and roles, and basic technical information.</li>
+            <li>We collect account, activity and consent information, waitlist email addresses and roles, support messages, and basic technical information.</li>
             <li>We use information to run supervised volunteer activities, provide support, and keep the service secure and working.</li>
             <li>Senior center staff and service providers see information needed to plan activities and operate the service; authorities may receive it where required by law.</li>
             <li>ElderConnect is for ages 13 and older. Users aged 13 to 17 need a parent or guardian’s permission.</li>
@@ -103,6 +103,11 @@ const Privacy = () => {
               website, we store your email address and the role you select so we can contact you about
               ElderConnect. We keep it until you ask us to remove it or until the waitlist is no longer
               needed. To have it removed, email <EmailLink />.
+            </p>
+            <p>
+              <strong className="text-foreground">Support messages:</strong> if you send us a message
+              through the support form, we store your name, email address, topic and message so we can
+              respond, and keep them for as long as needed to handle your request.
             </p>
             <p>
               <strong className="text-foreground">Website visits:</strong> our website may record basic,
