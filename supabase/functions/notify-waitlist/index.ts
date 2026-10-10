@@ -4,7 +4,11 @@
 // ignores ids that don't exist or are older than 10 minutes (limits replay abuse).
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-const TO = "admin@elderconnect.org";
+// Recipient is configurable: set the WAITLIST_EMAIL_TO secret to change it.
+// Defaults to jaden@techonsite.com because the Resend test sender (onboarding@resend.dev)
+// can only deliver to the Resend account owner. Switching to admin@elderconnect.org
+// requires elderconnect.org to be verified in Resend and WAITLIST_EMAIL_FROM set on it.
+const TO = Deno.env.get("WAITLIST_EMAIL_TO") ?? "jaden@techonsite.com";
 const FROM = Deno.env.get("WAITLIST_EMAIL_FROM") ?? "ElderConnect <onboarding@resend.dev>";
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
