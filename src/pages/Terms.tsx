@@ -1,5 +1,4 @@
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import PublicPage from "@/components/PublicPage";
 
 const CONTACT_EMAIL = "admin@elderconnect.org";
 
@@ -11,11 +10,8 @@ const EmailLink = () => (
 
 const Terms = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main className="max-w-4xl mx-auto px-6 lg:px-8 pt-32 pb-20">
-        <h1 className="text-4xl font-bold text-foreground mb-2">Terms of Service</h1>
-        <p className="text-muted-foreground mb-2">Last updated: October 9, 2026</p>
+    <PublicPage title="Terms of Service" heading="Terms of Service" description="Read ElderConnect’s terms for eligibility, parental permission, staff-led group activities, account responsibility and deletion.">
+        <p className="text-muted-foreground mb-2">Last updated: October 10, 2026</p>
         <p className="text-muted-foreground italic text-sm mb-10">
           These terms are a working draft pending attorney review and may be updated.
         </p>
@@ -49,7 +45,7 @@ const Terms = () => {
               your parent or legal guardian has reviewed and agreed to these Terms and consents to your
               participation in supervised activities. We may suspend or delete accounts that violate these
               age requirements. Senior center accounts must be created by an authorized staff member of a
-              legitimate senior or community center organization.
+              legitimate senior or community center organization. Our website waitlist is for people 13 and older and for parents, guardians and senior center staff.
             </p>
           </section>
 
@@ -167,9 +163,7 @@ const Terms = () => {
             </p>
           </section>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </PublicPage>
   );
 };
 

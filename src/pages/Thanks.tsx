@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 
 const Thanks = () => (
   <PublicPage
+    noindex
     title="You're on the list"
     description="You're on the ElderConnect waitlist. We'll email you at the address you gave."
     heading="You're on the list"

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import PageMetadata, { SITE_TITLE, SITE_DESCRIPTION } from "@/components/PageMetadata";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
@@ -25,7 +26,7 @@ const questions = [
   { question: "Are volunteers ever alone with seniors?", answer: "No. ElderConnect supports group activities that center staff run. There are no one-on-one visits." },
   { question: "What does it cost?", answer: "Nothing for students or centers during the pilot." },
   { question: "Is ElderConnect a nonprofit?", answer: "We are a student-led project and our nonprofit registration is in progress." },
-  { question: "Where is it available?", answer: "We are starting in the South Bay area of Los Angeles. Join the waitlist and tell us where you are." },
+  { question: "Where is it available?", answer: "We are starting in the South Bay area of Los Angeles. Join the waitlist for updates." },
 ];
 
 const BenefitList = ({ items }: { items: string[] }) => (
@@ -45,6 +46,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <PageMetadata title={SITE_TITLE} description={SITE_DESCRIPTION} url="https://elderconnect.org/" />
       <Header />
       <main>
         <Hero />

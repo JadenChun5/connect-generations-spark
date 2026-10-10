@@ -25,11 +25,12 @@ const Parents = () => (
     </section>
     <section aria-labelledby="permission">
       <h2 id="permission">Permission</h2>
-      <p className="mt-5 text-muted-foreground">Students under 18 need parent or guardian permission. The minimum age is 13.</p>
+      <p className="mt-5 text-muted-foreground">ElderConnect is for students 13 and older. When a student under 18 creates an account, the app asks for a parent or guardian's contact details so they can give permission, and we keep a record of that permission. You can withdraw permission at any time by emailing admin@elderconnect.org, and we will delete your child's account.</p>
     </section>
     <section aria-labelledby="info">
       <h2 id="info">Your student's information</h2>
       <p className="mt-5 text-muted-foreground">Our <Link to="/privacy" className={link}>Privacy Policy</Link> explains what we collect and why. See the <Link to="/privacy#childrens-privacy" className={link}>Children's Privacy</Link> section in particular.</p>
+      <p className="mt-5 text-muted-foreground">You can ask to review, correct or delete the information we hold about your child at any time by emailing admin@elderconnect.org.</p>
     </section>
     <section aria-labelledby="delete">
       <h2 id="delete">How to delete an account</h2>
