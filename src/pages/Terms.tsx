@@ -84,6 +84,7 @@ const Terms = () => {
               <li>Do not try to get around the age or parental permission requirements.</li>
               <li>Do not collect or store information about other users beyond what the app provides.</li>
               <li>Do not use the app for any unlawful purpose.</li>
+              <li>Do not post private information about seniors, volunteers or staff, or anything harassing, discriminatory or unlawful, in community posts.</li>
             </ul>
           </section>
 
@@ -103,12 +104,13 @@ const Terms = () => {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-3">9. Content You Submit</h2>
+            <h2 className="text-2xl font-semibold mb-3">9. Community Posts</h2>
             <p className="text-muted-foreground">
-              Senior centers and ElderConnect team members may post activities and updates visible to
-              volunteers. You keep ownership of content you submit, but you give ElderConnect permission to
-              display it in the app for its intended purpose. ElderConnect may remove content that violates
-              these Terms.
+              The ElderConnect app includes a community feed. Posts are written by ambassadors, senior
+              centers and ElderConnect team members. Other users can like posts but cannot comment. Posts
+              are visible to other users of the app. You keep ownership of content you post, but you give
+              ElderConnect permission to display it in the app for its intended purpose. ElderConnect may
+              remove posts that violate these Terms.
             </p>
           </section>
 
