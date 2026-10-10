@@ -15,4 +15,4 @@
 - Type-check the active site from its entry point and Vite declarations; transitive imports remain checked without including unrelated generated integration runtime files.
 - Retain only transitively reachable public-site source and UI components, protected generated integrations and live asset pointers; remove obsolete showcases and public static exports to prevent stale claims from resurfacing.
 - Public legal introductions describe a student-led project; concerns and inaccurate activity records use staff/email follow-up rather than unverifiable in-app features, keeping policies aligned with the public site.
-- Serve the user-requested placeholder favicon as SVG with a raster Apple touch fallback, replacing the default icon so browser branding is consistent.
+- Serve the user's real logo as 32/64px PNG favicons plus a 180px Apple touch icon, and import src/assets/logo.png in Header/Footer, so browser and page branding use one supplied asset.

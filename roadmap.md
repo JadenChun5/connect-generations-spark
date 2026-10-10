@@ -28,3 +28,4 @@
 - [x] Remove Where we are; founder text.
 - [x] Students photo (Jsme MILA, Pexels) in two-column #students.
 - [x] /safety and /parents pages; header/footer links.
+- [x] Replaced the placeholder favicon with the user's real logo (favicons, Apple icon, header and footer).
