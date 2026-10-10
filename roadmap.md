@@ -29,4 +29,5 @@
 - [x] Students photo (Jsme MILA, Pexels) in two-column #students.
 - [x] /safety and /parents pages; header/footer links.
 - [x] Replaced the placeholder favicon with the user's real logo (favicons, Apple icon, header and footer).
-- [ ] Waitlist signup emails to admin@elderconnect.org — built; blocked until elderconnect.org is verified in Resend and WAITLIST_EMAIL_FROM is set.
+- [x] Waitlist signup email alerts — built and verified sending to jaden@techonsite.com (WAITLIST_EMAIL_TO secret overrides the recipient).
+- [ ] Switch alerts to admin@elderconnect.org — needs elderconnect.org verified in Resend, WAITLIST_EMAIL_FROM set on it, and WAITLIST_EMAIL_TO set to admin@elderconnect.org.
