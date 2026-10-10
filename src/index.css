@@ -2,156 +2,112 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ElderConnect Design System - Intergenerational Connection Platform
-All colors MUST be HSL for proper theming.
-*/
-
 @layer base {
-  :root {
-    /* Core Brand Colors */
-    --background: 45 20% 98%;
-    --foreground: 200 20% 15%;
-
-    /* Card System */
-    --card: 0 0% 100%;
-    --card-foreground: 200 20% 15%;
-
-    /* Interactive Elements */
-    --popover: 0 0% 100%;
-    --popover-foreground: 200 20% 15%;
-
-    /* Primary - Deep Teal (Trust & Connection) */
-    --primary: 185 70% 35%;
-    --primary-foreground: 0 0% 100%;
-    --primary-soft: 185 40% 85%;
-
-    /* Secondary - Warm Coral (Energy & Youth) */
-    --secondary: 15 85% 70%;
-    --secondary-foreground: 0 0% 100%;
-    --secondary-soft: 15 60% 90%;
-
-    /* Accent - Sage Green (Growth & Harmony) */
-    --accent: 140 30% 60%;
-    --accent-foreground: 0 0% 100%;
-    --accent-soft: 140 25% 88%;
-
-    /* Supporting - Soft Lavender (Care & Gentleness) */
-    --lavender: 260 30% 75%;
-    --lavender-foreground: 0 0% 100%;
-    --lavender-soft: 260 20% 92%;
-
-    /* Muted Tones */
-    --muted: 185 15% 92%;
-    --muted-foreground: 200 15% 45%;
-
-    /* UI Elements */
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    
-    --border: 185 15% 88%;
-    --input: 185 15% 88%;
-    --ring: 185 70% 35%;
-
-    /* Design System Extensions */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
-    --gradient-warm: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--lavender)) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
-    
-    --shadow-soft: 0 4px 20px -4px hsl(var(--primary) / 0.1);
-    --shadow-medium: 0 8px 30px -8px hsl(var(--primary) / 0.15);
-    --shadow-strong: 0 16px 40px -12px hsl(var(--primary) / 0.2);
-    
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-
-    --radius: 0.75rem;
-
-    /* Sidebar (keeping for component compatibility) */
-    --sidebar-background: 185 15% 95%;
-    --sidebar-foreground: 200 20% 25%;
-    --sidebar-primary: 185 70% 35%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 185 20% 88%;
-    --sidebar-accent-foreground: 200 20% 25%;
-    --sidebar-border: 185 15% 85%;
-    --sidebar-ring: 185 70% 35%;
+  :root, .dark {
+    --background: 35.000 46.154% 94.902%;
+    --foreground: 185.455 35.484% 12.157%;
+    --card: 0.000 0.000% 100.000%;
+    --card-foreground: 185.455 35.484% 12.157%;
+    --popover: 0.000 0.000% 100.000%;
+    --popover-foreground: 185.455 35.484% 12.157%;
+    --primary: 184.941 75.221% 22.157%;
+    --primary-foreground: 0.000 0.000% 100.000%;
+    --primary-soft: 34.500 48.780% 83.922%;
+    --secondary: 184.941 75.221% 22.157%;
+    --secondary-foreground: 0.000 0.000% 100.000%;
+    --secondary-soft: 35.000 46.154% 94.902%;
+    --accent: 184.941 75.221% 22.157%;
+    --accent-foreground: 0.000 0.000% 100.000%;
+    --accent-soft: 35.000 46.154% 94.902%;
+    --lavender: 184.941 75.221% 22.157%;
+    --lavender-foreground: 0.000 0.000% 100.000%;
+    --lavender-soft: 35.000 46.154% 94.902%;
+    --muted: 35.000 46.154% 94.902%;
+    --muted-foreground: 185.455 17.188% 25.098%;
+    --border: 35.455 30.556% 85.882%;
+    --input: 35.455 30.556% 85.882%;
+    --ring: 184.941 75.221% 22.157%;
+    --band: 185.455 35.484% 12.157%;
+    --band-foreground: 0.000 0.000% 100.000%;
+    --photo: 34.500 48.780% 83.922%;
+    --destructive: 4.231 76.471% 40.000%;
+    --destructive-foreground: 0.000 0.000% 100.000%;
+    --radius: 0.5rem;
+    --gradient-hero: linear-gradient(hsl(var(--primary)), hsl(var(--primary)));
+    --gradient-warm: linear-gradient(hsl(var(--primary)), hsl(var(--primary)));
+    --gradient-subtle: linear-gradient(hsl(var(--background)), hsl(var(--background)));
+    --shadow-soft: none;
+    --shadow-medium: none;
+    --shadow-strong: none;
+    --transition-smooth: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+    --transition-bounce: var(--transition-smooth);
+    --sidebar-background: var(--background);
+    --sidebar-foreground: var(--foreground);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+    --sidebar-accent: var(--muted);
+    --sidebar-accent-foreground: var(--foreground);
+    --sidebar-border: var(--border);
+    --sidebar-ring: var(--ring);
   }
 
-  .dark {
-    --background: 200 25% 8%;
-    --foreground: 45 20% 95%;
+  * { @apply border-border; }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700 !important;
+    letter-spacing: 0 !important;
+    line-height: 1.2;
+  }
+  h1 { font-size: 40px; }
+  h2 { font-size: 32px; }
+  h3 { font-size: 24px; }
+  a, button, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+  :focus-visible {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 4px;
+  }
+  section[id] { scroll-margin-top: 24px; }
+}
 
-    --card: 200 20% 10%;
-    --card-foreground: 45 20% 95%;
-
-    --popover: 200 20% 10%;
-    --popover-foreground: 45 20% 95%;
-
-    --primary: 185 60% 45%;
-    --primary-foreground: 200 25% 8%;
-    --primary-soft: 185 30% 20%;
-
-    --secondary: 15 75% 60%;
-    --secondary-foreground: 200 25% 8%;
-    --secondary-soft: 15 40% 15%;
-
-    --accent: 140 25% 50%;
-    --accent-foreground: 200 25% 8%;
-    --accent-soft: 140 20% 15%;
-
-    --lavender: 260 25% 65%;
-    --lavender-foreground: 200 25% 8%;
-    --lavender-soft: 260 15% 15%;
-
-    --muted: 200 15% 15%;
-    --muted-foreground: 185 10% 60%;
-
-    --destructive: 0 75% 55%;
-    --destructive-foreground: 45 20% 95%;
-
-    --border: 200 15% 18%;
-    --input: 200 15% 18%;
-    --ring: 185 60% 45%;
-
-    /* Dark mode gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
-    --gradient-warm: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--lavender)) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
-
-    --sidebar-background: 200 20% 12%;
-    --sidebar-foreground: 45 15% 85%;
-    --sidebar-primary: 185 60% 45%;
-    --sidebar-primary-foreground: 200 25% 8%;
-    --sidebar-accent: 200 15% 18%;
-    --sidebar-accent-foreground: 45 15% 85%;
-    --sidebar-border: 200 15% 15%;
-    --sidebar-ring: 185 60% 45%;
+@layer components {
+  .site-container {
+    width: 100%;
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .waitlist-input {
+    display: block;
+    width: 100%;
+    min-height: 52px;
+    padding: 12px 16px;
+    border: 2px solid hsl(var(--border));
+    border-radius: 8px;
+    background: hsl(var(--card));
+    color: hsl(var(--foreground));
+    font: inherit;
+  }
+  .waitlist-input:focus-visible, #join button:focus-visible {
+    outline-color: hsl(var(--primary-foreground));
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
+/* Preserve existing legal and contact page text, with solid theme surfaces. */
+.bg-clip-text.text-transparent { color: hsl(var(--primary)); background: none; }
+[class*="bg-gradient-warm/"] { background: hsl(var(--muted)); }
+[class*="backdrop-blur"] { backdrop-filter: none; }
+[class*="hover:scale"]:hover { transform: none; }
 
-  body {
-    @apply bg-background text-foreground font-sans;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight;
-  }
-
-  h1 {
-    @apply text-4xl lg:text-5xl;
-  }
-
-  h2 {
-    @apply text-3xl lg:text-4xl;
-  }
-
-  h3 {
-    @apply text-2xl lg:text-3xl;
-  }
+@media (min-width: 1024px) {
+  .site-container { padding-left: 56px; padding-right: 56px; }
+  h2 { font-size: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
