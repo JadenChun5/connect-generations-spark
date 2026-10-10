@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import PublicPage from "@/components/PublicPage";
 
 const CONTACT_EMAIL = "admin@elderconnect.org";
@@ -20,9 +21,11 @@ const Terms = () => {
           <section>
             <h2 className="text-2xl font-semibold mb-3">1. Acceptance of Terms</h2>
             <p className="text-muted-foreground">
-              By creating an account or using the ElderConnect app ("ElderConnect," "the App," "we," "us"),
-              you agree to these Terms of Service. If you are under 18, your parent or legal guardian must
-              also review and agree to these Terms on your behalf, as described in Section 3.
+              By creating an account or using the ElderConnect website or app ("ElderConnect," "we," "us"),
+              you agree to these Terms of Service and acknowledge our{" "}
+              <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>. If you are
+              under 18, your parent or legal guardian must also review and agree to these Terms on your
+              behalf, as described in Section 3.
             </p>
           </section>
 
@@ -132,16 +135,13 @@ const Terms = () => {
             <p className="text-muted-foreground">
               To the fullest extent permitted by law, ElderConnect and its founders, officers, and volunteers
               are not liable for indirect, incidental, or consequential damages arising from use of the app.
-              This section is pending attorney review and will be finalized based on ElderConnect's actual
-              insurance coverage.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-semibold mb-3">13. Governing Law</h2>
             <p className="text-muted-foreground">
-              These Terms are governed by the laws of the State of California. Venue and dispute resolution
-              provisions are pending attorney review.
+              These Terms are governed by the laws of the State of California.
             </p>
           </section>
 
