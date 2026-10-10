@@ -13,11 +13,14 @@ export default {
       },
     },
     extend: {
+      fontFamily: { sans: ["Plus Jakarta Sans", "sans-serif"] },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
+        photo: "hsl(var(--photo))",
+        band: { DEFAULT: "hsl(var(--band))", foreground: "hsl(var(--band-foreground))" },
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",

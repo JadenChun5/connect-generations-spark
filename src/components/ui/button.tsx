@@ -5,30 +5,31 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 transform hover:scale-105",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-base font-semibold ring-offset-background transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft hover:shadow-medium",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        outline: "border-2 border-foreground bg-transparent text-foreground hover:bg-muted",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-soft hover:shadow-medium",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         
         /* ElderConnect Custom Variants */
-        hero: "bg-gradient-hero text-primary-foreground hover:opacity-90 shadow-medium hover:shadow-strong transition-bounce",
+        hero: "bg-primary text-primary-foreground hover:bg-primary/90",
         teen: "bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-soft hover:shadow-medium border-2 border-secondary-soft",
         senior: "bg-accent text-accent-foreground hover:bg-accent/90 shadow-soft hover:shadow-medium border border-accent-soft",
         admin: "bg-lavender text-lavender-foreground hover:bg-lavender/90 shadow-soft hover:shadow-medium",
         family: "bg-primary-soft text-primary hover:bg-primary-soft/80 border border-primary/20",
-        warm: "bg-gradient-warm text-white hover:opacity-90 shadow-medium hover:shadow-strong",
+        warm: "bg-primary text-primary-foreground hover:bg-primary/90",
+        waitlist: "bg-card text-primary hover:bg-background",
       },
       size: {
-        default: "h-12 px-6 py-3",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-14 rounded-xl px-8 text-base",
-        xl: "h-16 rounded-xl px-12 text-lg",
+        default: "min-h-[52px] px-6 py-3 whitespace-normal text-center leading-snug",
+        sm: "min-h-12 rounded-lg px-4",
+        lg: "min-h-[52px] rounded-lg px-8 text-base",
+        xl: "min-h-[52px] rounded-lg px-8 text-lg",
         icon: "h-10 w-10",
       },
     },
