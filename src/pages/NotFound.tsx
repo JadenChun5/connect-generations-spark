@@ -1,24 +1,19 @@
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import PublicPage from "@/components/PublicPage";
+import { Button } from "@/components/ui/button";
 
-const NotFound = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-  }, [location.pathname]);
-
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="mb-4 text-xl text-gray-600">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 underline hover:text-blue-700">
-          Return to Home
-        </a>
-      </div>
+const NotFound = () => (
+  <PublicPage
+    title="Page not found"
+    description="This ElderConnect link may be old or mistyped. Return to the home page or contact support."
+    heading="We can't find that page"
+    intro="The link may be old or mistyped."
+  >
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+      <Button asChild><Link to="/">Back to the home page</Link></Button>
+      <Button variant="link" asChild><Link to="/support">Contact support</Link></Button>
     </div>
-  );
-};
+  </PublicPage>
+);
 
 export default NotFound;

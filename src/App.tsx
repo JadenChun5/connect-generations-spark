@@ -8,10 +8,23 @@ import Connect from "./pages/Connect";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
+import Support from "./pages/Support";
+import DeleteAccount from "./pages/DeleteAccount";
+import Thanks from "./pages/Thanks";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const queryClient = new QueryClient();
 
 const App = () => (
+  <HelmetProvider>
+  <Helmet>
+    <title>ElderConnect: group volunteering at senior centers, led by center staff.</title>
+    <meta name="description" content="ElderConnect: group volunteering at senior centers, led by center staff." />
+    <meta property="og:title" content="ElderConnect: group volunteering at senior centers, led by center staff." />
+    <meta property="og:description" content="ElderConnect: group volunteering at senior centers, led by center staff." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </Helmet>
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
@@ -25,6 +38,9 @@ const App = () => (
           <Route path="/connect" element={<Connect />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/delete-account" element={<DeleteAccount />} />
+          <Route path="/thanks" element={<Thanks />} />
           <Route path="/why" element={<Navigate to="/" replace />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
@@ -33,6 +49,7 @@ const App = () => (
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
+  </HelmetProvider>
 );
 
 export default App;
