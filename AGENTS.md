@@ -5,5 +5,6 @@
 - Public support, deletion, confirmation and Not Found pages use PublicPage with the shared navigation and Helmet metadata so page layouts and route-specific head tags remain consistent without changing legal text.
 - Senior-center navigation targets the dedicated PublicPage route; WaitlistForm accepts a default role so the page can preselect staff with the same submission behavior.
 - All public pages use the Hahmlet Google Font (400–700) as the sans family with system-ui, sans-serif fallback; body stays 18px so headings and buttons scale consistently with it.
-- Safety and Parents pages use PublicPage plus the shared PageEnd (waitlist button + contact line) so new info pages end consistently.
+- Safety uses PublicPage plus the shared PageEnd (waitlist button + contact line); Parents inlines its own end (mailto button + waitlist text link) so the two pages can differ.
+- The header nav lists every public page (How it works, For students, For senior centers, For parents, Safety, FAQ) plus the Join the waitlist button; desktop shows one row, phone width uses a Menu/Close toggle with a full-width list, and the current page link gets aria-current.
 - The waitlist form uses a session-less client built from env config because the generated client may point at a stale backend.

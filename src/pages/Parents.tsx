@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import PublicPage from "@/components/PublicPage";
-import PageEnd from "@/components/PageEnd";
+import { Button } from "@/components/ui/button";
 
 const link = "text-primary underline underline-offset-4";
 
@@ -9,7 +9,7 @@ const Parents = () => (
     title="For parents and guardians"
     description="What parents and guardians should know about ElderConnect: supervised group activities at senior centers, permission, privacy and account deletion."
     heading="For parents and guardians"
-    intro="Here is what your student does with ElderConnect and how you stay in control."
+    intro="Here is what your student does with ElderConnect and what we ask of parents and guardians."
   >
     <section aria-labelledby="what">
       <h2 id="what">What ElderConnect is</h2>
@@ -18,6 +18,10 @@ const Parents = () => (
     <section aria-labelledby="does">
       <h2 id="does">What your student does</h2>
       <p className="mt-5 text-muted-foreground">Your student joins a group activity that senior center staff run.</p>
+    </section>
+    <section aria-labelledby="never">
+      <h2 id="never">Never one-on-one</h2>
+      <p className="mt-5 text-muted-foreground">Students join group activities only, and senior center staff run every session. <Link to="/safety" className={link}>Read more about safety</Link>.</p>
     </section>
     <section aria-labelledby="permission">
       <h2 id="permission">Permission</h2>
@@ -29,13 +33,16 @@ const Parents = () => (
     </section>
     <section aria-labelledby="delete">
       <h2 id="delete">How to delete an account</h2>
-      <p className="mt-5 text-muted-foreground">Follow the steps on the <Link to="/delete-account" className={link}>Delete account</Link> page. A parent or guardian can also ask us to delete a child's account.</p>
+      <p className="mt-5 text-muted-foreground">Follow the steps on the <Link to="/delete-account" className={link}>Delete account</Link> page. Questions about deleting your child's account? Email <a href="mailto:admin@elderconnect.org" className={`break-all ${link}`}>admin@elderconnect.org</a>.</p>
     </section>
     <section aria-labelledby="contact">
       <h2 id="contact">Contact</h2>
       <p className="mt-5 text-muted-foreground">Email <a href="mailto:admin@elderconnect.org" className={`break-all ${link}`}>admin@elderconnect.org</a>.</p>
     </section>
-    <PageEnd />
+    <div className="border-t border-border pt-8">
+      <Button asChild><a href="mailto:admin@elderconnect.org">Email us a question</a></Button>
+      <p className="mt-6 text-base text-muted-foreground"><Link to="/#join" className={link}>Join the waitlist as a parent or guardian</Link></p>
+    </div>
   </PublicPage>
 );
 
