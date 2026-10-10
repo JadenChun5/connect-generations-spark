@@ -43,6 +43,9 @@ const Privacy = () => {
                 activities.
               </p>
               <p>
+                If you join the waitlist, we store your email address and the role you select so we can contact you about ElderConnect. To have it removed, email admin@elderconnect.org.
+              </p>
+              <p>
                 <strong className="text-foreground">Activity sign-ups:</strong> the activities you sign up
                 for, the senior center you signed up with, and records of which sessions you attended, so
                 volunteer hours can be confirmed.
@@ -91,7 +94,7 @@ const Privacy = () => {
             </p>
           </section>
 
-          <section>
+          <section id="childrens-privacy" className="scroll-mt-8">
             <h2 className="text-2xl font-semibold mb-3">6. Children's Privacy</h2>
             <p className="text-muted-foreground">
               ElderConnect is intended for users aged 13 and older. We do not knowingly collect personal

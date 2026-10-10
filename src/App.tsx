@@ -12,6 +12,8 @@ import Support from "./pages/Support";
 import DeleteAccount from "./pages/DeleteAccount";
 import Thanks from "./pages/Thanks";
 import SeniorCenters from "./pages/SeniorCenters";
+import Safety from "./pages/Safety";
+import Parents from "./pages/Parents";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const queryClient = new QueryClient();
@@ -41,6 +43,8 @@ const App = () => (
           <Route path="/terms" element={<Terms />} />
           <Route path="/support" element={<Support />} />
           <Route path="/senior-centers" element={<SeniorCenters />} />
+          <Route path="/safety" element={<Safety />} />
+          <Route path="/parents" element={<Parents />} />
           <Route path="/delete-account" element={<DeleteAccount />} />
           <Route path="/thanks" element={<Thanks />} />
           <Route path="/why" element={<Navigate to="/" replace />} />
