@@ -20,7 +20,7 @@ const Privacy = () => {
           <section>
             <h2 className="text-2xl font-semibold mb-3">1. Overview</h2>
             <p className="text-muted-foreground">
-              ElderConnect is a nonprofit app that connects student volunteers with supervised group
+              ElderConnect is a student-led project that connects student volunteers with supervised group
               activities at senior centers. This policy explains what information we collect, why we
               collect it, how long we keep it, and the choices you have. We collect the minimum
               information needed to run volunteer activities safely — we are not building a detailed

@@ -1,4 +1,7 @@
 # Public website redesign
+- [x] Final cleanup: listed transitive live imports, removed Connect and unreachable legacy pages/components/UI/assets/static exports; preserved live routes, generated integrations and waitlist logic.
+- [x] Applied exact student-led legal wording and email-based reporting/record review; replaced default favicon with requested simple placeholder mark and Apple fallback.
+- [x] Verified all live pages at 1280px/390px, redirects, keyboard menu, no overflow and successful homepage/center waitlist; both test rows removed (zero remaining), automatic build clean; not published. Existing preview-only React warnings remain; hosted photos return image/webp (local server does not serve the asset gateway).
 - [x] Publish-readiness: requested policy/parents edits and public-copy audit; unsupported existing claims reported without rewriting legal text.
 - [x] Search/share metadata, robots, sitemap, and confirmation noindex; default Lovable favicon retained as requested and reported.
 - [x] Verify public pages at 1280px/390px and test waitlist with test-row cleanup; not published. Development warnings remain; no runtime exceptions.

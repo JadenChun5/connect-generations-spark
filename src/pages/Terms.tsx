@@ -29,7 +29,7 @@ const Terms = () => {
           <section>
             <h2 className="text-2xl font-semibold mb-3">2. What ElderConnect Is</h2>
             <p className="text-muted-foreground">
-              ElderConnect is a nonprofit app where student volunteers sign up for supervised group
+              ElderConnect is a student-led project where student volunteers sign up for supervised group
               activities at senior centers. Senior center staff run every session, and volunteers are never
               alone with seniors. ElderConnect does not arrange one-on-one visits, does not match individual
               seniors with volunteers, and does not arrange home visits. ElderConnect is not a nursing home,
@@ -87,9 +87,7 @@ const Terms = () => {
           <section>
             <h2 className="text-2xl font-semibold mb-3">7. Reporting Concerns</h2>
             <p className="text-muted-foreground">
-              If you have a concern about the safety or wellbeing of a volunteer or a senior, report it
-              through the in-app concern reporting feature so it can reach the right senior center staff or
-              ElderConnect team member. If someone needs immediate help, contact local emergency services.
+              If you have a concern about the safety or wellbeing of a volunteer or a senior, tell the senior center staff running the activity and email us at admin@elderconnect.org so we can follow up. If someone needs immediate help, contact local emergency services.
             </p>
           </section>
 
@@ -97,8 +95,7 @@ const Terms = () => {
             <h2 className="text-2xl font-semibold mb-3">8. Activity Records and Volunteer Hours</h2>
             <p className="text-muted-foreground">
               Attendance and volunteer hours for the activities you take part in are recorded by senior
-              center staff. If you believe a record is inaccurate, you can dispute it through the in-app
-              process, which routes to the relevant senior center for resolution.
+              center staff. If you believe a record is inaccurate, email admin@elderconnect.org and we will work with the senior center to review it.
             </p>
           </section>
 
