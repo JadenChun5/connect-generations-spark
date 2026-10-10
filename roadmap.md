@@ -12,6 +12,6 @@
 - [ ] Redirect the waitlist form to /thanks once real waitlist storage is enabled — blocked: storage is not connected; keep current form behavior.
 
 # Senior centers page
-- [ ] Add the dedicated public page with existing benefits, photo, metadata and staff-preselected waitlist.
-- [ ] Update senior-center links and homepage teaser while retaining exactly two homepage photos.
-- [ ] Verify desktop/phone layouts and unchanged unavailable waitlist submission.
+- [x] Add the dedicated public page with existing benefits, photo, metadata and staff-preselected waitlist; no sitemap exists to update.
+- [x] Update senior-center links and homepage teaser while retaining exactly two homepage photos.
+- [x] Verify desktop/phone layouts and unchanged unavailable waitlist submission; build clean and no runtime errors.
