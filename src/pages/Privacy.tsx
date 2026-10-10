@@ -94,7 +94,7 @@ const Privacy = () => {
             </p>
           </section>
 
-          <section>
+          <section id="childrens-privacy" className="scroll-mt-8">
             <h2 className="text-2xl font-semibold mb-3">6. Children's Privacy</h2>
             <p className="text-muted-foreground">
               ElderConnect is intended for users aged 13 and older. We do not knowingly collect personal
