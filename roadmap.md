@@ -29,3 +29,4 @@
 - [x] Students photo (Jsme MILA, Pexels) in two-column #students.
 - [x] /safety and /parents pages; header/footer links.
 - [x] Replaced the placeholder favicon with the user's real logo (favicons, Apple icon, header and footer).
+- [ ] Waitlist signup emails to admin@elderconnect.org — built; blocked until elderconnect.org is verified in Resend and WAITLIST_EMAIL_FROM is set.
