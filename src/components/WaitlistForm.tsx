@@ -8,7 +8,7 @@ const waitlistSchema = z.object({
   role: z.enum(roles),
 });
 
-const WaitlistForm = () => {
+const WaitlistForm = ({ defaultRole = roles[0] }: { defaultRole?: typeof roles[number] }) => {
   const [error, setError] = useState("");
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -24,7 +24,7 @@ const WaitlistForm = () => {
     <form onSubmit={handleSubmit} className="mt-8 space-y-5" noValidate>
       <div>
         <label htmlFor="waitlist-role" className="mb-2 block font-semibold">I am a</label>
-        <select id="waitlist-role" name="role" className="waitlist-input" defaultValue={roles[0]}>
+        <select id="waitlist-role" name="role" className="waitlist-input" defaultValue={defaultRole}>
           {roles.map(role => <option key={role}>{role}</option>)}
         </select>
       </div>

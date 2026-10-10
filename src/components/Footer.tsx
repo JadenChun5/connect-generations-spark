@@ -10,6 +10,7 @@ const Footer = () => (
       </div>
       <nav aria-label="Footer navigation" className="flex flex-wrap content-start gap-x-7 gap-y-4 text-base font-semibold">
         <Link to="/#how">How it works</Link>
+        <Link to="/senior-centers">For senior centers</Link>
         <Link to="/#faq">FAQ</Link>
         <Link to="/privacy">Privacy Policy</Link>
         <Link to="/terms">Terms of Service</Link>
