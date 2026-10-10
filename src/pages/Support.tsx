@@ -38,7 +38,7 @@ const Support = () => (
         </div>
         <div className="py-6">
           <dt className="text-xl font-bold">I run a senior center and want to join the pilot.</dt>
-          <dd className="mt-3 text-muted-foreground">Use the <Link to="/#join" className={linkClass}>waitlist on our home page</Link> and choose Senior center staff, or <a href={emailLink} className={linkClass}>email us</a>.</dd>
+          <dd className="mt-3 text-muted-foreground">See our <Link to="/senior-centers" className={linkClass}>For senior centers</Link> page, or <a href={emailLink} className={linkClass}>email us</a>.</dd>
         </div>
       </dl>
     </section>
