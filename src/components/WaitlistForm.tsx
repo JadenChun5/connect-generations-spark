@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { waitlistClient } from "@/lib/waitlistClient";
 
 const roles = ["Student volunteer", "Senior center staff", "Club leader or school adviser", "Parent or guardian"] as const;
 const waitlistSchema = z.object({
@@ -8,16 +10,25 @@ const waitlistSchema = z.object({
   role: z.enum(roles),
 });
 
-const WaitlistForm = ({ defaultRole = roles[0] }: { defaultRole?: typeof roles[number] }) => {
-  const [error, setError] = useState("");
+const FAILURE = "Something went wrong. Please try again or email admin@elderconnect.org.";
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+const WaitlistForm = ({ defaultRole = roles[0] }: { defaultRole?: typeof roles[number] }) => {
+  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    if (String(data.get("company") ?? "").trim()) { navigate("/thanks"); return; }
     const result = waitlistSchema.safeParse({ email: data.get("email"), role: data.get("role") });
-    setError(result.success
-      ? "Waitlist signup is not available yet. Your email has not been saved."
-      : result.error.issues[0]?.message ?? "Please check your details.");
+    if (!result.success) { setMessage(result.error.issues[0]?.message ?? "Please check your details."); return; }
+    setSubmitting(true);
+    setMessage("");
+    const { error } = await waitlistClient.from("waitlist_signups").insert({ email: result.data.email, role: result.data.role });
+    setSubmitting(false);
+    if (!error) { navigate("/thanks"); return; }
+    setMessage(error.code === "23505" ? "You're already on the list." : FAILURE);
   };
 
   return (
@@ -32,8 +43,12 @@ const WaitlistForm = ({ defaultRole = roles[0] }: { defaultRole?: typeof roles[n
         <label htmlFor="waitlist-email" className="mb-2 block font-semibold">Email</label>
         <input id="waitlist-email" name="email" type="email" autoComplete="email" maxLength={255} required className="waitlist-input" aria-describedby="waitlist-status" />
       </div>
-      <Button type="submit" variant="waitlist" className="w-full">Join the waitlist</Button>
-      <p id="waitlist-status" role="status" className="text-base leading-relaxed">{error || "Waitlist signup is not available yet. You can contact admin@elderconnect.org."}</p>
+      <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+        <label htmlFor="waitlist-company">Company</label>
+        <input id="waitlist-company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
+      <Button type="submit" variant="waitlist" className="w-full" disabled={submitting}>{submitting ? "Joining..." : "Join the waitlist"}</Button>
+      {message && <p id="waitlist-status" role="status" className="text-base leading-relaxed">{message}</p>}
     </form>
   );
 };

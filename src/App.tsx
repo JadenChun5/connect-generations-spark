@@ -12,6 +12,8 @@ import Support from "./pages/Support";
 import DeleteAccount from "./pages/DeleteAccount";
 import Thanks from "./pages/Thanks";
 import SeniorCenters from "./pages/SeniorCenters";
+import Safety from "./pages/Safety";
+import Parents from "./pages/Parents";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const queryClient = new QueryClient();

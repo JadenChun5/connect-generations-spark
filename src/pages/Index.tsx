@@ -6,6 +6,7 @@ import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
 import WaitlistForm from "@/components/WaitlistForm";
 import seniorCentersPhoto from "@/assets/photos/senior-centers.webp.asset.json";
+import studentsPhoto from "@/assets/photos/students.webp.asset.json";
 
 const steps = [
   { title: "Centers post group activities", text: "A senior center lists an activity it already runs, such as a game afternoon, a craft hour or a music session, and how many volunteers it can welcome." },
@@ -62,8 +63,14 @@ const Index = () => {
             </ol>
           </div>
         </section>
-        <section id="students" className="site-container py-16 lg:py-24">
-          <div className="max-w-[760px]">
+        <section id="students" className="site-container grid items-center gap-10 py-16 lg:grid-cols-2 lg:gap-20 lg:py-24">
+          <figure className="min-w-0">
+            <img src={studentsPhoto.url} alt="A smiling woman leans in to talk with a group of seniors seated at a long table in a bright room." width={1600} height={1067} loading="lazy" className="aspect-[4/3] w-full rounded-2xl object-cover" />
+            <figcaption className="mt-2 text-sm text-muted-foreground">
+              <a href="https://www.pexels.com/photo/a-caregiver-talking-to-a-group-of-seniors-sitting-at-a-table-18429308/" className="underline underline-offset-2">Photo: Jsme MILA on Pexels</a>
+            </figcaption>
+          </figure>
+          <div className="min-w-0">
             <h2>For students</h2>
             <p className="mt-5 text-muted-foreground">Find a group activity near you, sign up in a minute, and spend an afternoon with people who are glad you came.</p>
             <BenefitList items={studentBenefits} />
@@ -91,16 +98,11 @@ const Index = () => {
             </div>
           </div>
         </section>
-        <section className="site-container grid gap-10 py-16 lg:grid-cols-2 lg:gap-20 lg:py-24">
-          <div className="lg:py-8">
-            <h2>Where we are</h2>
-            <p className="mt-5 text-muted-foreground">ElderConnect is a new, student-led project preparing its first pilot in the South Bay. The app is in testing, and we are signing up our first senior center partners and student clubs.</p>
-            <p className="mt-6 text-base text-muted-foreground">[ADD ONLY WHAT IS TRUE ON THE DAY: number of confirmed centers, clubs signed up, first session date.]</p>
-          </div>
-          <div className="rounded-lg border border-border bg-card p-7 lg:p-10">
+        <section className="site-container py-16 lg:py-24">
+          <div className="max-w-[760px] rounded-lg border border-border bg-card p-7 lg:p-10">
             <h2>Why I started this</h2>
-            <p className="mt-5 text-muted-foreground">[2 to 3 sentences in Jaden's own words: what you saw at a senior center, and why a group format.]</p>
-            <p className="mt-7 font-bold">Jaden Chun, founder</p>
+            <p className="mt-5 text-muted-foreground">I started ElderConnect after seeing my grandfather's senior center get very few visitors. There was little connection happening between the people there and the community around them, and that stayed with me. I wanted to build a way for students and seniors to spend real time together in a supervised setting, so those gaps between generations get a little smaller.</p>
+            <p className="mt-6 max-w-xl text-base text-muted-foreground">Jaden Chun, founder</p>
           </div>
         </section>
         <section id="faq" className="border-y border-border bg-card py-16 lg:py-20">

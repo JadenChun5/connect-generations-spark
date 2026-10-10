@@ -43,6 +43,9 @@ const Privacy = () => {
                 activities.
               </p>
               <p>
+                If you join the waitlist, we store your email address and the role you select so we can contact you about ElderConnect. To have it removed, email admin@elderconnect.org.
+              </p>
+              <p>
                 <strong className="text-foreground">Activity sign-ups:</strong> the activities you sign up
                 for, the senior center you signed up with, and records of which sessions you attended, so
                 volunteer hours can be confirmed.
