@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const CONTACT_EMAIL = "jaden@techonsite.com";
+const CONTACT_EMAIL = "admin@elderconnect.org";
 
 const EmailLink = () => (
   <a href={`mailto:${CONTACT_EMAIL}`} className="text-primary hover:underline">
