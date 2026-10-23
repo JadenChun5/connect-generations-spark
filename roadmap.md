@@ -36,3 +36,8 @@
 - [x] Terms: Privacy Policy link in section 1; removed inline attorney-review sentences in sections 12 and 13.
 - [x] /support message form -> support_messages table (insert-only RLS) -> notify-support function emails SUPPORT_EMAIL_TO (default jaden@techonsite.com) with Reply-To.
 - [x] Privacy: Support messages paragraph and Summary mention.
+
+# Wordmark logo and publish
+- [x] Replace the header/footer logo icon and "ElderConnect" text with the supplied wordmark SVG (home link, 48px header / 40px footer, alt "ElderConnect, Bridging Generations"); favicons untouched; old src/assets/logo.png deleted once unreferenced.
+- [x] Verified every route at 1280px/390px (logo loads, no overflow, no new console errors) and published; live site confirmed serving the wordmark at both widths.
+- [ ] Switch alerts to admin@elderconnect.org — needs elderconnect.org verified in Resend, WAITLIST_EMAIL_FROM set on it, and WAITLIST_EMAIL_TO set to admin@elderconnect.org.
