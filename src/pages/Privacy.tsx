@@ -25,7 +25,7 @@ const sections = [
 ];
 
 const informationCategories = [
-  ["Identifiers (names, email, phone, IP address, account sign-in)", "Yes"],
+  ["Identifiers (names, email, phone, ZIP code, IP address, account sign-in)", "Yes"],
   ["Customer-records information (name, contact details, school/education)", "Yes"],
   ["Age or date of birth", "Yes — no other protected characteristics such as race, ethnicity, gender or marital status are collected"],
   ["Internet/network activity (aggregate page views and logs)", "Yes"],
@@ -40,7 +40,7 @@ const informationCategories = [
 const Privacy = () => {
   return (
     <PublicPage title="Privacy Policy" heading="Privacy Policy" description="How ElderConnect handles account and website waitlist information, children’s privacy, parental permission and requests to review or delete data.">
-      <p className="text-muted-foreground mb-2">Last updated: October 10, 2026</p>
+      <p className="text-muted-foreground mb-2">Last updated: October 23, 2026</p>
       <p className="text-muted-foreground italic text-sm mb-10">
         This policy is a working draft pending attorney review and may be updated.
       </p>
@@ -49,7 +49,7 @@ const Privacy = () => {
         <section aria-labelledby="privacy-summary">
           <h2 id="privacy-summary" className="text-2xl font-semibold mb-3">Summary</h2>
           <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-            <li>We collect account, activity and consent information, waitlist email addresses and roles, support messages, community posts and likes, and basic technical information.</li>
+            <li>We collect account, activity and consent information, waitlist email addresses and roles, support messages, community posts and likes, ZIP code, and basic technical information.</li>
             <li>We use information to run supervised volunteer activities, provide support, and keep the service secure and working.</li>
             <li>Senior center staff and service providers see information needed to plan activities and operate the service; authorities may receive it where required by law.</li>
             <li>ElderConnect is for ages 13 and older. Users aged 13 to 17 need a parent or guardian’s permission.</li>
@@ -84,8 +84,8 @@ const Privacy = () => {
           <h2 className="text-2xl font-semibold mb-3">2. Information We Collect and How Long We Keep It</h2>
           <div className="space-y-4 text-muted-foreground">
             <p>
-              <strong className="text-foreground">Account information:</strong> your name, school, and
-              contact details (such as your email address) when you create an account. If you are under
+              <strong className="text-foreground">Account information:</strong> your name, school, ZIP code,
+              and contact details (such as your email address) when you create an account. If you are under
               18, we also ask for a parent or guardian's contact details so they can give permission.
               Senior center staff give us their name, email, and phone number so they can manage activities.
             </p>
@@ -95,6 +95,7 @@ const Privacy = () => {
               <li>Phone numbers for senior center staff.</li>
               <li>Passwords and other sign-in details.</li>
               <li>School name and age or date of birth.</li>
+              <li>ZIP code, used to show you the communities closest to you.</li>
               <li>Activity sign-up and attendance records.</li>
               <li>Waiver and parental consent records.</li>
             </ul>
@@ -110,11 +111,21 @@ const Privacy = () => {
               respond, and keep them for as long as needed to handle your request.
             </p>
             <p>
+              <strong className="text-foreground">Notifications:</strong> if you allow them, we store a
+              device token so we can send reminders and message alerts. You can turn them off in your phone
+              settings.
+            </p>
+            <p>
               <strong className="text-foreground">Community posts and likes:</strong> if you post in the
               app's community feed as an ambassador, we store your post and the account that posted it. If
               you like a post, we store that like. Posts are visible to other users of the app. We keep them
               while your account is active. Please do not include private information about seniors or
               others in a post.
+            </p>
+            <p>
+              <strong className="text-foreground">Messages between users:</strong> we store messages you
+              send and receive in the app so conversations stay available. Please don't share private
+              information about seniors.
             </p>
             <p>
               <strong className="text-foreground">Website visits:</strong> our website may record basic,

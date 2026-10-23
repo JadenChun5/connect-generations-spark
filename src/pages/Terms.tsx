@@ -12,7 +12,7 @@ const EmailLink = () => (
 const Terms = () => {
   return (
     <PublicPage title="Terms of Service" heading="Terms of Service" description="Read ElderConnect’s terms for eligibility, parental permission, staff-led group activities, account responsibility and deletion.">
-        <p className="text-muted-foreground mb-2">Last updated: October 10, 2026</p>
+        <p className="text-muted-foreground mb-2">Last updated: October 23, 2026</p>
         <p className="text-muted-foreground italic text-sm mb-10">
           These terms are a working draft pending attorney review and may be updated.
         </p>
@@ -91,7 +91,7 @@ const Terms = () => {
           <section>
             <h2 className="text-2xl font-semibold mb-3">7. Reporting Concerns</h2>
             <p className="text-muted-foreground">
-              If you have a concern about the safety or wellbeing of a volunteer or a senior, tell the senior center staff running the activity and email us at admin@elderconnect.org so we can follow up. If someone needs immediate help, contact local emergency services.
+              If you have a concern about the safety or wellbeing of a volunteer or a senior, tell the senior center staff running the activity and email us at admin@elderconnect.org so we can follow up. If someone needs immediate help, contact local emergency services. You can also use Report a concern in the app.
             </p>
           </section>
 

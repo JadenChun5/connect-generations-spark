@@ -36,7 +36,12 @@ const SupportForm = () => {
     }
     setErrors({});
     setSending(true);
-    const { error } = await waitlistClient.from("support_messages").insert(result.data);
+    const { error } = await waitlistClient.from("support_messages").insert({
+      name: String(result.data.name ?? ""),
+      email: String(result.data.email ?? ""),
+      topic: String(result.data.topic ?? ""),
+      message: String(result.data.message ?? ""),
+    });
     setSending(false);
     if (error) { setStatus(FAILURE); return; }
     form.reset();
