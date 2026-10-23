@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
-import logo from "@/assets/logo.png";
+import logoWordmark from "@/assets/elderconnect-logo.svg.asset.json";
 
 const navigation = [
   { name: "How it works", to: "/#how" },
@@ -30,9 +30,8 @@ const Header = () => {
   return (
     <header className="border-b border-border bg-background">
       <div className="site-container flex flex-wrap items-center justify-between gap-x-6 gap-y-5 py-6">
-        <Link to="/" className="flex items-center gap-3 text-[26px] font-bold leading-tight text-foreground">
-          <img src={logo} alt="" width={40} height={40} className="h-10 w-10" />
-          ElderConnect
+        <Link to="/" className="inline-flex">
+          <img src={logoWordmark.url} alt="ElderConnect, Bridging Generations" width={256} height={48} className="h-10 w-auto sm:h-12" />
         </Link>
         <button
           type="button"
