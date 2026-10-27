@@ -12,7 +12,7 @@ const EmailLink = () => (
 const Terms = () => {
   return (
     <PublicPage title="Terms of Service" heading="Terms of Service" description="Read ElderConnect’s terms for eligibility, parental permission, staff-led group activities, account responsibility and deletion.">
-        <p className="text-muted-foreground mb-2">Last updated: October 23, 2026</p>
+        <p className="text-muted-foreground mb-2">Last updated: October 26, 2026</p>
         <p className="text-muted-foreground italic text-sm mb-10">
           These terms are a working draft pending attorney review and may be updated.
         </p>
@@ -85,6 +85,7 @@ const Terms = () => {
               <li>Do not collect or store information about other users beyond what the app provides.</li>
               <li>Do not use the app for any unlawful purpose.</li>
               <li>Do not post private information about seniors, volunteers or staff, or anything harassing, discriminatory or unlawful, in community posts.</li>
+              <li>Do not send harassing, inappropriate or unwanted messages, and do not upload inappropriate photos.</li>
             </ul>
           </section>
 
@@ -104,13 +105,16 @@ const Terms = () => {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-3">9. Community Posts</h2>
+            <h2 className="text-2xl font-semibold mb-3">9. Community Posts, Messages and Photos</h2>
             <p className="text-muted-foreground">
               The ElderConnect app includes a community feed. Posts are written by ambassadors, senior
               centers and ElderConnect team members. Other users can like posts but cannot comment. Posts
-              are visible to other users of the app. You keep ownership of content you post, but you give
-              ElderConnect permission to display it in the app for its intended purpose. ElderConnect may
-              remove posts that violate these Terms.
+              are visible to other users of the app. Users can also send messages to each other in the app,
+              and can add a profile photo and photos for activities. Only upload photos you have the right
+              to share, and do not upload photos of other people without their permission. You keep
+              ownership of content you post or upload, but you give ElderConnect permission to display it
+              in the app for its intended purpose. ElderConnect may remove posts, messages or photos that
+              violate these Terms.
             </p>
           </section>
 

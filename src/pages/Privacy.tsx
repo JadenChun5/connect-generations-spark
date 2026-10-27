@@ -40,7 +40,7 @@ const informationCategories = [
 const Privacy = () => {
   return (
     <PublicPage title="Privacy Policy" heading="Privacy Policy" description="How ElderConnect handles account and website waitlist information, children’s privacy, parental permission and requests to review or delete data.">
-      <p className="text-muted-foreground mb-2">Last updated: October 23, 2026</p>
+      <p className="text-muted-foreground mb-2">Last updated: October 26, 2026</p>
       <p className="text-muted-foreground italic text-sm mb-10">
         This policy is a working draft pending attorney review and may be updated.
       </p>
@@ -49,7 +49,7 @@ const Privacy = () => {
         <section aria-labelledby="privacy-summary">
           <h2 id="privacy-summary" className="text-2xl font-semibold mb-3">Summary</h2>
           <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-            <li>We collect account, activity and consent information, waitlist email addresses and roles, support messages, community posts and likes, ZIP code, and basic technical information.</li>
+            <li>We collect account, activity and consent information, waitlist email addresses and roles, support messages, messages between users, photos, community posts and likes, ZIP code, and basic technical information.</li>
             <li>We use information to run supervised volunteer activities, provide support, and keep the service secure and working.</li>
             <li>Senior center staff and service providers see information needed to plan activities and operate the service; authorities may receive it where required by law.</li>
             <li>ElderConnect is for ages 13 and older. Users aged 13 to 17 need a parent or guardian’s permission.</li>
@@ -126,6 +126,17 @@ const Privacy = () => {
               <strong className="text-foreground">Messages between users:</strong> we store messages you
               send and receive in the app so conversations stay available. Please don't share private
               information about seniors.
+            </p>
+            <p>
+              <strong className="text-foreground">Photos:</strong> you can add a profile photo and photos
+              for activities. We only access your camera or photo library when you choose to take or upload
+              a photo, and we only store the photos you choose to add. Profile photos and activity photos
+              may be visible to other users of the app. We delete your photos when you delete your account.
+            </p>
+            <p>
+              <strong className="text-foreground">Reports and concerns:</strong> if you submit a concern
+              through Report a concern in the app, we store what you send, such as your message and the
+              account it came from, so we can review it and follow up.
             </p>
             <p>
               <strong className="text-foreground">Website visits:</strong> our website may record basic,
@@ -214,14 +225,16 @@ const Privacy = () => {
           <p className="text-muted-foreground">Our website, including the waitlist, is not directed to children under 13, and children under 13 should not submit their information.</p>
           <p className="text-muted-foreground">
             ElderConnect is intended for users aged 13 and older. We do not knowingly collect personal
-            information from children under 13. If we learn that we have collected information from a
+            information from children under 13. This is consistent with the Children's Online Privacy
+            Protection Act (COPPA). If we learn that we have collected information from a
             child under 13, we delete it promptly. If you believe a child under 13 has given us
             information, please contact us at <EmailLink />.
           </p>
           <p className="text-muted-foreground">
             Users aged 13 to 17 may use the app only with permission from a parent or legal guardian. We
-            collect only what is needed to run volunteer activities — name, school, contact details, and
-            activity sign-up records. We do not sell personal information and do not use it for advertising.
+            collect only what is needed to run volunteer activities — such as name, contact details, ZIP
+            code, activity sign-up records, and any photos or messages they choose to add. We do not sell
+            personal information and do not use it for advertising.
           </p>
           <p className="text-muted-foreground">
             A parent or guardian can ask to review the information we hold about their child, ask us to
