@@ -40,7 +40,7 @@ const informationCategories = [
 const Privacy = () => {
   return (
     <PublicPage title="Privacy Policy" heading="Privacy Policy" description="How ElderConnect handles account and website waitlist information, children’s privacy, parental permission and requests to review or delete data.">
-      <p className="text-muted-foreground mb-2">Last updated: October 26, 2026</p>
+      <p className="text-muted-foreground mb-2">Last updated: October 27, 2026</p>
       <p className="text-muted-foreground italic text-sm mb-10">
         This policy is a working draft pending attorney review and may be updated.
       </p>
@@ -111,9 +111,9 @@ const Privacy = () => {
               respond, and keep them for as long as needed to handle your request.
             </p>
             <p>
-              <strong className="text-foreground">Notifications:</strong> if you allow them, we store a
-              device token so we can send reminders and message alerts. You can turn them off in your phone
-              settings.
+              <strong className="text-foreground">Notifications:</strong> ElderConnect does not currently
+              send push notifications. We send notifications about your account, activities and messages
+              by email and inside the app.
             </p>
             <p>
               <strong className="text-foreground">Community posts and likes:</strong> if you post in the
