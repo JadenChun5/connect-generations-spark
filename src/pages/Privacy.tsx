@@ -40,7 +40,7 @@ const informationCategories = [
 const Privacy = () => {
   return (
     <PublicPage title="Privacy Policy" heading="Privacy Policy" description="How ElderConnect handles account and website waitlist information, children’s privacy, parental permission and requests to review or delete data.">
-      <p className="text-muted-foreground mb-2">Last updated: October 29, 2026</p>
+      <p className="text-muted-foreground mb-2">Last updated: October 30, 2026</p>
       <p className="text-muted-foreground italic text-sm mb-10">
         This policy is a working draft pending attorney review and may be updated.
       </p>
@@ -239,6 +239,12 @@ const Privacy = () => {
             information, please contact us at <EmailLink />.
           </p>
           <p className="text-muted-foreground">
+            If someone enters a birthday that shows they are under 13, we close the account right away and
+            erase what they entered. We keep only a one-way scrambled version of the email address (a hash)
+            that cannot be turned back into the email, so the same email cannot be used to sign up again. If
+            a birthday was entered by mistake, a parent or guardian can email <EmailLink />.
+          </p>
+          <p className="text-muted-foreground">
             Users aged 13 to 17 may use the app only with permission from a parent or legal guardian. We
             collect only what is needed to run volunteer activities — such as name, contact details, ZIP
             code, activity sign-up records, and any photos or messages they choose to add. We do not sell
@@ -272,6 +278,13 @@ const Privacy = () => {
             data, except where we are legally required to keep it. A parent or guardian can also ask us
             to review, correct, or delete information about a child by contacting us at <EmailLink />.
             A parent or guardian may also withdraw permission, which ends the child's use of ElderConnect.
+          </p>
+          <p className="text-muted-foreground">
+            When a senior center account is deleted, we remove its photos, description, contact and director
+            details, insurance information, custom requirements and activity photos. We keep only the
+            center's name, street address, ZIP code and opening hours, so that past activities and
+            volunteers' logged hours still make sense. If you delete your account, reports that involve you
+            may be kept for safety review, and your name on them is replaced with "Deleted user".
           </p>
           <p className="text-muted-foreground">
             See our <Link to="/delete-account" className="text-primary hover:underline">Delete account page</Link> for
