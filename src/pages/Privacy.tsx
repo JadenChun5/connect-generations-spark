@@ -40,7 +40,7 @@ const informationCategories = [
 const Privacy = () => {
   return (
     <PublicPage title="Privacy Policy" heading="Privacy Policy" description="How ElderConnect handles account and website waitlist information, children’s privacy, parental permission and requests to review or delete data.">
-      <p className="text-muted-foreground mb-2">Last updated: October 27, 2026</p>
+      <p className="text-muted-foreground mb-2">Last updated: October 29, 2026</p>
       <p className="text-muted-foreground italic text-sm mb-10">
         This policy is a working draft pending attorney review and may be updated.
       </p>
@@ -134,9 +134,17 @@ const Privacy = () => {
               may be visible to other users of the app. We delete your photos when you delete your account.
             </p>
             <p>
-              <strong className="text-foreground">Reports and concerns:</strong> if you submit a concern
-              through Report a concern in the app, we store what you send, such as your message and the
-              account it came from, so we can review it and follow up.
+              <strong className="text-foreground">Reports and concerns:</strong> you can report a concern
+              from Settings, and you can report a message, post, photo, activity or profile from the
+              three-dot menus in the app. When you report, we store what you send and the account and
+              content it is about, so we can review it and follow up. Reports go to the ElderConnect team
+              only, not to senior centers or other users. Our staff may review the reported content, which
+              can include messages, posts and photos.
+            </p>
+            <p>
+              <strong className="text-foreground">Blocking:</strong> if you block a person or a post, we
+              store that choice so the conversation or post stays hidden for you. The person you block is
+              not notified.
             </p>
             <p>
               <strong className="text-foreground">Website visits:</strong> our website may record basic,
@@ -184,7 +192,7 @@ const Privacy = () => {
             <li>To run activities: sign-ups, scheduling, attendance records, and volunteer hours.</li>
             <li>To check age and, for users under 18, to record parental or guardian permission.</li>
             <li>To send you messages about your account and your activities.</li>
-            <li>To route safety concerns to the right senior center staff or ElderConnect team member.</li>
+            <li>To review concerns and reports. Reports made in the app go only to the ElderConnect team, who may remove content or suspend or delete accounts that break our Terms.</li>
             <li>To keep the records needed for youth-protection and safety compliance.</li>
             <li>To respond to inquiries and support requests.</li>
             <li>To send administrative messages about the service.</li>
