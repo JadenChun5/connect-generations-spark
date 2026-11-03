@@ -40,7 +40,7 @@ const informationCategories = [
 const Privacy = () => {
   return (
     <PublicPage title="Privacy Policy" heading="Privacy Policy" description="How ElderConnect handles account and website waitlist information, children’s privacy, parental permission and requests to review or delete data.">
-      <p className="text-muted-foreground mb-2">Last updated: October 30, 2026</p>
+      <p className="text-muted-foreground mb-2">Last updated: November 2, 2026</p>
       <p className="text-muted-foreground italic text-sm mb-10">
         This policy is a working draft pending attorney review and may be updated.
       </p>
@@ -207,6 +207,11 @@ const Privacy = () => {
             We share information with the senior center you volunteer with, so staff can plan and
             supervise activities. We also share it with the service providers that help us run the app,
             such as our database and hosting provider and our email delivery provider.
+          </p>
+          <p className="text-muted-foreground">
+            Every service provider that receives personal information from us is required to protect it
+            at the same level this policy describes, and may use it only to provide its services to
+            ElderConnect.
           </p>
           <p className="text-muted-foreground">
             We do not sell personal information and do not share it with third parties for advertising
