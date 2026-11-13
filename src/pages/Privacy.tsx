@@ -170,8 +170,8 @@ const Privacy = () => {
               <strong className="text-foreground">How long we keep it:</strong> we keep this information
               while your account is active. When your account is deleted, we delete your personal
               information, except records we are legally required to keep (for example consent and
-              activity records). Waitlist email addresses are kept until removal is requested or the
-              waitlist is no longer needed.
+              activity records). Email updates signups are kept until removal is requested or the
+              updates list is no longer needed.
             </p>
           </div>
         </section>
