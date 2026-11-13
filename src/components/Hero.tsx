@@ -5,7 +5,7 @@ import AppStoreQr from "@/components/AppStoreQr";
 import heroPhoto from "@/assets/photos/hero.webp.asset.json";
 
 const Hero = () => (
-  <section className="site-container grid items-center gap-12 pb-16 pt-12 lg:grid-cols-[1.15fr_1fr] lg:gap-14 lg:pb-20 lg:pt-16">
+  <section className="site-container grid items-center gap-12 pb-16 pt-12 xl:grid-cols-[1.15fr_1fr] xl:gap-14 lg:pb-20 lg:pt-16">
     <div>
       <p className="mb-5 text-sm font-bold uppercase tracking-[0.12em] text-primary">Now on the App Store</p>
       <h1 className="text-[38px] font-bold leading-[1.08] sm:text-5xl lg:text-[64px]">Group volunteering at senior centers, led by center staff.</h1>

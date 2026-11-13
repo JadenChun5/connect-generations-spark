@@ -35,7 +35,7 @@ const Header = () => {
         </Link>
         <button
           type="button"
-          className="min-h-11 min-w-11 rounded-md border border-border px-4 text-base font-semibold text-foreground lg:hidden"
+          className="min-h-11 min-w-11 rounded-md border border-border px-4 text-base font-semibold text-foreground xl:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? "Close menu" : "Open menu"}
@@ -53,7 +53,7 @@ const Header = () => {
         </nav>
       </div>
       {open && (
-        <nav id="mobile-nav" aria-label="Mobile navigation" className="border-t border-border lg:hidden">
+        <nav id="mobile-nav" aria-label="Mobile navigation" className="border-t border-border xl:hidden">
           <div className="site-container flex flex-col py-4 text-base font-semibold">
             {navigation.map(item => (
               <Link key={item.to} to={item.to} aria-current={isCurrent(item.to) ? "page" : undefined} className={linkClass(item.to, true)} onClick={() => setOpen(false)}>

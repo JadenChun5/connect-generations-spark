@@ -23,7 +23,7 @@ const buttonVariants = cva(
         admin: "bg-lavender text-lavender-foreground hover:bg-lavender/90 shadow-soft hover:shadow-medium",
         family: "bg-primary-soft text-primary hover:bg-primary-soft/80 border border-primary/20",
         warm: "bg-primary text-primary-foreground hover:bg-primary/90",
-        waitlist: "bg-card text-primary shadow-soft hover:bg-background hover:shadow-medium active:translate-y-px focus-visible:ring-primary",
+        waitlist: "border border-border bg-card text-primary shadow-soft hover:bg-background hover:shadow-medium active:translate-y-px focus-visible:ring-primary",
       },
       size: {
         default: "min-h-[52px] px-6 py-3 whitespace-normal text-center leading-snug",

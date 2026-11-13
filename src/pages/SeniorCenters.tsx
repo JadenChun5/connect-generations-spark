@@ -30,7 +30,7 @@ const SeniorCenters = () => (
     <section className="rounded-2xl border border-border bg-card p-6 shadow-soft sm:p-8" aria-labelledby="download-heading">
       <h2 id="download-heading">Get ElderConnect for your center</h2>
       <p className="mt-4 text-muted-foreground">Download the app to create your center's account and start planning supervised group activities.</p>
-      <AppStoreButton className="mt-6" />
+      <AppStoreButton label="Download the app" className="mt-6" />
     </section>
     <section className="max-w-[720px]" aria-labelledby="updates-heading">
       <h2 id="updates-heading">Stay in the loop</h2>
