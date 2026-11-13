@@ -47,7 +47,7 @@ const WaitlistForm = ({ defaultRole = roles[0] }: { defaultRole?: typeof roles[n
         <label htmlFor="waitlist-company">Company</label>
         <input id="waitlist-company" name="company" type="text" tabIndex={-1} autoComplete="off" />
       </div>
-      <Button type="submit" variant="waitlist" className="w-full" disabled={submitting}>{submitting ? "Joining..." : "Join the waitlist"}</Button>
+      <Button type="submit" variant="waitlist" className="w-full" disabled={submitting}>{submitting ? "Signing up..." : "Sign up for updates"}</Button>
       {message && <p id="waitlist-status" role="status" className="text-base leading-relaxed">{message}</p>}
     </form>
   );

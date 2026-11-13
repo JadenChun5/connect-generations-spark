@@ -39,7 +39,7 @@ const informationCategories = [
 
 const Privacy = () => {
   return (
-    <PublicPage title="Privacy Policy" heading="Privacy Policy" description="How ElderConnect handles account and website waitlist information, children’s privacy, parental permission and requests to review or delete data.">
+    <PublicPage title="Privacy Policy" heading="Privacy Policy" description="How ElderConnect handles account and website email updates information, children’s privacy, parental permission and requests to review or delete data.">
       <p className="text-muted-foreground mb-2">Last updated: November 2, 2026</p>
       <p className="text-muted-foreground italic text-sm mb-10">
         This policy is a working draft pending attorney review and may be updated.
@@ -49,7 +49,7 @@ const Privacy = () => {
         <section aria-labelledby="privacy-summary">
           <h2 id="privacy-summary" className="text-2xl font-semibold mb-3">Summary</h2>
           <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-            <li>We collect account, activity and consent information, waitlist email addresses and roles, support messages, messages between users, photos, community posts and likes, ZIP code, and basic technical information.</li>
+            <li>We collect account, activity and consent information, email updates signups and roles, support messages, messages between users, photos, community posts and likes, ZIP code, and basic technical information.</li>
             <li>We use information to run supervised volunteer activities, provide support, and keep the service secure and working.</li>
             <li>Senior center staff and service providers see information needed to plan activities and operate the service; authorities may receive it where required by law.</li>
             <li>ElderConnect is for ages 13 and older. Users aged 13 to 17 need a parent or guardian’s permission.</li>

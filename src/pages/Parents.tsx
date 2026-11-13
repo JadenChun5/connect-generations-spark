@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import PublicPage from "@/components/PublicPage";
 import { Button } from "@/components/ui/button";
+import { APP_STORE_URL } from "@/lib/appStore";
 
 const link = "text-primary underline underline-offset-4";
 

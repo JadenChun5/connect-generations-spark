@@ -36,10 +36,10 @@
     --gradient-hero: linear-gradient(hsl(var(--primary)), hsl(var(--primary)));
     --gradient-warm: linear-gradient(hsl(var(--primary)), hsl(var(--primary)));
     --gradient-subtle: linear-gradient(hsl(var(--background)), hsl(var(--background)));
-    --shadow-soft: none;
-    --shadow-medium: none;
-    --shadow-strong: none;
-    --transition-smooth: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+    --shadow-soft: 0 8px 24px -16px hsl(var(--foreground) / 0.35);
+    --shadow-medium: 0 12px 30px -16px hsl(var(--foreground) / 0.42);
+    --shadow-strong: 0 18px 40px -18px hsl(var(--foreground) / 0.45);
+    --transition-smooth: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
     --transition-bounce: var(--transition-smooth);
     --sidebar-background: var(--background);
     --sidebar-foreground: var(--foreground);

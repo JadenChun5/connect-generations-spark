@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 
 export const SITE_TITLE = "ElderConnect | Supervised group volunteering";
-export const SITE_DESCRIPTION = "A student-led South Bay pilot for students 13 and older to join staff-led group activities at senior centers. Join the ElderConnect waitlist.";
+export const SITE_DESCRIPTION = "ElderConnect is on the App Store for iPhone. Students 13 and older can join staff-led group activities at South Bay senior centers.";
 export const SHARE_IMAGE = "https://elderconnect.org/__l5e/assets-v1/4265fb2d-39dd-45bf-a138-28d09fb49d07/hero-social.jpg";
 
 type Props = { title: string; description: string; url: string; noindex?: boolean };
