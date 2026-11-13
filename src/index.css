@@ -93,8 +93,8 @@
     color: hsl(var(--foreground));
     font: inherit;
   }
-  .waitlist-input:focus-visible, #join button:focus-visible {
-    outline-color: hsl(var(--primary-foreground));
+  .waitlist-input:focus-visible {
+    outline-color: hsl(var(--ring));
   }
 }
 

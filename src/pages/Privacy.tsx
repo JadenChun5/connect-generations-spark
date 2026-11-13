@@ -100,9 +100,9 @@ const Privacy = () => {
               <li>Waiver and parental consent records.</li>
             </ul>
             <p>
-              <strong className="text-foreground">Website waitlist:</strong> if you join the waitlist on our
+              <strong className="text-foreground">Email updates:</strong> if you sign up for email updates on our
               website, we store your email address and the role you select so we can contact you about
-              ElderConnect. We keep it until you ask us to remove it or until the waitlist is no longer
+              ElderConnect. We keep it until you ask us to remove it or until the updates list is no longer
               needed. To have it removed, email <EmailLink />.
             </p>
             <p>
