@@ -43,7 +43,7 @@ const Header = () => {
         >
           {open ? "Close" : "Menu"}
         </button>
-        <nav aria-label="Main navigation" className="hidden items-center gap-x-5 text-[15px] font-semibold lg:flex">
+        <nav aria-label="Main navigation" className="hidden items-center gap-x-5 text-[15px] font-semibold xl:flex">
           {navigation.map(item => (
             <Link key={item.to} to={item.to} aria-current={isCurrent(item.to) ? "page" : undefined} className={linkClass(item.to)}>
               {item.name}

@@ -22,7 +22,7 @@ const Hero = () => (
       <figcaption className="mt-2 text-sm text-muted-foreground">
         <a href="https://www.pexels.com/photo/elderly-people-playing-cards-6838583/" className="underline underline-offset-2">Photo: Kampus Production on Pexels</a>
       </figcaption>
-      <AppStoreQr className="mt-6 hidden lg:block" />
+      <AppStoreQr className="mt-6 hidden xl:block" />
     </figure>
   </section>
 );
