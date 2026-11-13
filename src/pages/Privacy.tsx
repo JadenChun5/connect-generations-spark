@@ -235,7 +235,7 @@ const Privacy = () => {
 
         <section id="childrens-privacy" className="scroll-mt-8">
           <h2 className="text-2xl font-semibold mb-3">6. Children's Privacy</h2>
-          <p className="text-muted-foreground">Our website, including the waitlist, is not directed to children under 13, and children under 13 should not submit their information.</p>
+          <p className="text-muted-foreground">Our website, including the email updates form, is not directed to children under 13, and children under 13 should not submit their information.</p>
           <p className="text-muted-foreground">
             ElderConnect is intended for users aged 13 and older. We do not knowingly collect personal
             information from children under 13. This is consistent with the Children's Online Privacy
