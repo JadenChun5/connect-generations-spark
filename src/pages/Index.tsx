@@ -6,6 +6,8 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
 import WaitlistForm from "@/components/WaitlistForm";
+import AppStoreButton from "@/components/AppStoreButton";
+import AppStoreQr from "@/components/AppStoreQr";
 import seniorCentersPhoto from "@/assets/photos/senior-centers.webp.asset.json";
 import studentsPhoto from "@/assets/photos/students.webp.asset.json";
 
@@ -25,8 +27,8 @@ const questions = [
   { question: "Who can volunteer?", answer: "Students aged 13 and up. Students under 18 need a parent or guardian's permission." },
   { question: "Are volunteers ever alone with seniors?", answer: "No. ElderConnect supports group activities that center staff run. There are no one-on-one visits." },
   { question: "What does it cost?", answer: "Nothing for students or centers during the pilot." },
-  { question: "Is ElderConnect a nonprofit?", answer: "ElderConnect is a student-led project, not a registered nonprofit. Joining the waitlist is free." },
-  { question: "Where is it available?", answer: "We are starting in the South Bay area of Los Angeles. Join the waitlist for updates." },
+  { question: "Is ElderConnect a nonprofit?", answer: "ElderConnect is a student-led project, not a registered nonprofit. Downloading the app is free." },
+  { question: "Where is it available?", answer: "The app is on the App Store for iPhone, starting with senior centers in the South Bay area of Los Angeles." },
 ];
 
 const BenefitList = ({ items }: { items: string[] }) => (
@@ -76,7 +78,7 @@ const Index = () => {
             <h2>For students</h2>
             <p className="mt-5 text-muted-foreground">Find a group activity near you, sign up in a minute, and spend an afternoon with people who are glad you came.</p>
             <BenefitList items={studentBenefits} />
-            <Button asChild><a href="#join">Join the student waitlist</a></Button>
+            <AppStoreButton label="Download the app" />
           </div>
         </section>
         <section id="centers" className="site-container grid items-center gap-10 pb-16 lg:grid-cols-2 lg:gap-20 lg:pb-24">
@@ -101,7 +103,7 @@ const Index = () => {
           </div>
         </section>
         <section className="site-container py-16 lg:py-24">
-          <div className="max-w-[760px] rounded-lg border border-border bg-card p-7 lg:p-10">
+          <div className="max-w-[760px] rounded-lg border border-border bg-card p-7 shadow-soft lg:p-10">
             <h2>Why I started this</h2>
             <p className="mt-5 text-muted-foreground">I started ElderConnect after seeing my grandfather's senior center get very few visitors. There was little connection happening between the people there and the community around them, and that stayed with me. I wanted to build a way for students and seniors to spend real time together in a supervised setting, so those gaps between generations get a little smaller.</p>
             <p className="mt-6 max-w-xl text-base text-muted-foreground">Jaden Chun, founder</p>
@@ -116,9 +118,21 @@ const Index = () => {
           </div>
         </section>
         <section id="join" className="site-container py-16 lg:py-24">
-          <div className="mx-auto max-w-[720px] rounded-[20px] bg-primary p-6 text-primary-foreground sm:p-10 lg:p-12">
-            <h2>Join the waitlist</h2>
-            <p className="mt-4">Tell us who you are and we will write when the first activities open.</p>
+          <div className="mx-auto max-w-[960px] rounded-[20px] bg-primary p-6 text-primary-foreground shadow-soft sm:p-10 lg:p-12">
+            <div className="grid items-center gap-8 lg:grid-cols-[1fr_auto] lg:gap-12">
+              <div className="max-w-[620px]">
+                <p className="mb-4 text-sm font-bold uppercase tracking-[0.12em] text-primary-foreground/80">Now on the App Store</p>
+                <h2>Get ElderConnect on your iPhone</h2>
+                <p className="mt-4">Free for students and senior centers. Download the app, create your account and sign up for your first group activity.</p>
+                <AppStoreButton light className="mt-7" />
+                <p className="mt-4 text-sm text-primary-foreground/80">Free on iPhone. Ages 13 and up.</p>
+              </div>
+              <AppStoreQr className="justify-self-start lg:justify-self-end" />
+            </div>
+          </div>
+          <div className="mx-auto mt-8 max-w-[720px] rounded-[20px] border border-border bg-card p-6 shadow-soft sm:p-8 lg:p-10">
+            <h2 className="text-[28px]">Stay in the loop</h2>
+            <p className="mt-3 text-muted-foreground">Get updates about new centers and activities.</p>
             <WaitlistForm />
           </div>
         </section>

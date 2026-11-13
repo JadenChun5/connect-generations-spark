@@ -9,9 +9,9 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-primary text-primary-foreground shadow-soft hover:bg-primary/90 hover:shadow-medium active:translate-y-px",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border-2 border-foreground bg-transparent text-foreground hover:bg-muted",
+        outline: "border-2 border-foreground bg-transparent text-foreground shadow-soft hover:bg-muted hover:shadow-medium active:translate-y-px",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-soft hover:shadow-medium",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
@@ -23,7 +23,7 @@ const buttonVariants = cva(
         admin: "bg-lavender text-lavender-foreground hover:bg-lavender/90 shadow-soft hover:shadow-medium",
         family: "bg-primary-soft text-primary hover:bg-primary-soft/80 border border-primary/20",
         warm: "bg-primary text-primary-foreground hover:bg-primary/90",
-        waitlist: "bg-card text-primary hover:bg-background",
+        waitlist: "border border-border bg-card text-primary shadow-soft hover:bg-background hover:shadow-medium active:translate-y-px focus-visible:ring-primary",
       },
       size: {
         default: "min-h-[52px] px-6 py-3 whitespace-normal text-center leading-snug",

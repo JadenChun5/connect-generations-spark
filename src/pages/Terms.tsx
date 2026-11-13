@@ -48,7 +48,7 @@ const Terms = () => {
               your parent or legal guardian has reviewed and agreed to these Terms and consents to your
               participation in supervised activities. We may suspend or delete accounts that violate these
               age requirements. Senior center accounts must be created by an authorized staff member of a
-              legitimate senior or community center organization. Our website waitlist is for people 13 and older and for parents, guardians and senior center staff.
+              legitimate senior or community center organization. Our website email updates form is for people 13 and older and for parents, guardians and senior center staff.
             </p>
           </section>
 

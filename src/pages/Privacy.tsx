@@ -39,7 +39,7 @@ const informationCategories = [
 
 const Privacy = () => {
   return (
-    <PublicPage title="Privacy Policy" heading="Privacy Policy" description="How ElderConnect handles account and website waitlist information, children’s privacy, parental permission and requests to review or delete data.">
+    <PublicPage title="Privacy Policy" heading="Privacy Policy" description="How ElderConnect handles account and website email updates information, children’s privacy, parental permission and requests to review or delete data.">
       <p className="text-muted-foreground mb-2">Last updated: November 2, 2026</p>
       <p className="text-muted-foreground italic text-sm mb-10">
         This policy is a working draft pending attorney review and may be updated.
@@ -49,7 +49,7 @@ const Privacy = () => {
         <section aria-labelledby="privacy-summary">
           <h2 id="privacy-summary" className="text-2xl font-semibold mb-3">Summary</h2>
           <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-            <li>We collect account, activity and consent information, waitlist email addresses and roles, support messages, messages between users, photos, community posts and likes, ZIP code, and basic technical information.</li>
+            <li>We collect account, activity and consent information, email updates signups and roles, support messages, messages between users, photos, community posts and likes, ZIP code, and basic technical information.</li>
             <li>We use information to run supervised volunteer activities, provide support, and keep the service secure and working.</li>
             <li>Senior center staff and service providers see information needed to plan activities and operate the service; authorities may receive it where required by law.</li>
             <li>ElderConnect is for ages 13 and older. Users aged 13 to 17 need a parent or guardian’s permission.</li>
@@ -100,9 +100,9 @@ const Privacy = () => {
               <li>Waiver and parental consent records.</li>
             </ul>
             <p>
-              <strong className="text-foreground">Website waitlist:</strong> if you join the waitlist on our
+              <strong className="text-foreground">Email updates:</strong> if you sign up for email updates on our
               website, we store your email address and the role you select so we can contact you about
-              ElderConnect. We keep it until you ask us to remove it or until the waitlist is no longer
+              ElderConnect. We keep it until you ask us to remove it or until the updates list is no longer
               needed. To have it removed, email <EmailLink />.
             </p>
             <p>
@@ -170,8 +170,8 @@ const Privacy = () => {
               <strong className="text-foreground">How long we keep it:</strong> we keep this information
               while your account is active. When your account is deleted, we delete your personal
               information, except records we are legally required to keep (for example consent and
-              activity records). Waitlist email addresses are kept until removal is requested or the
-              waitlist is no longer needed.
+              activity records). Email updates signups are kept until removal is requested or the
+              updates list is no longer needed.
             </p>
           </div>
         </section>
@@ -235,7 +235,7 @@ const Privacy = () => {
 
         <section id="childrens-privacy" className="scroll-mt-8">
           <h2 className="text-2xl font-semibold mb-3">6. Children's Privacy</h2>
-          <p className="text-muted-foreground">Our website, including the waitlist, is not directed to children under 13, and children under 13 should not submit their information.</p>
+          <p className="text-muted-foreground">Our website, including the email updates form, is not directed to children under 13, and children under 13 should not submit their information.</p>
           <p className="text-muted-foreground">
             ElderConnect is intended for users aged 13 and older. We do not knowingly collect personal
             information from children under 13. This is consistent with the Children's Online Privacy

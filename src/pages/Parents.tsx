@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import PublicPage from "@/components/PublicPage";
 import { Button } from "@/components/ui/button";
+import { APP_STORE_URL } from "@/lib/appStore";
 
 const link = "text-primary underline underline-offset-4";
 
@@ -42,7 +43,7 @@ const Parents = () => (
     </section>
     <div className="border-t border-border pt-8">
       <Button asChild><a href="mailto:admin@elderconnect.org">Email us a question</a></Button>
-      <p className="mt-6 text-base text-muted-foreground"><Link to="/#join" className={link}>Join the waitlist as a parent or guardian</Link></p>
+      <p className="mt-6 text-base text-muted-foreground"><a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className={link}>Download ElderConnect on the App Store</a></p>
     </div>
   </PublicPage>
 );

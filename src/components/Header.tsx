@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
+import AppStoreButton from "@/components/AppStoreButton";
 import logoWordmark from "@/assets/elderconnect-logo.svg.asset.json";
 
 const navigation = [
@@ -35,7 +35,7 @@ const Header = () => {
         </Link>
         <button
           type="button"
-          className="min-h-11 min-w-11 rounded-md border border-border px-4 text-base font-semibold text-foreground lg:hidden"
+          className="min-h-11 min-w-11 rounded-md border border-border px-4 text-base font-semibold text-foreground xl:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? "Close menu" : "Open menu"}
@@ -43,24 +43,24 @@ const Header = () => {
         >
           {open ? "Close" : "Menu"}
         </button>
-        <nav aria-label="Main navigation" className="hidden items-center gap-x-5 text-[15px] font-semibold lg:flex">
+        <nav aria-label="Main navigation" className="hidden items-center gap-x-5 text-[15px] font-semibold xl:flex">
           {navigation.map(item => (
             <Link key={item.to} to={item.to} aria-current={isCurrent(item.to) ? "page" : undefined} className={linkClass(item.to)}>
               {item.name}
             </Link>
           ))}
-          <Button asChild><Link to="/#join">Join the waitlist</Link></Button>
+          <AppStoreButton label="Download the app" className="px-4" />
         </nav>
       </div>
       {open && (
-        <nav id="mobile-nav" aria-label="Mobile navigation" className="border-t border-border lg:hidden">
+        <nav id="mobile-nav" aria-label="Mobile navigation" className="border-t border-border xl:hidden">
           <div className="site-container flex flex-col py-4 text-base font-semibold">
             {navigation.map(item => (
               <Link key={item.to} to={item.to} aria-current={isCurrent(item.to) ? "page" : undefined} className={linkClass(item.to, true)} onClick={() => setOpen(false)}>
                 {item.name}
               </Link>
             ))}
-            <Button asChild className="mt-3"><Link to="/#join" onClick={() => setOpen(false)}>Join the waitlist</Link></Button>
+            <AppStoreButton label="Download the app" className="mt-3 w-full" onClick={() => setOpen(false)} />
           </div>
         </nav>
       )}
