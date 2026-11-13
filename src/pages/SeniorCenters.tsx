@@ -1,5 +1,6 @@
 import PublicPage from "@/components/PublicPage";
 import WaitlistForm from "@/components/WaitlistForm";
+import AppStoreButton from "@/components/AppStoreButton";
 import seniorCentersPhoto from "@/assets/photos/senior-centers.webp.asset.json";
 
 const centerBenefits = [
@@ -26,8 +27,14 @@ const SeniorCenters = () => (
       </figcaption>
     </figure>
     <p className="text-muted-foreground">Staff run every session. Students join as groups, never one-on-one.</p>
-    <section className="max-w-[720px]" aria-labelledby="pilot-heading">
-      <h2 id="pilot-heading">Talk to us about a pilot</h2>
+    <section className="rounded-2xl border border-border bg-card p-6 shadow-soft sm:p-8" aria-labelledby="download-heading">
+      <h2 id="download-heading">Get ElderConnect for your center</h2>
+      <p className="mt-4 text-muted-foreground">Download the app to create your center's account and start planning supervised group activities.</p>
+      <AppStoreButton className="mt-6" />
+    </section>
+    <section className="max-w-[720px]" aria-labelledby="updates-heading">
+      <h2 id="updates-heading">Stay in the loop</h2>
+      <p className="mt-3 text-muted-foreground">Get updates about new centers and activities.</p>
       <WaitlistForm defaultRole="Senior center staff" />
       <p className="mt-6 text-base text-muted-foreground">Contact: <a href="mailto:admin@elderconnect.org" className="text-primary underline underline-offset-4">admin@elderconnect.org</a></p>
     </section>

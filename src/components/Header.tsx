@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
+import AppStoreButton from "@/components/AppStoreButton";
 import logoWordmark from "@/assets/elderconnect-logo.svg.asset.json";
 
 const navigation = [
@@ -49,7 +49,7 @@ const Header = () => {
               {item.name}
             </Link>
           ))}
-          <Button asChild><Link to="/#join">Join the waitlist</Link></Button>
+          <AppStoreButton label="Download the app" className="px-4" />
         </nav>
       </div>
       {open && (
@@ -60,7 +60,7 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
-            <Button asChild className="mt-3"><Link to="/#join" onClick={() => setOpen(false)}>Join the waitlist</Link></Button>
+            <AppStoreButton label="Download the app" className="mt-3 w-full" onClick={() => setOpen(false)} />
           </div>
         </nav>
       )}
