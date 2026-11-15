@@ -25,7 +25,17 @@ const safety = [
 ];
 const questions = [
   { question: "Who can volunteer?", answer: "Volunteers aged 13 and up. Volunteers under 18 need a parent or guardian's permission." },
+  { question: "Do I need to be a high school student?", answer: "No. Anyone aged 13 and up can volunteer, including students and adults. Volunteers under 18 need a parent or guardian's permission." },
   { question: "Are volunteers ever alone with seniors?", answer: "No. ElderConnect supports group activities that center staff run. There are no one-on-one visits." },
+  { question: "How do I sign up for an activity?", answer: "Download the app, create your account, browse upcoming activities near you and tap Sign up to Volunteer. You can cancel if plans change." },
+  { question: "How are volunteer hours recorded?", answer: "Center staff start and end each session in the app, and that records your hours. Volunteers do not enter their own hours. Ask your school or club whether they accept the hours." },
+  { question: "What would my center's staff have to do?", answer: "Post an activity, then on the day start and end the session in the app. Staff keep leading the activity the way they do now." },
+  { question: "Do seniors need the app or a phone?", answer: "No. Only center staff, ambassadors and volunteers use ElderConnect. Seniors just come to the activity." },
+  { question: "How does a senior center join?", answer: "A center creates an account in the app and is approved by ElderConnect before its activities appear. To start the conversation, use Talk to us about a pilot on this page." },
+  { question: "Can a center choose how many volunteers come?", answer: "Yes. Each activity has a set number of spots, so a center only welcomes as many volunteers as it wants." },
+  { question: "What is an ambassador?", answer: "An ambassador is an approved volunteer who helps organize volunteers in their community. ElderConnect approves every ambassador before they start." },
+  { question: "Who approves senior centers?", answer: "ElderConnect approves every senior center and every ambassador before they go live." },
+  { question: "How do I report a concern?", answer: "Use the report and block buttons in the app. ElderConnect aims to respond within 24 hours." },
   { question: "What does it cost?", answer: "Nothing for volunteers or centers during the pilot." },
   { question: "Is ElderConnect a nonprofit?", answer: "ElderConnect is a student-led project, not a registered nonprofit. Downloading the app is free." },
   { question: "Where is it available?", answer: "The app is on the App Store for iPhone, starting with senior centers in the South Bay area of Los Angeles." },
