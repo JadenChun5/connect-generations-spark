@@ -7,21 +7,21 @@ const link = "text-primary underline underline-offset-4";
 const Safety = () => (
   <PublicPage
     title="Safety"
-    description="How ElderConnect keeps activities supervised: group activities only, run by senior center staff, for students 13 and older."
+    description="How ElderConnect keeps activities supervised: group activities only, run by senior center staff, for volunteers 13 and older."
     heading="Built around supervision"
-    intro="ElderConnect is designed so students and seniors spend time together in supervised group settings."
+    intro="ElderConnect is designed so volunteers and seniors spend time together in supervised group settings."
   >
     <section aria-labelledby="group-only">
       <h2 id="group-only">Group activities only, never one-on-one</h2>
-      <p className="mt-5 text-muted-foreground">Students join group activities at senior centers. There are no one-on-one visits.</p>
+      <p className="mt-5 text-muted-foreground">Volunteers join group activities at senior centers. There are no one-on-one visits.</p>
     </section>
     <section aria-labelledby="staff-run">
       <h2 id="staff-run">Senior center staff run every session</h2>
-      <p className="mt-5 text-muted-foreground">Center staff lead each activity, and students follow their instructions.</p>
+      <p className="mt-5 text-muted-foreground">Center staff lead each activity, and volunteers follow their instructions.</p>
     </section>
     <section aria-labelledby="ages">
-      <h2 id="ages">Students are 13 and older</h2>
-      <p className="mt-5 text-muted-foreground">The minimum age is 13. Students under 18 need parent or guardian permission to take part.</p>
+      <h2 id="ages">Volunteers are 13 and older</h2>
+      <p className="mt-5 text-muted-foreground">The minimum age is 13. Volunteers under 18 need parent or guardian permission to take part.</p>
     </section>
     <section aria-labelledby="delete">
       <h2 id="delete">Deleting your account</h2>

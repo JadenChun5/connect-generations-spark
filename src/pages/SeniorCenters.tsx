@@ -13,9 +13,9 @@ const centerBenefits = [
 const SeniorCenters = () => (
   <PublicPage
     title="For senior centers"
-    description="Explore ElderConnect's senior-center pilot: students join group activities led by your staff. Contact us about a pilot."
+    description="Explore ElderConnect's senior-center pilot: volunteers join group activities led by your staff. Contact us about a pilot."
     heading="For senior centers"
-    intro="Keep running your activities the way you do now. ElderConnect gives you a steady group of students who sign up in advance, so you can plan."
+    intro="Keep running your activities the way you do now. ElderConnect gives you a steady group of volunteers who sign up in advance, so you can plan."
   >
     <ul className="list-disc space-y-3 pl-6 text-muted-foreground marker:text-primary">
       {centerBenefits.map(item => <li key={item} className="pl-1">{item}</li>)}
@@ -26,7 +26,7 @@ const SeniorCenters = () => (
         <a href="https://www.pexels.com/photo/seniors-exercising-11674389/" className="underline underline-offset-2">Photo: Centre for Ageing Better on Pexels</a>
       </figcaption>
     </figure>
-    <p className="text-muted-foreground">Staff run every session. Students join as groups, never one-on-one.</p>
+    <p className="text-muted-foreground">Staff run every session. Volunteers join as groups, never one-on-one.</p>
     <section className="rounded-2xl border border-border bg-card p-6 shadow-soft sm:p-8" aria-labelledby="download-heading">
       <h2 id="download-heading">Get ElderConnect for your center</h2>
       <p className="mt-4 text-muted-foreground">Download the app to create your center's account and start planning supervised group activities.</p>
