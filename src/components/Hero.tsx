@@ -9,7 +9,7 @@ const Hero = () => (
     <div>
       <p className="mb-5 text-sm font-bold uppercase tracking-[0.12em] text-primary">Now on the App Store</p>
       <h1 className="text-[38px] font-bold leading-[1.08] sm:text-5xl lg:text-[64px]">Group volunteering at senior centers, led by center staff.</h1>
-      <p className="mt-7 text-muted-foreground">ElderConnect helps students sign up for supervised group activities at local senior centers. Staff run every session, so students always have someone to follow and seniors always have a familiar team.</p>
+      <p className="mt-7 text-muted-foreground">ElderConnect helps volunteers sign up for supervised group activities at local senior centers. Staff run every session, so volunteers always have someone to follow and seniors always have a familiar team.</p>
       <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         <AppStoreButton />
         <Button asChild variant="outline"><Link to="/senior-centers">I run a senior center</Link></Button>

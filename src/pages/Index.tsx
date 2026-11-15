@@ -13,20 +13,20 @@ import studentsPhoto from "@/assets/photos/students.webp.asset.json";
 
 const steps = [
   { title: "Centers post group activities", text: "A senior center lists an activity it already runs, such as a game afternoon, a craft hour or a music session, and how many volunteers it can welcome." },
-  { title: "Students sign up", text: "Students aged 13 and up browse upcoming activities and reserve a spot. They can cancel if plans change, and the center sees who is coming." },
-  { title: "Staff lead the session", text: "Students show up, join in and follow staff direction. Center staff run the activity from start to finish." },
+  { title: "Volunteers sign up", text: "Volunteers aged 13 and up browse upcoming activities and reserve a spot. They can cancel if plans change, and the center sees who is coming." },
+  { title: "Staff lead the session", text: "Volunteers show up, join in and follow staff direction. Center staff run the activity from start to finish." },
 ];
 const studentBenefits = ["Browse activities at nearby senior centers", "Sign up, and cancel if something comes up", "Always a staff member leading, never one-on-one", "Under 18? You take part with a parent or guardian's permission"];
 const safety = [
   { title: "Group activities only", text: "There are no one-on-one visits. Every activity is a group, in the center." },
-  { title: "Staff run every session", text: "Center staff lead each activity and students follow their instructions." },
-  { title: "Age 13 and up", text: "Students under 18 take part with a parent or guardian's permission." },
+  { title: "Staff run every session", text: "Center staff lead each activity and volunteers follow their instructions." },
+  { title: "Age 13 and up", text: "Volunteers under 18 take part with a parent or guardian's permission." },
   { title: "You control your data", text: "We collect only what we need to run activities, and you can delete your account in the app." },
 ];
 const questions = [
-  { question: "Who can volunteer?", answer: "Students aged 13 and up. Students under 18 need a parent or guardian's permission." },
+  { question: "Who can volunteer?", answer: "Volunteers aged 13 and up. Volunteers under 18 need a parent or guardian's permission." },
   { question: "Are volunteers ever alone with seniors?", answer: "No. ElderConnect supports group activities that center staff run. There are no one-on-one visits." },
-  { question: "What does it cost?", answer: "Nothing for students or centers during the pilot." },
+  { question: "What does it cost?", answer: "Nothing for volunteers or centers during the pilot." },
   { question: "Is ElderConnect a nonprofit?", answer: "ElderConnect is a student-led project, not a registered nonprofit. Downloading the app is free." },
   { question: "Where is it available?", answer: "The app is on the App Store for iPhone, starting with senior centers in the South Bay area of Los Angeles." },
 ];
@@ -67,7 +67,7 @@ const Index = () => {
             </ol>
           </div>
         </section>
-        <section id="students" className="site-container grid items-center gap-10 py-16 lg:grid-cols-2 lg:gap-20 lg:py-24">
+        <section id="volunteers" className="site-container grid items-center gap-10 py-16 lg:grid-cols-2 lg:gap-20 lg:py-24">
           <figure className="min-w-0">
             <img src={studentsPhoto.url} alt="A smiling woman leans in to talk with a group of seniors seated at a long table in a bright room." width={1600} height={1067} loading="lazy" className="aspect-[4/3] w-full rounded-2xl object-cover" />
             <figcaption className="mt-2 text-sm text-muted-foreground">
@@ -75,7 +75,7 @@ const Index = () => {
             </figcaption>
           </figure>
           <div className="min-w-0">
-            <h2>For students</h2>
+            <h2>For volunteers</h2>
             <p className="mt-5 text-muted-foreground">Find a group activity near you, sign up in a minute, and spend an afternoon with people who are glad you came.</p>
             <BenefitList items={studentBenefits} />
             <AppStoreButton label="Download the app" />
@@ -84,7 +84,7 @@ const Index = () => {
         <section id="centers" className="site-container grid items-center gap-10 pb-16 lg:grid-cols-2 lg:gap-20 lg:pb-24">
           <div>
             <h2>For senior centers</h2>
-            <p className="mt-5 text-muted-foreground">Keep running your activities the way you do now. ElderConnect gives you a steady group of students who sign up in advance, so you can plan.</p>
+            <p className="mt-5 text-muted-foreground">Keep running your activities the way you do now. ElderConnect gives you a steady group of volunteers who sign up in advance, so you can plan.</p>
             <Button asChild className="mt-7"><Link to="/senior-centers">Talk to us about a pilot</Link></Button>
           </div>
           <figure className="min-w-0">
@@ -123,7 +123,7 @@ const Index = () => {
               <div className="max-w-[620px]">
                 <p className="mb-4 text-sm font-bold uppercase tracking-[0.12em] text-primary-foreground/80">Now on the App Store</p>
                 <h2>Get ElderConnect on your iPhone</h2>
-                <p className="mt-4">Free for students and senior centers. Download the app, create your account and sign up for your first group activity.</p>
+                <p className="mt-4">Free for volunteers and senior centers. Download the app, create your account and sign up for your first group activity.</p>
                 <AppStoreButton light className="mt-7" />
                 <p className="mt-4 text-sm text-primary-foreground/80">Free on iPhone. Ages 13 and up.</p>
               </div>

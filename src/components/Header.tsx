@@ -5,7 +5,7 @@ import logoWordmark from "@/assets/elderconnect-logo.svg.asset.json";
 
 const navigation = [
   { name: "How it works", to: "/#how" },
-  { name: "For students", to: "/#students" },
+  { name: "For volunteers", to: "/#volunteers" },
   { name: "For senior centers", to: "/senior-centers" },
   { name: "For parents", to: "/parents" },
   { name: "Safety", to: "/safety" },

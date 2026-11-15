@@ -4,7 +4,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { waitlistClient } from "@/lib/waitlistClient";
 
-const roles = ["Student volunteer", "Senior center staff", "Club leader or school adviser", "Parent or guardian"] as const;
+const roles = ["Volunteer", "Senior center staff", "Club leader or school adviser", "Parent or guardian"] as const;
 const waitlistSchema = z.object({
   email: z.string().trim().email("Please enter a valid email address.").max(255),
   role: z.enum(roles),
