@@ -12,7 +12,7 @@ const EmailLink = () => (
 const Terms = () => {
   return (
     <PublicPage title="Terms of Service" heading="Terms of Service" description="Read ElderConnect’s terms for eligibility, parental permission, staff-led group activities, account responsibility and deletion.">
-        <p className="text-muted-foreground mb-2">Last updated: October 29, 2026</p>
+        <p className="text-muted-foreground mb-2">Last updated: November 14, 2026</p>
         <p className="text-muted-foreground italic text-sm mb-10">
           These terms are a working draft pending attorney review and may be updated.
         </p>
@@ -32,7 +32,7 @@ const Terms = () => {
           <section>
             <h2 className="text-2xl font-semibold mb-3">2. What ElderConnect Is</h2>
             <p className="text-muted-foreground">
-              ElderConnect is a student-led project where student volunteers sign up for supervised group
+              ElderConnect is a student-led project where volunteers sign up for supervised group
               activities at senior centers. Senior center staff run every session, and volunteers are never
               alone with seniors. ElderConnect does not arrange one-on-one visits, does not match individual
               seniors with volunteers, and does not arrange home visits. ElderConnect is not a nursing home,
@@ -44,7 +44,8 @@ const Terms = () => {
           <section>
             <h2 className="text-2xl font-semibold mb-3">3. Eligibility</h2>
             <p className="text-muted-foreground">
-              You must be at least 13 years old to create an account. If you are under 18, you confirm that
+              You must be at least 13 years old to create an account. Volunteers of any age 13 or older may
+              sign up; you do not need to be a high school student. If you are under 18, you confirm that
               your parent or legal guardian has reviewed and agreed to these Terms and consents to your
               participation in supervised activities. We may suspend or delete accounts that violate these
               age requirements. Senior center accounts must be created by an authorized staff member of a
